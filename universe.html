@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History of the Universe | JAMES * JIMMY * JIDO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-peach': '#FAD0A1',
+                        'brand-peach-light': '#FDF3E7',
+                        'brand-teal': '#319795',
+                        'brand-dark': '#2d3748'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fcfaf8; color: #2d3748; }
+        .nav-link { color: #4a5568; transition: color 0.2s; }
+        .nav-link:hover { color: #319795; }
+        .active { color: #319795; font-weight: bold; border-bottom: 3px solid #319795; padding-bottom: 2px; }
+        details > summary { list-style: none; cursor: pointer; outline: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary svg { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-brand-peach shadow-md border-b border-orange-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex-shrink-0 flex items-center text-gray-900 font-extrabold text-2xl tracking-wider">
+                        JAMES * JIMMY * JIDO
+                    </a>
+                    <div class="hidden md:ml-8 md:flex md:space-x-8 overflow-x-auto">
+                        <a href="index.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Home</a>
+                        <a href="why.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Why a Website</a>
+                        <a href="who.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Who Am I</a>
+                        <a href="musings.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold active">Musings</a>
+                        <a href="personal.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Personal</a>
+                        <a href="tunes.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Tunes</a>
+                        <a href="about.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">About</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-8 flex items-center justify-between border-b pb-4">
+                <h1 class="text-4xl font-bold text-gray-900">History of the Universe</h1>
+                <a href="musings.html" class="text-brand-teal hover:underline">&larr; Back to Musings</a>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden mb-10">
+                <div class="md:flex">
+                    <div class="md:w-1/2 p-8 flex flex-col justify-center">
+                        <p class="text-xl text-gray-700 leading-relaxed mb-6">
+                            From the first spark of the Big Bang to the emergence of Homo Sapiens on planet Earth.
+                        </p>
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            Upon completion, you will have a solid understanding of where and when we came from, and how the environment surrounding us formed and developed. You might be surprised by the depth and complexity of the trail leading away from those first few quarks, protons, electrons, and atoms... but I won't spoil the adventure.
+                        </p>
+                    </div>
+                    <div class="md:w-1/2">
+                        <img src="assets/img/andromadae.jpg" alt="Andromeda Galaxy" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Door 1 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden border-t-4 border-gray-800">
+                    <div class="p-8">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">DOOR #1: Read the Book</h2>
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-6">83 Illustrated Pages (PDF)</p>
+                        <p class="text-gray-700 mb-8">
+                            The full illustrated manuscript. It traces our cosmic origins step-by-step, ensuring you have the best scientific information available to understand the transitions between each epoch.
+                        </p>
+                        <a href="assets/docs/create.pdf" class="flex justify-center items-center px-6 py-3 border-2 border-gray-800 text-base font-bold rounded-md text-gray-800 hover:bg-gray-800 hover:text-white transition">
+                            Download Book PDF
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Door 2 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden border-t-4 border-brand-teal">
+                    <div class="p-8">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">DOOR #2: Listen to the Podcast</h2>
+                        <p class="text-sm font-semibold text-teal-600 uppercase tracking-wide mb-6">30 Minutes (AI Audio)</p>
+                        <p class="text-gray-700 mb-8">
+                            A relaxed alternative. AI has analyzed the entire manuscript and generated a highly realistic conversational podcast between two hosts. They discuss the book and highlight its key points.
+                        </p>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg mb-6 border">
+                            <p class="text-sm font-medium text-gray-700 mb-2">Play Podcast:</p>
+                            <audio controls class="w-full">
+                                <source src="assets/docs/create.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+
+                        <a href="assets/docs/create.mp3" class="flex justify-center items-center px-6 py-3 border-2 border-brand-teal text-base font-bold rounded-md text-white bg-brand-teal hover:bg-teal-700 transition">
+                            Download Audio MP3
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-peach border-t border-orange-200 text-gray-800 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center font-medium">
+            <p>&copy; 2026 James Allen Bates. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

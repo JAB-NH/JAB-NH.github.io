@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Population Calculator | JAMES * JIMMY * JIDO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-peach': '#FAD0A1',
+                        'brand-peach-light': '#FDF3E7',
+                        'brand-teal': '#319795',
+                        'brand-dark': '#2d3748'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fcfaf8; color: #2d3748; }
+        .nav-link { color: #4a5568; transition: color 0.2s; }
+        .nav-link:hover { color: #319795; }
+        .active { color: #319795; font-weight: bold; border-bottom: 3px solid #319795; padding-bottom: 2px; }
+        details > summary { list-style: none; cursor: pointer; outline: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary svg { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-brand-peach shadow-md border-b border-orange-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex-shrink-0 flex items-center text-gray-900 font-extrabold text-2xl tracking-wider">
+                        JAMES * JIMMY * JIDO
+                    </a>
+                    <div class="hidden md:ml-8 md:flex md:space-x-8 overflow-x-auto">
+                        <a href="index.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Home</a>
+                        <a href="why.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Why a Website</a>
+                        <a href="who.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Who Am I</a>
+                        <a href="musings.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Musings</a>
+                        <a href="personal.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold active">Personal</a>
+                        <a href="tunes.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Tunes</a>
+                        <a href="about.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">About</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <div class="max-w-4xl mx-auto">
+            <div class="mb-8 flex items-center justify-between border-b pb-4">
+                <h1 class="text-4xl font-bold text-gray-900">Where Do You Fit In?</h1>
+                <a href="personal.html" class="text-brand-teal hover:underline">&larr; Back to Personal</a>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-8 mb-8">
+                <p class="text-xl text-gray-700 leading-relaxed mb-8">
+                    How does your age line up with the rest of the global population? This calculator was built to analyze demographic data and show you where you sit relative to the rest of the world.
+                </p>
+                
+                <div class="bg-brand-peach-light border border-orange-200 rounded-lg p-6 flex flex-col md:flex-row items-center justify-between">
+                    <div class="mb-4 md:mb-0">
+                        <h3 class="text-2xl font-bold text-gray-900">Population Calculator Tool</h3>
+                        <p class="text-gray-600 mt-1">Interactive Google Sheet analyzing population statistics.</p>
+                        <p class="text-sm text-gray-500 mt-2">Format: Google Sheets</p>
+                    </div>
+                    <a href="https://docs.google.com/spreadsheets/d/1RB5z_NZ3b6hCRh_SVg9uxoyb8epqIcRuh8EJkZRecJg/edit?gid=0#gid=0" target="_blank" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-brand-teal hover:bg-teal-700 focus:outline-none transition">
+                        <svg class="-ml-1 mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                        Open in Google Sheets
+                    </a>
+                </div>
+            </div>
+        </div>
+    
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-peach border-t border-orange-200 text-gray-800 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center font-medium">
+            <p>&copy; 2026 James Allen Bates. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

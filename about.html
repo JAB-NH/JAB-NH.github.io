@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | JAMES * JIMMY * JIDO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-peach': '#FAD0A1',
+                        'brand-peach-light': '#FDF3E7',
+                        'brand-teal': '#319795',
+                        'brand-dark': '#2d3748'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fcfaf8; color: #2d3748; }
+        .nav-link { color: #4a5568; transition: color 0.2s; }
+        .nav-link:hover { color: #319795; }
+        .active { color: #319795; font-weight: bold; border-bottom: 3px solid #319795; padding-bottom: 2px; }
+        details > summary { list-style: none; cursor: pointer; outline: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary svg { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-brand-peach shadow-md border-b border-orange-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex-shrink-0 flex items-center text-gray-900 font-extrabold text-2xl tracking-wider">
+                        JAMES * JIMMY * JIDO
+                    </a>
+                    <div class="hidden md:ml-8 md:flex md:space-x-8 overflow-x-auto">
+                        <a href="index.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Home</a>
+                        <a href="why.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Why a Website</a>
+                        <a href="who.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Who Am I</a>
+                        <a href="musings.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Musings</a>
+                        <a href="personal.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Personal</a>
+                        <a href="tunes.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Tunes</a>
+                        <a href="about.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold active">About</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl font-bold text-gray-900 mb-8 border-b pb-4">About Us</h1>
+            
+            <!-- James and Norma section -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-12">
+                <div class="md:flex">
+                    <div class="md:w-1/2 p-8 flex flex-col justify-center">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">James & Norma</h2>
+                        <p class="text-lg text-gray-700 mb-4">
+                            Welcome! We anchor the masthead and are glad you've stopped by to visit. Here is my partner Norma enjoying a glass of Guinness and myself with a Rickard's Red—our frequent choice for a brew when out and about.
+                        </p>
+                        <div class="bg-brand-light p-4 rounded-lg border border-teal-200 inline-block">
+                            <p class="text-brand-teal font-bold">As of March 9, 2025, we celebrated our 44th anniversary together and are still going strong!</p>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 bg-gray-200 flex items-center justify-center min-h-[300px] overflow-hidden">
+                        <img src="assets/img/beers2.jpg" alt="James and Norma" class="max-w-full h-auto object-cover">
+                    </div>
+                </div>
+            </div>
+
+            <!-- The Three Names -->
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Why "James * Jimmy * Jido"?</h2>
+            <p class="text-lg text-gray-700 mb-8">You will see three names featured at the top of this website. Each represents a different era and facet of my life:</p>
+
+            <div class="space-y-6">
+                <!-- James -->
+                <div class="bg-white p-6 rounded-lg shadow border-l-4 border-blue-600">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">JAMES: The Official Persona</h3>
+                    <p class="text-gray-700 mb-2"><strong>The Origin:</strong> Rarely used in my personal life. I hadn't heard it used since my mother was angry with me around 1962, until I started traveling and needed it for my passport.</p>
+                    <p class="text-gray-700"><strong>Represents:</strong> My official side—the financial guy, the tax representative, the bank person.</p>
+                </div>
+
+                <!-- Jimmy -->
+                <div class="bg-white p-6 rounded-lg shadow border-l-4 border-green-500">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">JIMMY: The Creative Dreamer</h3>
+                    <p class="text-gray-700 mb-2"><strong>The Origin:</strong> A childhood nickname revived by a work colleague as a term of endearment, which quickly spread among friends.</p>
+                    <p class="text-gray-700"><strong>Represents:</strong> The social, creative, and musical side of me. The guy playing guitar and truly living the dream!</p>
+                </div>
+
+                <!-- Jido -->
+                <div class="bg-white p-6 rounded-lg shadow border-l-4 border-brand-teal">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">JIDO: The Family Legacy</h3>
+                    <p class="text-gray-700 mb-2"><strong>The Origin:</strong> An Arabic word for grandfather, which is how my step-grandchildren address me.</p>
+                    <p class="text-gray-700"><strong>Represents:</strong> The grandfather looking out for their future, well-being, and preserving family history on this very website.</p>
+                </div>
+            </div>
+        </div>
+    
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-peach border-t border-orange-200 text-gray-800 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center font-medium">
+            <p>&copy; 2026 James Allen Bates. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

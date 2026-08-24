@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | JAMES * JIMMY * JIDO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-peach': '#FAD0A1',
+                        'brand-peach-light': '#FDF3E7',
+                        'brand-teal': '#319795',
+                        'brand-dark': '#2d3748'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fcfaf8; color: #2d3748; }
+        .nav-link { color: #4a5568; transition: color 0.2s; }
+        .nav-link:hover { color: #319795; }
+        .active { color: #319795; font-weight: bold; border-bottom: 3px solid #319795; padding-bottom: 2px; }
+        details > summary { list-style: none; cursor: pointer; outline: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary svg { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-brand-peach shadow-md border-b border-orange-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex-shrink-0 flex items-center text-gray-900 font-extrabold text-2xl tracking-wider">
+                        JAMES * JIMMY * JIDO
+                    </a>
+                    <div class="hidden md:ml-8 md:flex md:space-x-8 overflow-x-auto">
+                        <a href="index.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold active">Home</a>
+                        <a href="why.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Why a Website</a>
+                        <a href="who.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Who Am I</a>
+                        <a href="musings.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Musings</a>
+                        <a href="personal.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Personal</a>
+                        <a href="tunes.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Tunes</a>
+                        <a href="about.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">About</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <div class="bg-brand-peach rounded-xl shadow-lg overflow-hidden mb-12 border border-orange-200">
+            <div class="md:flex">
+                <div class="md:w-3/5 px-8 py-16 text-left flex flex-col justify-center">
+                    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 text-gray-900">A Personal Journey</h1>
+                    <p class="text-xl md:text-2xl font-medium italic text-gray-800 max-w-3xl">
+                        (Just like home movies, but you get to choose when you've had enough!)
+                    </p>
+                </div>
+                <div class="md:w-2/5 hidden md:block">
+                    <img src="assets/img/philosopher1.png" alt="Philosopher" class="w-full h-full object-cover opacity-90 mix-blend-multiply">
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-sm border border-gray-100 p-8 mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6 border-b pb-2">Welcome & Navigation Guide</h2>
+            
+            <div class="md:flex mb-8 items-start">
+                <div class="md:w-2/3 md:pr-8">
+                    <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                        Welcome to my personal corner of the web! This site serves as a digital repository of my experiences, thoughts, original music, and family history. I've designed it primarily as a legacy archive for my step-grandchildren and family, but anyone curious is welcome to explore.
+                    </p>
+                </div>
+                <div class="md:w-1/3 mb-6 md:mb-0">
+                    <img src="assets/img/writingdesk2better.png" alt="Writing Desk" class="rounded-lg shadow-sm w-full border border-gray-200">
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-brand-teal mb-6">Explore the Site:</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <a href="why.html" class="block p-6 bg-brand-peach-light rounded-lg border border-orange-100 hover:shadow-lg transition">
+                    <h4 class="text-xl font-bold text-gray-900 mb-2">Why a Website?</h4>
+                    <p class="text-gray-700">Why share contentious views publicly? Vulnerability, future references, and digital learning.</p>
+                </a>
+                <a href="who.html" class="block p-6 bg-brand-peach-light rounded-lg border border-orange-100 hover:shadow-lg transition">
+                    <h4 class="text-xl font-bold text-gray-900 mb-2">Who Am I?</h4>
+                    <p class="text-gray-700">A dive into my history: family pictures (1955+), genealogy records, and my life-tracking spreadsheet.</p>
+                </a>
+                <a href="musings.html" class="block p-6 bg-brand-peach-light rounded-lg border border-orange-100 hover:shadow-lg transition">
+                    <h4 class="text-xl font-bold text-gray-900 mb-2">Musings</h4>
+                    <p class="text-gray-700">My books: <em>History of the Universe</em> and <em>Global Communication</em>. Available as PDFs or AI podcasts!</p>
+                </a>
+                <a href="personal.html" class="block p-6 bg-brand-peach-light rounded-lg border border-orange-100 hover:shadow-lg transition">
+                    <h4 class="text-xl font-bold text-gray-900 mb-2">Personal</h4>
+                    <p class="text-gray-700">Crazy real-life stories (parachuting, plane crashes, TV game shows) and my core beliefs.</p>
+                </a>
+                <a href="tunes.html" class="block p-6 bg-brand-peach-light rounded-lg border border-orange-100 hover:shadow-lg transition">
+                    <h4 class="text-xl font-bold text-gray-900 mb-2">Tunes</h4>
+                    <p class="text-gray-700">Original guitar tracks recorded over a 35-year span, along with the personal stories behind them.</p>
+                </a>
+                <a href="about.html" class="block p-6 bg-brand-peach-light rounded-lg border border-orange-100 hover:shadow-lg transition">
+                    <h4 class="text-xl font-bold text-gray-900 mb-2">About</h4>
+                    <p class="text-gray-700">Meet Norma (44+ years together!) and learn the meaning behind my three names: James, Jimmy, and Jido.</p>
+                </a>
+            </div>
+        </div>
+    
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-peach border-t border-orange-200 text-gray-800 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center font-medium">
+            <p>&copy; 2026 James Allen Bates. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

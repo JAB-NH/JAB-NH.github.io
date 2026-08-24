@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Pictures | JAMES * JIMMY * JIDO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-peach': '#FAD0A1',
+                        'brand-peach-light': '#FDF3E7',
+                        'brand-teal': '#319795',
+                        'brand-dark': '#2d3748'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fcfaf8; color: #2d3748; }
+        .nav-link { color: #4a5568; transition: color 0.2s; }
+        .nav-link:hover { color: #319795; }
+        .active { color: #319795; font-weight: bold; border-bottom: 3px solid #319795; padding-bottom: 2px; }
+        details > summary { list-style: none; cursor: pointer; outline: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary svg { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-brand-peach shadow-md border-b border-orange-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex-shrink-0 flex items-center text-gray-900 font-extrabold text-2xl tracking-wider">
+                        JAMES * JIMMY * JIDO
+                    </a>
+                    <div class="hidden md:ml-8 md:flex md:space-x-8 overflow-x-auto">
+                        <a href="index.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Home</a>
+                        <a href="why.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Why a Website</a>
+                        <a href="who.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold active">Who Am I</a>
+                        <a href="musings.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Musings</a>
+                        <a href="personal.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Personal</a>
+                        <a href="tunes.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Tunes</a>
+                        <a href="about.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">About</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <div class="max-w-4xl mx-auto">
+            <div class="mb-8 flex items-center justify-between border-b pb-4">
+                <h1 class="text-4xl font-bold text-gray-900">Family Pictures</h1>
+                <a href="who.html" class="text-brand-teal hover:underline">&larr; Back to Who Am I</a>
+            </div>
+            <p class="text-xl text-gray-700 leading-relaxed mb-10">A collection of historical family photographs spanning three generations.</p>
+
+            <div class="space-y-12">
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="p-8 md:flex">
+                        <div class="md:w-1/2 flex items-center justify-center bg-gray-100 rounded mb-6 md:mb-0 md:mr-8 overflow-hidden">
+                            <img src="assets/img/BatesFamily/Judy%20Nancy%20Jimmy%20850%20Hotham.jpg" alt="The Kids" class="max-w-full h-auto object-cover">
+                        </div>
+                        <div class="md:w-1/2 flex flex-col justify-center">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-2">The Kids</h2>
+                            <p class="text-gray-600 mb-1"><strong>Location:</strong> 850 Hotham Street, Esquimalt (Naden), BC</p>
+                            <p class="text-gray-600 mb-4"><strong>Date:</strong> Circa 1955</p>
+                            <p class="text-gray-800 font-semibold mb-2">Left to Right:</p>
+                            <ul class="list-disc pl-5 text-gray-700">
+                                <li>Nancy Elizabeth</li>
+                                <li>James Allen</li>
+                                <li>Judith Ellen</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="p-8 md:flex">
+                        <div class="md:w-1/2 flex items-center justify-center bg-gray-100 rounded mb-6 md:mb-0 md:mr-8 overflow-hidden">
+                            <img src="assets/img/BatesFamily/BatesFamily1952.jpg" alt="The Parents" class="max-w-full h-auto object-cover">
+                        </div>
+                        <div class="md:w-1/2 flex flex-col justify-center">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-2">The Parents</h2>
+                            <p class="text-gray-600 mb-1"><strong>Location:</strong> Qualicum Beach, BC</p>
+                            <p class="text-gray-600 mb-4"><strong>Date:</strong> Circa 1955</p>
+                            <p class="text-gray-800 font-semibold mb-2">Names:</p>
+                            <ul class="list-disc pl-5 text-gray-700">
+                                <li>Peter James Bates</li>
+                                <li>Gwenyth Irene Bates</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="p-8 md:flex">
+                        <div class="md:w-1/2 flex items-center justify-center bg-gray-100 rounded mb-6 md:mb-0 md:mr-8 overflow-hidden">
+                            <img src="assets/img/BatesFamily/Woodstock001.jpg" alt="The Grandparents" class="max-w-full h-auto object-cover">
+                        </div>
+                        <div class="md:w-1/2 flex flex-col justify-center">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-2">The Grandparents & Family</h2>
+                            <p class="text-gray-600 mb-1"><strong>Location:</strong> 683 Brant Street, Woodstock, Ontario</p>
+                            <p class="text-gray-600 mb-4"><strong>Date:</strong> Circa 1962</p>
+                            <p class="text-gray-800 font-semibold mb-2">Left to Right:</p>
+                            <ul class="list-disc pl-5 text-gray-700">
+                                <li>Jimmy (young James)</li>
+                                <li>Edna Wilson</li>
+                                <li>Malcolm & Susan Allen</li>
+                                <li>Frederick & Lucille Knapp</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-peach border-t border-orange-200 text-gray-800 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center font-medium">
+            <p>&copy; 2026 James Allen Bates. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

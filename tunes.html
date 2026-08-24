@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tunes | JAMES * JIMMY * JIDO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-peach': '#FAD0A1',
+                        'brand-peach-light': '#FDF3E7',
+                        'brand-teal': '#319795',
+                        'brand-dark': '#2d3748'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fcfaf8; color: #2d3748; }
+        .nav-link { color: #4a5568; transition: color 0.2s; }
+        .nav-link:hover { color: #319795; }
+        .active { color: #319795; font-weight: bold; border-bottom: 3px solid #319795; padding-bottom: 2px; }
+        details > summary { list-style: none; cursor: pointer; outline: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary svg { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-brand-peach shadow-md border-b border-orange-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex-shrink-0 flex items-center text-gray-900 font-extrabold text-2xl tracking-wider">
+                        JAMES * JIMMY * JIDO
+                    </a>
+                    <div class="hidden md:ml-8 md:flex md:space-x-8 overflow-x-auto">
+                        <a href="index.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Home</a>
+                        <a href="why.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Why a Website</a>
+                        <a href="who.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Who Am I</a>
+                        <a href="musings.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Musings</a>
+                        <a href="personal.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Personal</a>
+                        <a href="tunes.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold active">Tunes</a>
+                        <a href="about.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">About</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <div class="max-w-5xl mx-auto">
+            <h1 class="text-4xl font-bold text-gray-900 mb-8 border-b pb-4">Tunes: My Album</h1>
+            
+            <div class="bg-white rounded-lg shadow p-8 mb-12 border border-gray-100">
+                <div class="md:flex items-center">
+                    <div class="md:w-2/3 md:pr-8">
+                        <p class="text-lg text-gray-700 leading-relaxed mb-4">
+                            For many years, friends and family have heard me mention an "album." Well, for better or worse, this is it—mistakes and all. It is a little late now to correct the past, so there is no need to listen <em>too</em> carefully!
+                        </p>
+                        <p class="text-lg text-gray-700 leading-relaxed mb-4">
+                            This is an eclectic collection spanning over 35 years of playing. It contains primarily original tunes and songs, recovered from very old recording room test tapes. Almost no one has ever heard me play guitar because I rarely played outside my own home.
+                        </p>
+                        <div class="bg-brand-peach-light border-l-4 border-orange-400 p-4 mt-6">
+                            <p class="text-gray-800"><strong>Note on my journey:</strong> A slowly progressing Benign Tremor in both of my hands has finally curtailed my playing for good. But hey, "Better Late Than Never," right?</p>
+                        </div>
+                    </div>
+                    <div class="md:w-1/3 mt-6 md:mt-0">
+                        <img src="assets/img/guitar-756326_640.jpg" alt="Acoustic Guitar" class="rounded-lg shadow-md w-full border border-gray-200">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tracklist -->
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">The Track List</h2>
+
+            <div class="space-y-8">
+                <!-- Track 1 -->
+                <div class="bg-white border rounded-xl shadow-sm overflow-hidden flex flex-col md:flex-row">
+                    <div class="md:w-2/3 p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">1. Look Into My Eyes <span class="text-sm font-normal text-gray-500">(3:38)</span></h3>
+                        <p class="text-gray-700 mb-3"><strong>The Story:</strong> My first-ever love song. I was 21, working my first real job, and fell head-over-heels for my boss's wife at dinner. The result was this soul-searching look into the heart of a young boy.</p>
+                        <p class="text-sm text-gray-600"><em>Technical:</em> Recorded circa 1971 on a brand new AKAI reel-to-reel tape deck. You can hear volume fluctuations during the first 10 seconds.</p>
+                    </div>
+                    <div class="md:w-1/3 bg-gray-50 p-6 border-l flex flex-col justify-center items-center">
+                        <audio controls class="w-full mb-4">
+                            <source src="assets/audio/Look_Into_My_Eyes.mp3" type="audio/mpeg">
+                        </audio>
+                        <a href="assets/audio/Look_Into_My_Eyes.mp3" class="text-sm text-brand-teal hover:underline" download>Download Audio</a>
+                    </div>
+                </div>
+
+                <!-- Track 2 -->
+                <div class="bg-white border rounded-xl shadow-sm overflow-hidden flex flex-col md:flex-row">
+                    <div class="md:w-2/3 p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">2. Dual in AM <span class="text-sm font-normal text-gray-500">(1:42)</span></h3>
+                        <p class="text-gray-700 mb-3"><strong>The Story:</strong> An early overdubbing attempt. The deck allowed me to play a rhythm track and then replay it twice to overlay the "lead" guitar. It created an increasing echo with each track!</p>
+                    </div>
+                    <div class="md:w-1/3 bg-gray-50 p-6 border-l flex flex-col justify-center items-center">
+                        <audio controls class="w-full mb-4">
+                            <source src="assets/audio/Dual_in_AM.mp3" type="audio/mpeg">
+                        </audio>
+                        <a href="assets/audio/Dual_in_AM.mp3" class="text-sm text-brand-teal hover:underline" download>Download Audio</a>
+                    </div>
+                </div>
+
+                <!-- Track 3 -->
+                <div class="bg-white border rounded-xl shadow-sm overflow-hidden flex flex-col md:flex-row">
+                    <div class="md:w-2/3 p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">3. Dual in Em <span class="text-sm font-normal text-gray-500">(2:41)</span></h3>
+                        <p class="text-gray-700 mb-3"><strong>The Story:</strong> A softer overdubbing output and my first experiment in <strong>Open E tuning</strong>. I learned this open-tuning technique after watching Joni Mitchell play open string a mere 10 feet in front of me at an Ottawa coffee house for $2.</p>
+                    </div>
+                    <div class="md:w-1/3 bg-gray-50 p-6 border-l flex flex-col justify-center items-center">
+                        <audio controls class="w-full mb-4">
+                            <source src="assets/audio/Dual_in_Em.mp3" type="audio/mpeg">
+                        </audio>
+                        <a href="assets/audio/Dual_in_Em.mp3" class="text-sm text-brand-teal hover:underline" download>Download Audio</a>
+                    </div>
+                </div>
+
+                <!-- Track 4 -->
+                <div class="bg-white border rounded-xl shadow-sm overflow-hidden flex flex-col md:flex-row">
+                    <div class="md:w-2/3 p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">4. One Day <span class="text-sm font-normal text-gray-500">(4:07)</span></h3>
+                        <p class="text-gray-700 mb-3"><strong>The Story:</strong> My cover of Murray McLauchlan's "Revelations." It became my true personal anthem. I didn't realize I had been playing it slightly wrong for a while and missed recording the first chorus!</p>
+                    </div>
+                    <div class="md:w-1/3 bg-gray-50 p-6 border-l flex flex-col justify-center items-center">
+                        <audio controls class="w-full mb-4">
+                            <source src="assets/audio/One%20Day.m4a" type="audio/mpeg">
+                        </audio>
+                        <a href="assets/audio/One%20Day.m4a" class="text-sm text-brand-teal hover:underline" download>Download Audio</a>
+                    </div>
+                </div>
+                
+                <!-- Track 5 -->
+                <div class="bg-white border rounded-xl shadow-sm overflow-hidden flex flex-col md:flex-row">
+                    <div class="md:w-2/3 p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">5. So Long</h3>
+                        <p class="text-gray-700 mb-3"><strong>The Story:</strong> A personal favorite captured during those early recording sessions.</p>
+                    </div>
+                    <div class="md:w-1/3 bg-gray-50 p-6 border-l flex flex-col justify-center items-center">
+                        <audio controls class="w-full mb-4">
+                            <source src="assets/audio/So_Long.mp3" type="audio/mpeg">
+                        </audio>
+                        <a href="assets/audio/So_Long.mp3" class="text-sm text-brand-teal hover:underline" download>Download Audio</a>
+                    </div>
+                </div>
+
+                <!-- Track 6 -->
+                <div class="bg-white border rounded-xl shadow-sm overflow-hidden flex flex-col md:flex-row">
+                    <div class="md:w-2/3 p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">6. Halloween Rag</h3>
+                        <p class="text-gray-700 mb-3"><strong>The Story:</strong> An upbeat, ragtime-style instrumental piece.</p>
+                    </div>
+                    <div class="md:w-1/3 bg-gray-50 p-6 border-l flex flex-col justify-center items-center">
+                        <audio controls class="w-full mb-4">
+                            <source src="assets/audio/Halloween_Rag.mp3" type="audio/mpeg">
+                        </audio>
+                        <a href="assets/audio/Halloween_Rag.mp3" class="text-sm text-brand-teal hover:underline" download>Download Audio</a>
+                    </div>
+                </div>
+
+                <!-- Track 7 -->
+                <div class="bg-white border rounded-xl shadow-sm overflow-hidden flex flex-col md:flex-row">
+                    <div class="md:w-2/3 p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">7. Norma</h3>
+                        <p class="text-gray-700 mb-3"><strong>The Story:</strong> Dedicated to my wonderful partner, Norma.</p>
+                    </div>
+                    <div class="md:w-1/3 bg-gray-50 p-6 border-l flex flex-col justify-center items-center">
+                        <audio controls class="w-full mb-4">
+                            <source src="assets/audio/Norma.mp3" type="audio/mpeg">
+                        </audio>
+                        <a href="assets/audio/Norma.mp3" class="text-sm text-brand-teal hover:underline" download>Download Audio</a>
+                    </div>
+                </div>
+
+                <!-- Track 8 -->
+                <div class="bg-white border rounded-xl shadow-sm overflow-hidden flex flex-col md:flex-row">
+                    <div class="md:w-2/3 p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">8. Judy's Song</h3>
+                        <p class="text-gray-700 mb-3"><strong>The Story:</strong> An original piece dedicated to family.</p>
+                    </div>
+                    <div class="md:w-1/3 bg-gray-50 p-6 border-l flex flex-col justify-center items-center">
+                        <audio controls class="w-full mb-4">
+                            <source src="assets/audio/Judys_Song.m4a" type="audio/mpeg">
+                        </audio>
+                        <a href="assets/audio/Judys_Song.m4a" class="text-sm text-brand-teal hover:underline" download>Download Audio</a>
+                    </div>
+                </div>
+
+                <!-- Track 9 -->
+                <div class="bg-white border rounded-xl shadow-sm overflow-hidden flex flex-col md:flex-row">
+                    <div class="md:w-2/3 p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">9. Amsterdam Night</h3>
+                        <p class="text-gray-700 mb-3"><strong>The Story:</strong> Memories of European travels captured in an acoustic melody.</p>
+                    </div>
+                    <div class="md:w-1/3 bg-gray-50 p-6 border-l flex flex-col justify-center items-center">
+                        <audio controls class="w-full mb-4">
+                            <source src="assets/audio/Amsterdam_Night.mp3" type="audio/mpeg">
+                        </audio>
+                        <a href="assets/audio/Amsterdam_Night.mp3" class="text-sm text-brand-teal hover:underline" download>Download Audio</a>
+                    </div>
+                </div>
+
+                <!-- Track 10 -->
+                <div class="bg-white border rounded-xl shadow-sm overflow-hidden flex flex-col md:flex-row">
+                    <div class="md:w-2/3 p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">10. Aunts & Uncles</h3>
+                        <p class="text-gray-700 mb-3"><strong>The Story:</strong> A tribute to the extended family branches and shared memories.</p>
+                    </div>
+                    <div class="md:w-1/3 bg-gray-50 p-6 border-l flex flex-col justify-center items-center">
+                        <audio controls class="w-full mb-4">
+                            <source src="assets/audio/Aunts_and_Uncles.mp3" type="audio/mpeg">
+                        </audio>
+                        <a href="assets/audio/Aunts_and_Uncles.mp3" class="text-sm text-brand-teal hover:underline" download>Download Audio</a>
+                    </div>
+                </div>
+
+                <!-- Track 11 -->
+                <div class="bg-white border rounded-xl shadow-sm overflow-hidden flex flex-col md:flex-row">
+                    <div class="md:w-2/3 p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">11. Take Me Along</h3>
+                        <p class="text-gray-700 mb-3"><strong>The Story:</strong> Concluding the album journey with a classic acoustic track.</p>
+                    </div>
+                    <div class="md:w-1/3 bg-gray-50 p-6 border-l flex flex-col justify-center items-center">
+                        <audio controls class="w-full mb-4">
+                            <source src="assets/audio/TakeMeAlong.mp3" type="audio/mpeg">
+                        </audio>
+                        <a href="assets/audio/TakeMeAlong.mp3" class="text-sm text-brand-teal hover:underline" download>Download Audio</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-peach border-t border-orange-200 text-gray-800 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center font-medium">
+            <p>&copy; 2026 James Allen Bates. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why a Website | JAMES * JIMMY * JIDO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-peach': '#FAD0A1',
+                        'brand-peach-light': '#FDF3E7',
+                        'brand-teal': '#319795',
+                        'brand-dark': '#2d3748'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fcfaf8; color: #2d3748; }
+        .nav-link { color: #4a5568; transition: color 0.2s; }
+        .nav-link:hover { color: #319795; }
+        .active { color: #319795; font-weight: bold; border-bottom: 3px solid #319795; padding-bottom: 2px; }
+        details > summary { list-style: none; cursor: pointer; outline: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary svg { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-brand-peach shadow-md border-b border-orange-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex-shrink-0 flex items-center text-gray-900 font-extrabold text-2xl tracking-wider">
+                        JAMES * JIMMY * JIDO
+                    </a>
+                    <div class="hidden md:ml-8 md:flex md:space-x-8 overflow-x-auto">
+                        <a href="index.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Home</a>
+                        <a href="why.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold active">Why a Website</a>
+                        <a href="who.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Who Am I</a>
+                        <a href="musings.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Musings</a>
+                        <a href="personal.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Personal</a>
+                        <a href="tunes.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Tunes</a>
+                        <a href="about.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">About</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl font-bold text-gray-900 mb-8 border-b pb-4">Why a Website?</h1>
+            <p class="text-xl text-gray-700 leading-relaxed mb-8">
+                Is it worth the time and effort to maintain a personal website in the 21st century? For me, the answer is a resounding yes. It boils down to four main motivations:
+            </p>
+
+            <div class="space-y-4">
+                <!-- Collapsible 1 -->
+                <details class="group bg-white rounded-lg shadow">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-xl text-gray-900">
+                        <span>1. Vulnerability & Commitment</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                        </span>
+                    </summary>
+                    <div class="p-6 pt-0 text-gray-700 leading-relaxed border-t mt-4 pt-4">
+                        <p class="mb-4"><strong>Standing by your beliefs publicly.</strong></p>
+                        <p class="mb-4">It is one thing to hold a contentious point of view privately. It is another thing to anonymously post a contentious point of view on the internet.</p>
+                        <p>But it takes true <strong>vulnerability and commitment</strong> to publicly express a contentious point of view under your own name, where you can be held accountable for it. This site is a commitment to sharing what I believe, openly and honestly.</p>
+                    </div>
+                </details>
+
+                <!-- Collapsible 2 -->
+                <details class="group bg-white rounded-lg shadow">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-xl text-gray-900">
+                        <span>2. Future Reference</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                        </span>
+                    </summary>
+                    <div class="p-6 pt-0 text-gray-700 leading-relaxed border-t mt-4 pt-4">
+                        <p class="mb-4"><strong>A digital legacy for those who come after.</strong></p>
+                        <p class="mb-4">I have finally reached an age where I would love to know all kinds of things about my parents and grandparents. However, I find that they are all gone, and I missed out on that opportunity.</p>
+                        <p>This realization got me thinking: perhaps a collection of odds and ends from my own personal experiences might eventually be of some interest to someone else someday. This website is the result of that process. It is a repository for my children, grandchildren, and friends to explore whenever they want to learn a bit more about where they came from.</p>
+                    </div>
+                </details>
+
+                <!-- Collapsible 3 -->
+                <details class="group bg-white rounded-lg shadow">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-xl text-gray-900">
+                        <span>3. Entertainment</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                        </span>
+                    </summary>
+                    <div class="p-6 pt-0 text-gray-700 leading-relaxed border-t mt-4 pt-4">
+                        <p class="mb-4"><strong>The joy of building and experimenting.</strong></p>
+                        <p class="mb-4">Beyond the personal archives, how much fun has this been? Building this site and experimenting with the web has been an incredible playground. Over the years, I have built interactive games, image recognition systems, and even rudimentary neural networks to garner a basic understanding of how these new technological environments will impact our future.</p>
+                        <p>It has been an absolute blast, and I know far more now about the future of software and technology than I ever imagined I would.</p>
+                    </div>
+                </details>
+
+                <!-- Collapsible 4 -->
+                <details class="group bg-white rounded-lg shadow">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-xl text-gray-900">
+                        <span>4. Demonstration & Education</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                        </span>
+                    </summary>
+                    <div class="p-6 pt-0 text-gray-700 leading-relaxed border-t mt-4 pt-4">
+                        <p class="mb-4"><strong>Keeping pace with an accelerating digital world.</strong></p>
+                        <p class="mb-4">The pace of internet learning is exploding. I often feel that as quickly as I learn a new skill, the very next week some new capability is already required.</p>
+                        <p class="mb-4">Modern tools have changed the game. Today, creating your own website couldn't be easier. It is all drag-and-drop, with no coding required. Everybody has something worth saving and sharing: pictures, home videos, MP3s, or PDFs.</p>
+                        <p>My hope is to demonstrate that anyone can build a modern web presence. By letting others provide the layout and design frameworks, we can concentrate entirely on the actual content and learn new digital skills along the way.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-peach border-t border-orange-200 text-gray-800 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center font-medium">
+            <p>&copy; 2026 James Allen Bates. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

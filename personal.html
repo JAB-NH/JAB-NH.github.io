@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Stories & Beliefs | JAMES * JIMMY * JIDO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-peach': '#FAD0A1',
+                        'brand-peach-light': '#FDF3E7',
+                        'brand-teal': '#319795',
+                        'brand-dark': '#2d3748'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fcfaf8; color: #2d3748; }
+        .nav-link { color: #4a5568; transition: color 0.2s; }
+        .nav-link:hover { color: #319795; }
+        .active { color: #319795; font-weight: bold; border-bottom: 3px solid #319795; padding-bottom: 2px; }
+        details > summary { list-style: none; cursor: pointer; outline: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary svg { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-brand-peach shadow-md border-b border-orange-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex-shrink-0 flex items-center text-gray-900 font-extrabold text-2xl tracking-wider">
+                        JAMES * JIMMY * JIDO
+                    </a>
+                    <div class="hidden md:ml-8 md:flex md:space-x-8 overflow-x-auto">
+                        <a href="index.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Home</a>
+                        <a href="why.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Why a Website</a>
+                        <a href="who.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Who Am I</a>
+                        <a href="musings.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Musings</a>
+                        <a href="personal.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold active">Personal</a>
+                        <a href="tunes.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Tunes</a>
+                        <a href="about.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">About</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <div class="max-w-5xl mx-auto">
+            <h1 class="text-4xl font-bold text-gray-900 mb-8 border-b pb-4">Personal Stories & Philosophies</h1>
+            
+            <p class="text-xl text-gray-700 leading-relaxed mb-10">
+                As if you haven't had enough of me already, here is a page dedicated to my personal experiences, stories, and opinions on a variety of topics. I make no assurances as to their acceptability or suitability, except to say that they are all G-rated!
+            </p>
+
+            <!-- Life Philosophies -->
+            <div class="bg-brand-dark text-white rounded-xl shadow-lg p-8 mb-12">
+                <h2 class="text-2xl font-bold mb-6 text-brand-teal">Thinking About Life</h2>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start"><span class="mr-3 mt-1 text-brand-teal">➔</span> <span>My primary job in life is to create as much <strong>serotonin and dopamine</strong> as I possibly can.</span></li>
+                    <li class="flex items-start"><span class="mr-3 mt-1 text-brand-teal">➔</span> <span>I travel universally through the <strong>acquisition of information</strong>.</span></li>
+                    <li class="flex items-start"><span class="mr-3 mt-1 text-brand-teal">➔</span> <span><strong>Understanding</strong> is my drug of choice.</span></li>
+                    <li class="flex items-start"><span class="mr-3 mt-1 text-brand-teal">➔</span> <span>The <strong>past</strong> holds the secrets to who I am today.</span></li>
+                    <li class="flex items-start"><span class="mr-3 mt-1 text-brand-teal">➔</span> <span>I am focus-driven on becoming the <strong>20-year-old</strong> that I always wanted to be.</span></li>
+                </ul>
+            </div>
+
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Start of a Few Good Stories...</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+                <!-- Adventures -->
+                <div class="bg-white p-6 rounded-lg shadow border-t-4 border-red-500">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Adventures & Near Misses</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li><strong>Plane Crash:</strong> Survived a single-engine plane crash.</li>
+                        <li><strong>Skydiving:</strong> Completed a solo parachute jump (twice!).</li>
+                        <li><strong>Mining:</strong> Mined 1/2 mile underground utilizing high explosives.</li>
+                        <li><strong>Gunpoint:</strong> Had a gun pulled on me by an irate husband.</li>
+                    </ul>
+                </div>
+                
+                <!-- Media -->
+                <div class="bg-white p-6 rounded-lg shadow border-t-4 border-blue-500">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Media & Public Life</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li><strong>Game Show:</strong> Won the 1970s TV game show "Anything You Can Do".</li>
+                        <li><strong>Headlines:</strong> Appeared on the front page of The Ottawa Citizen.</li>
+                        <li><strong>Live TV:</strong> Solo guest speaker on a 1/2 hour live television broadcast.</li>
+                        <li><strong>Theatre:</strong> Starred in a 3-act play featuring only two actors.</li>
+                    </ul>
+                </div>
+
+                <!-- Professional -->
+                <div class="bg-white p-6 rounded-lg shadow border-t-4 border-green-500">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Professional Highlights</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li><strong>Teaching:</strong> Taught elementary school (grades 4-6) at age 19.</li>
+                        <li><strong>Chess:</strong> Beat a Canadian Chess Grandmaster.</li>
+                        <li><strong>Contracts:</strong> Wrote and managed three $50M public contracts.</li>
+                        <li><strong>Retail:</strong> Managed "The Teacher's Store".</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">A Few Personal Beliefs</h2>
+            <p class="text-gray-600 mb-6 italic">Click on each header below to expand my thoughts and opinions.</p>
+
+            <div class="space-y-4 mb-12">
+                <!-- Belief 1 -->
+                <details class="group bg-white rounded-lg shadow border-l-4 border-purple-500">
+                    <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-6 text-xl text-gray-900">
+                        <span>Science</span>
+                        <span class="transition group-open:rotate-180"><svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg></span>
+                    </summary>
+                    <div class="p-6 pt-0 text-gray-700 leading-relaxed border-t mt-4 pt-4">
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li><strong>GMO Children:</strong> Children are really just the Genetically Modified Organisms of their parents.</li>
+                            <li><strong>Stardust:</strong> Every single atom in your body came from within a distant, ancient star.</li>
+                            <li><strong>The Living Cell:</strong> There is not a single living thing inside of any living cell.</li>
+                            <li><strong>Evolution:</strong> Evolution is really just "Ha Ha, I'm Better Than You" played out over millions of years.</li>
+                            <li><strong>Brain Sides:</strong> The left side of your brain sees the past; the right side of your brain sees the future.</li>
+                            <li><strong>Sound:</strong> Sound is simply the brain’s internal expression of the world's acoustic vibrations.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <!-- Belief 2 -->
+                <details class="group bg-white rounded-lg shadow border-l-4 border-yellow-500">
+                    <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-6 text-xl text-gray-900">
+                        <span>Religion & Destiny</span>
+                        <span class="transition group-open:rotate-180"><svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg></span>
+                    </summary>
+                    <div class="p-6 pt-0 text-gray-700 leading-relaxed border-t mt-4 pt-4">
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li><strong>Miraculous Complexity:</strong> Complexity is very often misinterpreted as "miraculous."</li>
+                            <li><strong>Personal Divinity:</strong> Everyone is their own God.</li>
+                            <li><strong>The Afterlife:</strong> Perspectives differ, but we can all agree there is no "life" remaining in this collective physical reality.</li>
+                            <li><strong>The Collective Rule:</strong> If no one did IT, or if everyone did IT, would we all be better off?</li>
+                            <li><strong>The Destination:</strong> We are all on the same train headed to the same destination, just traveling in different cars.</li>
+                            <li><strong>Morality:</strong> Liars and cheaters are really just as bad as robbers and killers.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <!-- Belief 3 -->
+                <details class="group bg-white rounded-lg shadow border-l-4 border-indigo-500">
+                    <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-6 text-xl text-gray-900">
+                        <span>People & Communication</span>
+                        <span class="transition group-open:rotate-180"><svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg></span>
+                    </summary>
+                    <div class="p-6 pt-0 text-gray-700 leading-relaxed border-t mt-4 pt-4">
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li><strong>The Workspace:</strong> Everyone feels overworked and underpaid.</li>
+                            <li><strong>The Broadcast Problem:</strong> Many people are permanently stuck on "SEND" (rarely switching to receive).</li>
+                            <li><strong>Privacy:</strong> There are some things that people just do not need to know about you.</li>
+                            <li><strong>Mistakes vs. Wrong:</strong> Nobody is ever truly WRONG! They may, however, be temporarily mistaken.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <!-- Belief 4 -->
+                <details class="group bg-white rounded-lg shadow border-l-4 border-pink-500">
+                    <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-6 text-xl text-gray-900">
+                        <span>Men & Women</span>
+                        <span class="transition group-open:rotate-180"><svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg></span>
+                    </summary>
+                    <div class="p-6 pt-0 text-gray-700 leading-relaxed border-t mt-4 pt-4">
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li><strong>Partnership:</strong> You first must BE "The One" before you can FIND "The One."</li>
+                            <li><strong>Delegation:</strong> If you want a job done right, ask a woman. If you need an excuse for why a job can't be done, ask a man.</li>
+                            <li><strong>Procreation:</strong> For males, it's much like taking a few cups of flour to a baker and returning in 9 months for the cake.</li>
+                            <li><strong>Attraction:</strong> What many women really want is a good boy who can become a bad boy on command.</li>
+                        </ul>
+                    </div>
+                </details>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="population.html" class="inline-block text-brand-teal font-bold text-lg hover:underline">Also check out: Where Do You Fit In? (Population Calculator) &rarr;</a>
+            </div>
+        </div>
+    
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-peach border-t border-orange-200 text-gray-800 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center font-medium">
+            <p>&copy; 2026 James Allen Bates. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
