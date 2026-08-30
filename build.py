@@ -292,12 +292,12 @@ pages['pictures.html'] = {
                         </div>
                         <div class="md:w-1/2 flex flex-col justify-center">
                             <h2 class="text-2xl font-bold text-gray-900 mb-2">The Parents</h2>
-                            <p class="text-gray-600 mb-1"><strong>Location:</strong> Qualicum Beach, BC</p>
+                            <p class="text-gray-600 mb-1"><strong>Location:</strong> 850 Hotham Street, Esquimalt (Naden), BC</p>
                             <p class="text-gray-600 mb-4"><strong>Date:</strong> Circa 1955</p>
                             <p class="text-gray-800 font-semibold mb-2">Names:</p>
                             <ul class="list-disc pl-5 text-gray-700">
                                 <li>Peter James Bates</li>
-                                <li>Gwenyth Irene Bates</li>
+                                <li>Gwenyth Irene Knott</li>
                             </ul>
                         </div>
                     </div>
@@ -1013,7 +1013,7 @@ pages['about.html'] = {
                             Welcome! We anchor the masthead and are glad you've stopped by to visit. Here is my partner Norma enjoying a glass of Guinness and myself with a Rickard's Red—our frequent choice for a brew when out and about.
                         </p>
                         <div class="bg-brand-light p-4 rounded-lg border border-teal-200 inline-block">
-                            <p class="text-brand-teal font-bold">As of March 9, 2025, we celebrated our 44th anniversary together and are still going strong!</p>
+                            <p class="text-brand-teal font-bold">As of March 9, 2026, we celebrated our 45th anniversary together and are still going strong!</p>
                         </div>
                     </div>
                     <div class="md:w-1/2 bg-gray-200 flex items-center justify-center min-h-[300px] overflow-hidden">
