@@ -297,7 +297,7 @@ pages['pictures.html'] = {
                             <p class="text-gray-800 font-semibold mb-2">Names:</p>
                             <ul class="list-disc pl-5 text-gray-700">
                                 <li>Peter James Bates</li>
-                                <li>Gwenyth Irene Knott</li>
+                                <li>Gwenyth Irene Knapp</li>
                             </ul>
                         </div>
                     </div>
