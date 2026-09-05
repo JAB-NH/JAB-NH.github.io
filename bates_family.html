@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bates Family | JAMES * JIMMY * JIDO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-peach': '#FAD0A1',
+                        'brand-peach-light': '#FDF3E7',
+                        'brand-teal': '#319795',
+                        'brand-dark': '#2d3748'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fcfaf8; color: #2d3748; }
+        .nav-link { color: #4a5568; transition: color 0.2s; }
+        .nav-link:hover { color: #319795; }
+        .active { color: #319795; font-weight: bold; border-bottom: 3px solid #319795; padding-bottom: 2px; }
+        details > summary { list-style: none; cursor: pointer; outline: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary svg { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-brand-peach shadow-md border-b border-orange-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between py-4">
+                <div class="flex items-center justify-center md:justify-start mb-4 md:mb-0">
+                    <a href="index.html" class="flex-shrink-0 text-gray-900 font-extrabold text-2xl tracking-wider text-center">
+                        JAMES * JIMMY * JIDO
+                    </a>
+                </div>
+                <div class="flex flex-wrap justify-center gap-x-4 gap-y-2 md:space-x-8">
+                    <a href="index.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Home</a>
+                    <a href="why.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Why a Website</a>
+                    <a href="who.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold active">Who Am I</a>
+                    <a href="musings.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Musings</a>
+                    <a href="personal.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Personal</a>
+                    <a href="tunes.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Tunes</a>
+                    <a href="about.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">About</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="max-w-6xl mx-auto">
+        <div class="mb-8 flex items-center justify-between border-b pb-4">
+            <h1 class="text-4xl font-bold text-gray-900">Bates Family</h1>
+            <a href="pictures.html" class="text-brand-teal hover:underline">&larr; Back to Family Pictures</a>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-10">
+            <!-- Main Photo Display -->
+            <div class="relative w-full aspect-video bg-gray-100 flex items-center justify-center rounded-lg overflow-hidden mb-6">
+                <img id="carouselMainImage" src="assets/img/BatesFamily/Bates%20Family%20Group%20Photo.jpg" class="max-w-full max-h-full object-contain" alt="Bates Family Main Photo">
+                
+                <!-- Navigation Arrows -->
+                <button onclick="prevImage()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-3 hover:bg-opacity-75 transition focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <button onclick="nextImage()" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-3 hover:bg-opacity-75 transition focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Thumbnail Strip -->
+            <div class="flex overflow-x-auto space-x-4 py-2 px-1 scrollbar-hide" id="thumbnailStrip">
+                <img src="assets/img/BatesFamily/2026-08-24.png" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(0, this)" id="thumb-0"><img src="assets/img/BatesFamily/Bates%20Family%20Group%20Photo.jpg" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(1, this)" id="thumb-1"><img src="assets/img/BatesFamily/Bates%20Kids005.jpg" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(2, this)" id="thumb-2"><img src="assets/img/BatesFamily/BatesFamily1952.jpg" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(3, this)" id="thumb-3"><img src="assets/img/BatesFamily/edgar1.JPG" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(4, this)" id="thumb-4"><img src="assets/img/BatesFamily/Gwenyth.jpg" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(5, this)" id="thumb-5"><img src="assets/img/BatesFamily/Houses008.jpg" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(6, this)" id="thumb-6"><img src="assets/img/BatesFamily/IMG_0124.HEIC" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(7, this)" id="thumb-7"><img src="assets/img/BatesFamily/IMG_0334.PNG" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(8, this)" id="thumb-8"><img src="assets/img/BatesFamily/IMG_0350.HEIC" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(9, this)" id="thumb-9"><img src="assets/img/BatesFamily/IMG_0389.HEIC" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(10, this)" id="thumb-10"><img src="assets/img/BatesFamily/IMG_1101.JPG" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(11, this)" id="thumb-11"><img src="assets/img/BatesFamily/IMG_1120.JPG" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(12, this)" id="thumb-12"><img src="assets/img/BatesFamily/IMG_1602.JPG" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(13, this)" id="thumb-13"><img src="assets/img/BatesFamily/IMG_2344.JPG" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(14, this)" id="thumb-14"><img src="assets/img/BatesFamily/IMG_2501.JPG" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(15, this)" id="thumb-15"><img src="assets/img/BatesFamily/jimmy.jpg" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(16, this)" id="thumb-16"><img src="assets/img/BatesFamily/Judy%20Nancy%20Jimmy%20850%20Hotham.jpg" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(17, this)" id="thumb-17"><img src="assets/img/BatesFamily/judy.jpg" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(18, this)" id="thumb-18"><img src="assets/img/BatesFamily/Maternal%20Grandparents.jpg" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(19, this)" id="thumb-19"><img src="assets/img/BatesFamily/nancy.jpg" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(20, this)" id="thumb-20"><img src="assets/img/BatesFamily/Peter.jpg" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(21, this)" id="thumb-21"><img src="assets/img/BatesFamily/Woodstock001.jpg" class="h-24 w-auto object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(22, this)" id="thumb-22">
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .thumb-active {
+            opacity: 1 !important;
+            border: 2px solid #319795;
+        }
+    </style>
+
+    <script>
+        const images = ['assets/img/BatesFamily/2026-08-24.png', 'assets/img/BatesFamily/Bates%20Family%20Group%20Photo.jpg', 'assets/img/BatesFamily/Bates%20Kids005.jpg', 'assets/img/BatesFamily/BatesFamily1952.jpg', 'assets/img/BatesFamily/edgar1.JPG', 'assets/img/BatesFamily/Gwenyth.jpg', 'assets/img/BatesFamily/Houses008.jpg', 'assets/img/BatesFamily/IMG_0124.HEIC', 'assets/img/BatesFamily/IMG_0334.PNG', 'assets/img/BatesFamily/IMG_0350.HEIC', 'assets/img/BatesFamily/IMG_0389.HEIC', 'assets/img/BatesFamily/IMG_1101.JPG', 'assets/img/BatesFamily/IMG_1120.JPG', 'assets/img/BatesFamily/IMG_1602.JPG', 'assets/img/BatesFamily/IMG_2344.JPG', 'assets/img/BatesFamily/IMG_2501.JPG', 'assets/img/BatesFamily/jimmy.jpg', 'assets/img/BatesFamily/Judy%20Nancy%20Jimmy%20850%20Hotham.jpg', 'assets/img/BatesFamily/judy.jpg', 'assets/img/BatesFamily/Maternal%20Grandparents.jpg', 'assets/img/BatesFamily/nancy.jpg', 'assets/img/BatesFamily/Peter.jpg', 'assets/img/BatesFamily/Woodstock001.jpg'];
+        let currentIndex = images.indexOf("assets/img/BatesFamily/Bates%20Family%20Group%20Photo.jpg");
+        if (currentIndex === -1) currentIndex = 0;
+
+        function updateCarousel() {
+            document.getElementById('carouselMainImage').src = images[currentIndex];
+            document.querySelectorAll('#thumbnailStrip img').forEach((img, idx) => {
+                if (idx === currentIndex) {
+                    img.classList.add('thumb-active');
+                    img.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else {
+                    img.classList.remove('thumb-active');
+                }
+            });
+        }
+
+        function setImage(index, element) {
+            currentIndex = index;
+            updateCarousel();
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateCarousel();
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateCarousel();
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCarousel();
+        });
+    </script>
+    </main>
+    
+
+    <!-- Footer -->
+    <footer class="bg-brand-peach border-t border-orange-200 text-gray-800 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center font-medium">
+            <p>&copy; 2026 James Allen Bates. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
