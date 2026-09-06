@@ -86,7 +86,7 @@ pages['index.html'] = {
                     </p>
                 </div>
                 <div class="md:w-2/5 hidden md:block">
-                    <img src="assets/img/philosopher1.png" alt="Philosopher" class="w-full h-full object-cover opacity-90 mix-blend-multiply">
+                    <img src="assets/img/philosopher1.png" alt="Philosopher" class="w-full h-full object-contain opacity-90 mix-blend-multiply">
                 </div>
             </div>
         </div>
@@ -269,7 +269,7 @@ pages['pictures.html'] = {
                 <div class="bg-white rounded-lg shadow overflow-hidden">
                     <div class="p-8 md:flex">
                         <div class="md:w-1/2 flex items-center justify-center bg-gray-100 rounded mb-6 md:mb-0 md:mr-8 overflow-hidden">
-                            <img src="assets/img/BatesFamily/Judy%20Nancy%20Jimmy%20850%20Hotham.jpg" alt="The Kids" class="max-w-full h-auto object-cover">
+                            <img src="assets/img/BatesFamily/Judy%20Nancy%20Jimmy%20850%20Hotham.jpg" alt="The Kids" class="max-w-full h-auto object-contain">
                         </div>
                         <div class="md:w-1/2 flex flex-col justify-center">
                             <h2 class="text-2xl font-bold text-gray-900 mb-2">The Kids</h2>
@@ -288,7 +288,7 @@ pages['pictures.html'] = {
                 <div class="bg-white rounded-lg shadow overflow-hidden">
                     <div class="p-8 md:flex">
                         <div class="md:w-1/2 flex items-center justify-center bg-gray-100 rounded mb-6 md:mb-0 md:mr-8 overflow-hidden">
-                            <img src="assets/img/BatesFamily/BatesFamily1952.jpg" alt="The Parents" class="max-w-full h-auto object-cover">
+                            <img src="assets/img/BatesFamily/BatesFamily1952.jpg" alt="The Parents" class="max-w-full h-auto object-contain">
                         </div>
                         <div class="md:w-1/2 flex flex-col justify-center">
                             <h2 class="text-2xl font-bold text-gray-900 mb-2">The Parents</h2>
@@ -306,7 +306,7 @@ pages['pictures.html'] = {
                 <div class="bg-white rounded-lg shadow overflow-hidden">
                     <div class="p-8 md:flex">
                         <div class="md:w-1/2 flex items-center justify-center bg-gray-100 rounded mb-6 md:mb-0 md:mr-8 overflow-hidden">
-                            <img src="assets/img/BatesFamily/Woodstock001.jpg" alt="The Grandparents" class="max-w-full h-auto object-cover">
+                            <img src="assets/img/BatesFamily/Woodstock001.jpg" alt="The Grandparents" class="max-w-full h-auto object-contain">
                         </div>
                         <div class="md:w-1/2 flex flex-col justify-center">
                             <h2 class="text-2xl font-bold text-gray-900 mb-2">The Grandparents & Family</h2>
@@ -527,7 +527,7 @@ pages['universe.html'] = {
                         </p>
                     </div>
                     <div class="md:w-1/2">
-                        <img src="assets/img/andromadae.jpg" alt="Andromeda Galaxy" class="w-full h-full object-cover">
+                        <img src="assets/img/andromadae.jpg" alt="Andromeda Galaxy" class="w-full h-full object-contain">
                     </div>
                 </div>
             </div>
@@ -1017,7 +1017,7 @@ pages['about.html'] = {
                         </div>
                     </div>
                     <div class="md:w-1/2 bg-gray-200 flex items-center justify-center min-h-[300px] overflow-hidden">
-                        <img src="assets/img/beers2.jpg" alt="James and Norma" class="max-w-full h-auto object-cover">
+                        <img src="assets/img/beers2.jpg" alt="James and Norma" class="max-w-full h-auto object-contain">
                     </div>
                 </div>
             </div>
