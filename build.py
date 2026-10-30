@@ -77,6 +77,75 @@ pages['index.html'] = {
     'title': 'Home',
     'nav': 'nav_home',
     'content': """
+        <style>
+            #norgem-splash-overlay {
+                position: fixed;
+                inset: 0;
+                z-index: 9999;
+                background-color: #ffffff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 1;
+                visibility: visible;
+                transition: opacity 2.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 2.8s cubic-bezier(0.4, 0, 0.2, 1);
+                cursor: pointer;
+            }
+            #norgem-splash-overlay.fade-out {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+            }
+            #norgem-splash-logo {
+                width: min(82vw, 720px);
+                height: min(82vh, 720px);
+                object-fit: contain;
+                transform: scale(1);
+                transition: transform 3.6s cubic-bezier(0.22, 1, 0.36, 1);
+                user-select: none;
+                -webkit-user-drag: none;
+            }
+            #norgem-splash-overlay.fade-out #norgem-splash-logo {
+                transform: scale(1.03);
+            }
+        </style>
+        <div id="norgem-splash-overlay" title="Click anywhere to continue">
+            <img id="norgem-splash-logo" src="assets/img/norgem_logo.png" alt="Norgem Enterprises">
+        </div>
+        <script>
+            (function () {
+                try {
+                    var navEntry = (window.performance && performance.getEntriesByType) ? performance.getEntriesByType('navigation')[0] : null;
+                    var isReload = navEntry && navEntry.type === 'reload';
+                    if (!isReload && document.referrer) {
+                        var refUrl = new URL(document.referrer);
+                        if (refUrl.origin === window.location.origin && refUrl.pathname !== '/' && !refUrl.pathname.endsWith('/index.html')) {
+                            var ov = document.getElementById('norgem-splash-overlay');
+                            if (ov) ov.style.display = 'none';
+                            return;
+                        }
+                    }
+                } catch (e) {}
+            })();
+            document.addEventListener('DOMContentLoaded', function () {
+                var overlay = document.getElementById('norgem-splash-overlay');
+                var logo = document.getElementById('norgem-splash-logo');
+                if (!overlay || overlay.style.display === 'none') return;
+                var started = false;
+                function beginDissolve() {
+                    if (started) return;
+                    started = true;
+                    setTimeout(function () { overlay.classList.add('fade-out'); }, 1100);
+                }
+                overlay.addEventListener('click', function () { overlay.classList.add('fade-out'); });
+                if (logo && !logo.complete) {
+                    logo.addEventListener('load', beginDissolve, { once: true });
+                    setTimeout(beginDissolve, 600);
+                } else {
+                    beginDissolve();
+                }
+            });
+        </script>
         <div class="bg-brand-peach rounded-xl shadow-lg overflow-hidden mb-12 border border-orange-200">
             <div class="md:flex">
                 <div class="md:w-3/5 px-8 py-16 text-left flex flex-col justify-center">
