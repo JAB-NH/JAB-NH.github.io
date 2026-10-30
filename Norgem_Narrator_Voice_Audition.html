@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Norgem Chronicles — 4 Studio Neural Narrator Voices Audition</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #f8fafc;
+    color: #0f172a;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 36px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .container {
+    width: 100%;
+    max-width: 960px;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .header h1 {
+    font-size: 2rem;
+    color: #1e3a8a;
+    margin-bottom: 8px;
+  }
+  .header p {
+    color: #475569;
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+  .script-box {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-left: 5px solid #1e3a8a;
+    border-radius: 12px;
+    padding: 18px 24px;
+    margin-bottom: 24px;
+    color: #1e293b;
+    font-size: 1.02rem;
+    line-height: 1.55;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+  }
+  .script-label {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #1e3a8a;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .voice-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .voice-card {
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 22px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+    transition: all 0.2s ease;
+  }
+  .voice-card.playing {
+    border-color: #2563eb;
+    background: #eff6ff;
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
+  }
+  .opt-badge {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+    color: #2563eb;
+    margin-bottom: 4px;
+  }
+  .voice-card h2 {
+    font-size: 1.28rem;
+    color: #0f172a;
+    margin-bottom: 6px;
+  }
+  .voice-card p {
+    font-size: 0.96rem;
+    color: #475569;
+    line-height: 1.4;
+  }
+  .play-btn {
+    background: #1e3a8a;
+    color: #ffffff;
+    border: none;
+    padding: 13px 26px;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    min-width: 210px;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .play-btn:hover {
+    background: #1d4ed8;
+    transform: scale(1.03);
+  }
+  .play-btn.active {
+    background: #d97706;
+    color: #ffffff;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Norgem Chronicles — Narrator Voice Audition</h1>
+      <p>Click any button below to hear Slide 1 read by each of the 4 Studio Neural Voices ($0.00 cost • Zero quota limits)</p>
+    </div>
+
+    <div class="script-box">
+      <div class="script-label">SLIDE 1 NARRATION SCRIPT</div>
+      “Welcome to the Living Chronicles of Norgem Enterprises. Founded on September seventeenth, twenty twenty-six, by James Allen and Maha Norma, Norgem was built to prove that human leadership and autonomous artificial intelligence can work together as a disciplined, self-governing enterprise. At the center of operations is Data—a name chosen by James specifically for the phrase Direct Access Transformative Agent. Guided by our founding motto—a repeatable collaborative framework, an enduring cooperative enterprise—this is the story of how Norgem was forged.”
+    </div>
+
+    <div class="voice-list">
+      
+        <div class="voice-card" id="card-ava">
+          <div class="card-left">
+            <div class="opt-badge">VOICE OPTION 1</div>
+            <h2>Option 1: Ava (Warm Documentary & Audiobook Narrator)</h2>
+            <p>Flagship expressive studio neural voice with rich documentary warmth, natural breathing, and unhurried storytelling cadence.</p>
+          </div>
+          <div class="card-right">
+            <button class="play-btn" id="btn-ava" onclick="playSample('ava', 'chronicles_audio/audition/audition_ava.mp3')">
+              &#9654; Listen to Option 1
+            </button>
+          </div>
+        </div>
+        
+        <div class="voice-card" id="card-aria">
+          <div class="card-left">
+            <div class="opt-badge">VOICE OPTION 2</div>
+            <h2>Option 2: Aria (Crisp, Engaging Storytelling Narrator)</h2>
+            <p>Bright, articulate, and expressive broadcast-style narrator with clear emphasis on key milestones.</p>
+          </div>
+          <div class="card-right">
+            <button class="play-btn" id="btn-aria" onclick="playSample('aria', 'chronicles_audio/audition/audition_aria.mp3')">
+              &#9654; Listen to Option 2
+            </button>
+          </div>
+        </div>
+        
+        <div class="voice-card" id="card-jenny">
+          <div class="card-left">
+            <div class="opt-badge">VOICE OPTION 3</div>
+            <h2>Option 3: Jenny (Gentle, Conversational & Friendly)</h2>
+            <p>Soft, approachable, and natural conversational voice with smooth sentence transitions.</p>
+          </div>
+          <div class="card-right">
+            <button class="play-btn" id="btn-jenny" onclick="playSample('jenny', 'chronicles_audio/audition/audition_jenny.mp3')">
+              &#9654; Listen to Option 3
+            </button>
+          </div>
+        </div>
+        
+        <div class="voice-card" id="card-clara">
+          <div class="card-left">
+            <div class="opt-badge">VOICE OPTION 4</div>
+            <h2>Option 4: Clara (Canadian English Executive Narrator)</h2>
+            <p>Sovereign Canadian English studio neural voice—clear, poised, and warm.</p>
+          </div>
+          <div class="card-right">
+            <button class="play-btn" id="btn-clara" onclick="playSample('clara', 'chronicles_audio/audition/audition_clara.mp3')">
+              &#9654; Listen to Option 4
+            </button>
+          </div>
+        </div>
+        
+    </div>
+  </div>
+
+  <audio id="auditionPlayer"></audio>
+
+  <script>
+    const player = document.getElementById('auditionPlayer');
+    let currentId = null;
+
+    function resetUI() {
+      document.querySelectorAll('.voice-card').forEach(c => c.classList.remove('playing'));
+      document.querySelectorAll('.play-btn').forEach((b, idx) => {
+        b.classList.remove('active');
+        b.innerHTML = `&#9654; Listen to Option ${idx + 1}`;
+      });
+    }
+
+    function playSample(id, src) {
+      if (currentId === id && !player.paused) {
+        player.pause();
+        resetUI();
+        currentId = null;
+        return;
+      }
+      resetUI();
+      currentId = id;
+      player.src = src;
+      player.currentTime = 0;
+      document.getElementById('card-' + id).classList.add('playing');
+      const btn = document.getElementById('btn-' + id);
+      btn.classList.add('active');
+      btn.innerHTML = '&#9209; Stop Playing';
+      player.play();
+    }
+
+    player.addEventListener('ended', () => {
+      resetUI();
+      currentId = null;
+    });
+  </script>
+</body>
+</html>
