@@ -53,91 +53,772 @@
     </nav>
 
     <!-- Main Content -->
-    
     <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    <div class="max-w-6xl mx-auto">
-        <div class="mb-8 flex items-center justify-between border-b pb-4">
-            <h1 class="text-4xl font-bold text-gray-900">Haddad Family</h1>
-            <a href="pictures.html" class="text-brand-teal hover:underline">&larr; Back to Family Pictures</a>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+        <script src="assets/img/HaddadArchive/manifest.js?v=mat1"></script>
+
+        <div class="max-w-7xl mx-auto pb-28">
+            <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4 gap-2">
+                <div>
+                    <h1 class="text-4xl font-bold text-gray-900">Haddad Family</h1>
+                    <p class="text-gray-600 mt-1">
+                        Browse by decade, view full-screen, or download photos. <strong>All .ZIP downloads automatically organize your saved photos into separate Decade folders</strong> (e.g., <code class="text-xs bg-gray-100 px-1.5 py-0.5 rounded">1940s/</code>, <code class="text-xs bg-gray-100 px-1.5 py-0.5 rounded">1950s/</code>, <code class="text-xs bg-gray-100 px-1.5 py-0.5 rounded">1960s/</code>).
+                    </p>
+                </div>
+                <a href="pictures.html" class="text-brand-teal hover:underline font-medium shrink-0">&larr; Back to Family Pictures</a>
+            </div>
+
+            <!-- How Downloading Works & Bulk Decade Download Banner -->
+            <div class="bg-brand-peach-light rounded-2xl shadow-sm border border-orange-200 p-5 mb-6">
+                <div class="flex flex-col gap-4">
+                    <div class="space-y-1.5 w-full">
+                        <h2 class="text-base sm:text-lg font-bold text-gray-900 flex items-center gap-2">
+                            <span>📂 Automatic Decade Folder Organization &amp; Norgem Smart TV Slideshow Player</span>
+                        </h2>
+                        <p class="text-sm text-gray-700 leading-relaxed">
+                            Whether you download the <strong>entire archive</strong>, the <strong>currently viewed decade(s)</strong>, or your <strong>hand-picked selection</strong>, your downloaded <code class="bg-white/80 px-1.5 py-0.5 rounded border border-orange-200 text-xs font-bold">.ZIP</code> file will automatically sort and save every photo inside its proper decade folder (<code class="text-xs font-semibold">Pre-1940s</code> through <code class="text-xs font-semibold">2010s</code>) and include the <strong>Norgem Enterprises Family Slideshow Player</strong> inside the folder for full-screen viewing and Smart TV casting.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-3 pt-1">
+                        <a href="Norgem_Family_Slideshow_Player.html" target="_blank" class="px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-sky-300 border border-sky-400/50 font-bold text-sm shadow-md transition flex items-center gap-2" title="Preview the Norgem Enterprises Slideshow Player">
+                            <span>📺 Preview Slideshow Player</span>
+                        </a>
+                        <a href="Norgem_Family_Slideshow_Player.html" download="Norgem_Family_Slideshow_Player.html" class="px-3.5 py-2.5 rounded-xl bg-white hover:bg-gray-50 text-gray-800 border border-gray-300 font-bold text-sm shadow-sm transition flex items-center gap-2" title="Download the standalone Norgem Slideshow Player program">
+                            <span>⬇ Download Slideshow Player</span>
+                        </a>
+                        <button onclick="downloadCurrentDecadesAsZip()" id="btn-download-current-decades" class="px-4 py-2.5 rounded-xl bg-brand-teal hover:bg-teal-700 text-white font-bold text-sm shadow-md transition flex items-center gap-2">
+                            <span>⬇ Download Current Decade(s) (<span id="btn-current-decades-count">0</span> Photos .ZIP)</span>
+                        </button>
+                        <button onclick="downloadAllDecadesAsZip()" id="btn-download-all-decades" class="px-4 py-2.5 rounded-xl bg-brand-dark hover:bg-gray-800 text-white font-bold text-sm shadow-md transition flex items-center gap-2">
+                            <span>⬇ Download All Decades (2,099 Photos &bull; 521 MB .ZIP)</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Progress bar for bulk downloads when active -->
+                <div id="bulk-download-status" class="hidden mt-3 pt-3 border-t border-orange-200 text-sm font-semibold text-brand-teal flex items-center justify-between">
+                    <span id="bulk-download-status-text">Preparing download...</span>
+                    <span id="bulk-download-pct" class="font-bold"></span>
+                </div>
+            </div>
+
+            <!-- Summary Counters & Step 1: Multi-Decade Filter Bar -->
+            <div class="bg-white rounded-2xl shadow-md border border-gray-200 p-5 mb-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4 pb-3 border-b border-gray-100">
+                    <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                        <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-brand-teal text-white text-xs font-bold">1</span>
+                        Choose Decade(s) to View <span class="text-xs font-normal text-gray-500">(Click one or toggle multiple decades together)</span>
+                    </h2>
+                    <div class="flex flex-wrap items-center gap-3 text-xs font-semibold">
+                        <span class="px-3 py-1.5 rounded-lg bg-brand-peach-light border border-orange-200 text-gray-800">
+                            Total Archive: <strong id="stat-total-photos">2,099</strong>
+                        </span>
+                        <span class="px-3 py-1.5 rounded-lg bg-gray-100 text-gray-800">
+                            Showing: <strong id="stat-showing-photos" class="text-brand-teal">0</strong>
+                        </span>
+                        <span class="px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800">
+                            Selected: <strong id="stat-selected-photos">0</strong>
+                        </span>
+                        <button onclick="selectAllDecades()" class="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition">
+                            Show All Decades
+                        </button>
+                        <button onclick="toggleMultiDecadeMode()" id="btn-multi-mode" class="px-3 py-1.5 rounded-lg bg-teal-50 border border-teal-300 text-brand-teal hover:bg-teal-100 transition">
+                            Multi-Decade Toggle: ON
+                        </button>
+                    </div>
+                </div>
+
+                <div id="decade-pills-container" class="flex flex-wrap gap-2.5">
+                    <!-- Populated dynamically from manifest -->
+                </div>
+            </div>
+
+            <!-- Step 2: Toolbar (Selection Controls, Search, Page Size) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-brand-teal text-white text-xs font-bold mr-1">2</span>
+                    <button onclick="selectAllVisible()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold shadow-sm transition">
+                        <span>☑️ Select All in View</span>
+                    </button>
+                    <button onclick="selectCurrentPage()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-brand-teal hover:bg-teal-700 text-white text-sm font-semibold shadow-sm transition">
+                        <span>✓ Select This Page</span>
+                    </button>
+                    <button onclick="clearSelection()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold transition">
+                        <span>✕ Clear Selection</span>
+                    </button>
+                    <button onclick="filterSelectedOnly()" id="btn-view-selected" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-amber-400 bg-amber-50 hover:bg-amber-100 text-amber-900 text-sm font-semibold transition">
+                        <span>🛒 View Selected Only (<span id="btn-selected-count">0</span>)</span>
+                    </button>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="relative">
+                        <input type="text" id="photo-search-input" oninput="onSearchChange()" placeholder="Filter by photo ID / name..." class="pl-3 pr-8 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal">
+                    </div>
+                    <label class="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+                        <span>Per Page:</span>
+                        <select id="page-size-select" onchange="onPageSizeChange()" class="border border-gray-300 rounded-lg px-2 py-1.5 text-sm bg-white">
+                            <option value="60">60 photos</option>
+                            <option value="120" selected>120 photos</option>
+                            <option value="240">240 photos</option>
+                            <option value="9999">All in View</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Top Pagination Bar -->
+            <div id="pagination-top" class="flex flex-wrap items-center justify-between gap-4 mb-4 px-1"></div>
+
+            <!-- Photo Grid -->
+            <div id="photo-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                <!-- Populated dynamically -->
+            </div>
+
+            <!-- Bottom Pagination Bar -->
+            <div id="pagination-bottom" class="flex flex-wrap items-center justify-between gap-4 mt-8 px-1"></div>
         </div>
-        
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-10">
-            <!-- Main Photo Display -->
-            <div class="relative w-full aspect-video bg-gray-100 rounded-lg overflow-hidden mb-6">
-                <img id="carouselMainImage" src="assets/img/HaddadFamily/Haddad%20Family%20Group%20Photo.JPG" class="absolute inset-0 w-full h-full object-contain" alt="Haddad Family Main Photo">
-                
-                <!-- Navigation Arrows -->
-                <button onclick="prevImage()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-3 hover:bg-opacity-75 transition focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
+
+        <!-- Floating Bottom Download Basket Bar -->
+        <div id="download-basket-bar" class="fixed bottom-0 inset-x-0 z-40 transform translate-y-full transition-transform duration-300 bg-brand-dark/95 backdrop-blur-md text-white border-t-2 border-brand-teal shadow-2xl">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">🛒</span>
+                    <div>
+                        <div class="font-bold text-base sm:text-lg">
+                            <span id="basket-count" class="text-brand-peach">0</span> Photos Selected
+                            <span class="text-xs sm:text-sm font-normal text-gray-300 ml-1">(<span id="basket-size-mb">0.0</span> MB est.)</span>
+                        </div>
+                        <div id="basket-status-text" class="text-xs text-gray-300">
+                            Saved .ZIP automatically organizes photos into Decade folders (1940s/, 1950s/, etc.)
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto justify-center sm:justify-end">
+                    <button onclick="clearSelection()" class="px-3.5 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-200 text-xs sm:text-sm font-semibold border border-gray-600 transition">
+                        Clear All
+                    </button>
+                    <button onclick="downloadSelectedAsZip()" id="btn-download-zip" class="px-5 py-2.5 rounded-xl bg-brand-teal hover:bg-teal-600 text-white font-extrabold text-sm sm:text-base shadow-lg transition flex items-center gap-2">
+                        <span>⬇ Download Selected (.ZIP)</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Full-Screen Lightbox Modal -->
+        <div id="lightbox-modal" class="fixed inset-0 z-50 hidden bg-black/95 backdrop-blur-sm flex flex-col justify-between p-3 sm:p-6">
+            <!-- Top bar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 text-white z-10">
+                <div class="flex items-center gap-3">
+                    <button onclick="closeLightbox()" class="px-3.5 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white text-xs sm:text-sm font-bold flex items-center gap-1.5 transition" title="Return to Thumbnail Grid (Browser Back or Esc)">
+                        <span>&larr; Back to Photos</span>
+                    </button>
+                    <span id="lb-decade-badge" class="px-3 py-1 rounded-full bg-brand-teal text-white text-xs font-bold uppercase tracking-wider">1950s</span>
+                    <span id="lb-filename" class="text-sm sm:text-base font-semibold text-gray-200 truncate max-w-xs sm:max-w-md"></span>
+                    <span id="lb-counter" class="text-xs text-gray-400"></span>
+                </div>
+                <div class="flex items-center gap-2.5">
+                    <button id="lb-select-btn" onclick="toggleSelectFromLightbox()" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold border transition">
+                        ✓ Select Photo
+                    </button>
+                    <a id="lb-download-single" href="#" download class="px-3.5 py-1.5 rounded-lg bg-brand-teal hover:bg-teal-600 text-white text-xs sm:text-sm font-bold transition">
+                        ⬇ Download Single Photo
+                    </a>
+                    <button onclick="closeLightbox()" class="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-white text-lg leading-none" title="Close (Esc)">
+                        ✕
+                    </button>
+                </div>
+            </div>
+
+            <!-- Center Image Area -->
+            <div class="relative flex-grow flex items-center justify-center my-2 overflow-hidden" onclick="if(event.target===this) closeLightbox()">
+                <button onclick="lightboxPrev()" class="absolute left-2 sm:left-4 z-20 p-3 sm:p-4 rounded-full bg-gray-900/80 hover:bg-gray-800 text-white border border-gray-700 transition" title="Previous Photo">
+                    &#10094;
                 </button>
-                <button onclick="nextImage()" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-3 hover:bg-opacity-75 transition focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
+                <img id="lb-image" src="" alt="Full Resolution Preview" class="max-h-[78vh] max-w-[90vw] object-contain rounded shadow-2xl">
+                <button onclick="lightboxNext()" class="absolute right-2 sm:right-4 z-20 p-3 sm:p-4 rounded-full bg-gray-900/80 hover:bg-gray-800 text-white border border-gray-700 transition" title="Next Photo">
+                    &#10095;
                 </button>
             </div>
-            
-            <!-- Thumbnail Strip -->
-            <div class="flex overflow-x-auto space-x-4 py-2 px-1 scrollbar-hide" id="thumbnailStrip">
-                <img src="assets/img/HaddadFamily/2026-08-24.png" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(0, this)" id="thumb-0"><img src="assets/img/HaddadFamily/Haddad%20Family%20Group%20Photo.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(1, this)" id="thumb-1"><img src="assets/img/HaddadFamily/IMG_0106.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(2, this)" id="thumb-2"><img src="assets/img/HaddadFamily/IMG_0225.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(3, this)" id="thumb-3"><img src="assets/img/HaddadFamily/IMG_0230.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(4, this)" id="thumb-4"><img src="assets/img/HaddadFamily/IMG_0234.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(5, this)" id="thumb-5"><img src="assets/img/HaddadFamily/IMG_0235.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(6, this)" id="thumb-6"><img src="assets/img/HaddadFamily/IMG_0237.PNG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(7, this)" id="thumb-7"><img src="assets/img/HaddadFamily/IMG_0243.PNG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(8, this)" id="thumb-8"><img src="assets/img/HaddadFamily/IMG_0245.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(9, this)" id="thumb-9"><img src="assets/img/HaddadFamily/IMG_0367.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(10, this)" id="thumb-10"><img src="assets/img/HaddadFamily/IMG_0567.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(11, this)" id="thumb-11"><img src="assets/img/HaddadFamily/IMG_1465.HEIC" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(12, this)" id="thumb-12"><img src="assets/img/HaddadFamily/IMG_1505.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(13, this)" id="thumb-13"><img src="assets/img/HaddadFamily/IMG_1602.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(14, this)" id="thumb-14"><img src="assets/img/HaddadFamily/IMG_1633.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(15, this)" id="thumb-15"><img src="assets/img/HaddadFamily/IMG_1775.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(16, this)" id="thumb-16"><img src="assets/img/HaddadFamily/IMG_1776.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(17, this)" id="thumb-17"><img src="assets/img/HaddadFamily/IMG_1789.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(18, this)" id="thumb-18"><img src="assets/img/HaddadFamily/IMG_1842.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(19, this)" id="thumb-19"><img src="assets/img/HaddadFamily/IMG_1850.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(20, this)" id="thumb-20"><img src="assets/img/HaddadFamily/IMG_2169.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(21, this)" id="thumb-21"><img src="assets/img/HaddadFamily/IMG_2203.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(22, this)" id="thumb-22"><img src="assets/img/HaddadFamily/IMG_2210.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(23, this)" id="thumb-23"><img src="assets/img/HaddadFamily/IMG_2256.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(24, this)" id="thumb-24"><img src="assets/img/HaddadFamily/IMG_2258.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(25, this)" id="thumb-25"><img src="assets/img/HaddadFamily/IMG_2267.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(26, this)" id="thumb-26"><img src="assets/img/HaddadFamily/IMG_2475.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(27, this)" id="thumb-27"><img src="assets/img/HaddadFamily/IMG_2810.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(28, this)" id="thumb-28"><img src="assets/img/HaddadFamily/IMG_2816.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(29, this)" id="thumb-29"><img src="assets/img/HaddadFamily/IMG_2836.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(30, this)" id="thumb-30"><img src="assets/img/HaddadFamily/IMG_2948.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(31, this)" id="thumb-31"><img src="assets/img/HaddadFamily/IMG_3121.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(32, this)" id="thumb-32"><img src="assets/img/HaddadFamily/IMG_3122.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(33, this)" id="thumb-33"><img src="assets/img/HaddadFamily/IMG_3188.JPG" class="h-24 w-auto shrink-0 object-contain rounded cursor-pointer opacity-60 hover:opacity-100 transition duration-200" onclick="setImage(34, this)" id="thumb-34">
+
+            <!-- Bottom caption -->
+            <div class="text-center text-xs text-gray-400">
+                Use <kbd class="px-1.5 py-0.5 bg-gray-800 rounded border border-gray-700">&larr;</kbd> <kbd class="px-1.5 py-0.5 bg-gray-800 rounded border border-gray-700">&rarr;</kbd> arrow keys to navigate &bull; Press <kbd class="px-1.5 py-0.5 bg-gray-800 rounded border border-gray-700">Space</kbd> to Select/Unselect &bull; Press <kbd class="px-1.5 py-0.5 bg-gray-800 rounded border border-gray-700">Esc</kbd> to Close
             </div>
         </div>
-    </div>
 
-    <style>
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .thumb-active {
-            opacity: 1 !important;
-            border: 2px solid #319795;
-        }
-    </style>
+        <script>
+        (function() {
+            const manifest = window.HADDAD_ARCHIVE_MANIFEST || { total_photos: 0, decades: [], decade_summary: {}, photos: [] };
+            const allPhotos = manifest.photos || [];
+            const photoMap = new Map();
+            allPhotos.forEach(p => photoMap.set(p.id, p));
 
-    <script>
-        const images = ['assets/img/HaddadFamily/2026-08-24.png', 'assets/img/HaddadFamily/Haddad%20Family%20Group%20Photo.JPG', 'assets/img/HaddadFamily/IMG_0106.JPG', 'assets/img/HaddadFamily/IMG_0225.JPG', 'assets/img/HaddadFamily/IMG_0230.JPG', 'assets/img/HaddadFamily/IMG_0234.JPG', 'assets/img/HaddadFamily/IMG_0235.JPG', 'assets/img/HaddadFamily/IMG_0237.PNG', 'assets/img/HaddadFamily/IMG_0243.PNG', 'assets/img/HaddadFamily/IMG_0245.JPG', 'assets/img/HaddadFamily/IMG_0367.JPG', 'assets/img/HaddadFamily/IMG_0567.JPG', 'assets/img/HaddadFamily/IMG_1465.HEIC', 'assets/img/HaddadFamily/IMG_1505.JPG', 'assets/img/HaddadFamily/IMG_1602.JPG', 'assets/img/HaddadFamily/IMG_1633.JPG', 'assets/img/HaddadFamily/IMG_1775.JPG', 'assets/img/HaddadFamily/IMG_1776.JPG', 'assets/img/HaddadFamily/IMG_1789.JPG', 'assets/img/HaddadFamily/IMG_1842.JPG', 'assets/img/HaddadFamily/IMG_1850.JPG', 'assets/img/HaddadFamily/IMG_2169.JPG', 'assets/img/HaddadFamily/IMG_2203.JPG', 'assets/img/HaddadFamily/IMG_2210.JPG', 'assets/img/HaddadFamily/IMG_2256.JPG', 'assets/img/HaddadFamily/IMG_2258.JPG', 'assets/img/HaddadFamily/IMG_2267.JPG', 'assets/img/HaddadFamily/IMG_2475.JPG', 'assets/img/HaddadFamily/IMG_2810.JPG', 'assets/img/HaddadFamily/IMG_2816.JPG', 'assets/img/HaddadFamily/IMG_2836.JPG', 'assets/img/HaddadFamily/IMG_2948.JPG', 'assets/img/HaddadFamily/IMG_3121.JPG', 'assets/img/HaddadFamily/IMG_3122.JPG', 'assets/img/HaddadFamily/IMG_3188.JPG'];
-        let currentIndex = images.indexOf("assets/img/HaddadFamily/Haddad%20Family%20Group%20Photo.JPG");
-        if (currentIndex === -1) currentIndex = 0;
+            let activeDecades = new Set(["1940s"]);
+            let multiDecadeMode = true;
+            let selectedPhotoIds = new Set();
+            let showSelectedOnly = false;
+            let searchQuery = "";
+            let pageSize = 120;
+            let currentPage = 1;
+            let filteredPhotos = [];
+            let currentLightboxIndex = -1;
 
-        function updateCarousel() {
-            document.getElementById('carouselMainImage').src = images[currentIndex];
-            document.querySelectorAll('#thumbnailStrip img').forEach((img, idx) => {
-                if (idx === currentIndex) {
-                    img.classList.add('thumb-active');
-                    img.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            try {
+                const saved = sessionStorage.getItem("haddad_selected_photos");
+                if (saved) {
+                    JSON.parse(saved).forEach(id => {
+                        if (photoMap.has(id)) selectedPhotoIds.add(id);
+                    });
+                }
+            } catch (e) {}
+
+            function saveSelection() {
+                try {
+                    sessionStorage.setItem("haddad_selected_photos", JSON.stringify(Array.from(selectedPhotoIds)));
+                } catch (e) {}
+            }
+
+            function init() {
+                document.getElementById("stat-total-photos").textContent = (manifest.total_photos || allPhotos.length).toLocaleString();
+                const nonEmptyDecades = (manifest.decades || []).filter(d => (manifest.decade_summary[d]?.count || 0) > 0);
+                if (nonEmptyDecades.length > 0) {
+                    activeDecades = new Set([nonEmptyDecades.includes("1940s") ? "1940s" : nonEmptyDecades[0]]);
+                }
+                renderDecadePills();
+                applyFiltersAndRender();
+                updateBasketUI();
+            }
+
+            window.toggleMultiDecadeMode = function() {
+                multiDecadeMode = !multiDecadeMode;
+                const btn = document.getElementById("btn-multi-mode");
+                btn.textContent = "Multi-Decade Toggle: " + (multiDecadeMode ? "ON" : "OFF");
+                btn.className = multiDecadeMode
+                    ? "px-3 py-1.5 rounded-lg bg-teal-50 border border-teal-300 text-brand-teal font-semibold transition"
+                    : "px-3 py-1.5 rounded-lg bg-gray-100 border border-gray-300 text-gray-600 font-semibold transition";
+            };
+
+            window.selectAllDecades = function() {
+                showSelectedOnly = false;
+                const nonEmpty = (manifest.decades || []).filter(d => (manifest.decade_summary[d]?.count || 0) > 0);
+                activeDecades = new Set(nonEmpty);
+                currentPage = 1;
+                renderDecadePills();
+                applyFiltersAndRender();
+            };
+
+            window.toggleDecade = function(decade) {
+                showSelectedOnly = false;
+                if (!multiDecadeMode) {
+                    activeDecades = new Set([decade]);
                 } else {
-                    img.classList.remove('thumb-active');
+                    if (activeDecades.has(decade)) {
+                        if (activeDecades.size > 1) activeDecades.delete(decade);
+                    } else {
+                        activeDecades.add(decade);
+                    }
+                }
+                currentPage = 1;
+                renderDecadePills();
+                applyFiltersAndRender();
+            };
+
+            function renderDecadePills() {
+                const container = document.getElementById("decade-pills-container");
+                const decades = manifest.decades || [];
+                const allNonEmpty = decades.filter(d => (manifest.decade_summary[d]?.count || 0) > 0);
+                const isAllActive = !showSelectedOnly && allNonEmpty.every(d => activeDecades.has(d));
+
+                let html = `
+                    <button onclick="selectAllDecades()" class="px-4 py-2.5 rounded-xl font-bold text-sm transition flex items-center gap-2 border ${
+                        isAllActive
+                            ? 'bg-brand-dark text-white border-brand-dark shadow-md'
+                            : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100'
+                    }">
+                        <span>All Decades</span>
+                        <span class="px-2 py-0.5 text-xs rounded-full ${isAllActive ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-700'}">
+                            ${allPhotos.length.toLocaleString()}
+                        </span>
+                    </button>
+                `;
+
+                decades.forEach(dec => {
+                    const count = manifest.decade_summary[dec]?.count || 0;
+                    if (count === 0) return;
+                    const active = !showSelectedOnly && activeDecades.has(dec);
+                    html += `
+                        <button onclick="toggleDecade('${dec}')" class="px-4 py-2.5 rounded-xl font-bold text-sm transition flex items-center gap-2 border ${
+                            active
+                                ? 'bg-brand-teal text-white border-brand-teal shadow-md'
+                                : 'bg-white text-gray-800 border-gray-300 hover:border-brand-teal hover:bg-teal-50/40'
+                        }">
+                            <span>${dec}</span>
+                            <span class="px-2 py-0.5 text-xs rounded-full ${active ? 'bg-white/25 text-white' : 'bg-gray-100 text-gray-600'}">
+                                ${count.toLocaleString()}
+                            </span>
+                        </button>
+                    `;
+                });
+
+                container.innerHTML = html;
+            }
+
+            function applyFiltersAndRender() {
+                const q = searchQuery.trim().toLowerCase();
+                filteredPhotos = allPhotos.filter(p => {
+                    if (showSelectedOnly) {
+                        if (!selectedPhotoIds.has(p.id)) return false;
+                    } else {
+                        if (!activeDecades.has(p.decade)) return false;
+                    }
+                    if (q && !p.name.toLowerCase().includes(q) && !p.decade.toLowerCase().includes(q)) {
+                        return false;
+                    }
+                    return true;
+                });
+
+                document.getElementById("stat-showing-photos").textContent = filteredPhotos.length.toLocaleString();
+                const curDecCountEl = document.getElementById("btn-current-decades-count");
+                if (curDecCountEl) curDecCountEl.textContent = filteredPhotos.length.toLocaleString();
+                const viewSelBtn = document.getElementById("btn-view-selected");
+                if (showSelectedOnly) {
+                    viewSelBtn.className = "inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border-2 border-amber-500 bg-amber-400 text-gray-900 text-sm font-extrabold transition";
+                } else {
+                    viewSelBtn.className = "inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-amber-400 bg-amber-50 hover:bg-amber-100 text-amber-900 text-sm font-semibold transition";
+                }
+
+                renderGrid();
+            }
+
+            function renderPagination(totalItems, totalPages) {
+                if (totalItems === 0) return "";
+                const startIdx = (currentPage - 1) * pageSize + 1;
+                const endIdx = Math.min(totalItems, currentPage * pageSize);
+
+                let pageButtons = "";
+                if (totalPages > 1) {
+                    pageButtons += `<button onclick="goToPage(${Math.max(1, currentPage - 1)})" ${currentPage === 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg border text-sm font-semibold ${currentPage === 1 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-50'}">&larr; Prev</button>`;
+                    for (let p = 1; p <= totalPages; p++) {
+                        if (totalPages > 9 && p > 2 && p < totalPages - 1 && Math.abs(p - currentPage) > 2) {
+                            if (p === 3 || p === totalPages - 2) {
+                                pageButtons += `<span class="px-1 text-gray-400">&hellip;</span>`;
+                            }
+                            continue;
+                        }
+                        pageButtons += `<button onclick="goToPage(${p})" class="px-3 py-1.5 rounded-lg border text-sm font-bold ${p === currentPage ? 'bg-brand-teal text-white border-brand-teal' : 'bg-white text-gray-700 hover:bg-gray-50'}">${p}</button>`;
+                    }
+                    pageButtons += `<button onclick="goToPage(${Math.min(totalPages, currentPage + 1)})" ${currentPage === totalPages ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg border text-sm font-semibold ${currentPage === totalPages ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-50'}">Next &rarr;</button>`;
+                }
+
+                return `
+                    <div class="text-sm text-gray-600 font-medium">
+                        Showing <strong>${startIdx.toLocaleString()}&ndash;${endIdx.toLocaleString()}</strong> of <strong>${totalItems.toLocaleString()}</strong> photos
+                    </div>
+                    <div class="flex flex-wrap items-center gap-1.5">
+                        ${pageButtons}
+                    </div>
+                `;
+            }
+
+            window.goToPage = function(p) {
+                currentPage = p;
+                renderGrid();
+                window.scrollTo({ top: 260, behavior: "smooth" });
+            };
+
+            function renderGrid() {
+                const grid = document.getElementById("photo-grid");
+                const totalItems = filteredPhotos.length;
+                const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+                if (currentPage > totalPages) currentPage = totalPages;
+
+                const pagHtml = renderPagination(totalItems, totalPages);
+                document.getElementById("pagination-top").innerHTML = pagHtml;
+                document.getElementById("pagination-bottom").innerHTML = pagHtml;
+
+                if (totalItems === 0) {
+                    grid.innerHTML = `
+                        <div class="col-span-full bg-white rounded-2xl border border-gray-200 p-12 text-center">
+                            <div class="text-4xl mb-3">📷</div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-1">No Photos Match Current Filter</h3>
+                            <p class="text-gray-500 text-sm mb-4">Try selecting another decade above or clearing the search filter.</p>
+                            <button onclick="selectAllDecades()" class="px-4 py-2 rounded-lg bg-brand-teal text-white font-semibold text-sm">Show All Decades</button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const sliceStart = (currentPage - 1) * pageSize;
+                const pageItems = filteredPhotos.slice(sliceStart, sliceStart + pageSize);
+
+                let html = "";
+                pageItems.forEach((p, idx) => {
+                    const globalFilteredIdx = sliceStart + idx;
+                    const isSelected = selectedPhotoIds.has(p.id);
+                    const kb = Math.round((p.bytes || 0) / 1024);
+                    const safeId = p.id.replace(/'/g, "\\'");
+
+                    html += `
+                        <div id="card-${p.id}" class="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition border-2 ${
+                            isSelected ? 'border-emerald-500 ring-2 ring-emerald-400/50' : 'border-gray-200'
+                        } flex flex-col">
+                            <!-- Top-Left Decade Badge -->
+                            <span class="absolute top-2 left-2 z-10 px-2 py-0.5 rounded-md bg-gray-900/80 text-white text-[11px] font-bold tracking-wide backdrop-blur-sm">
+                                ${p.decade}
+                            </span>
+
+                            <!-- Top-Right Select Checkbox Button -->
+                            <button onclick="toggleSelectPhoto('${safeId}', event)" id="chk-${p.id}" class="absolute top-2 right-2 z-10 px-2.5 py-1 rounded-lg text-xs font-extrabold shadow-md transition flex items-center gap-1 ${
+                                isSelected
+                                    ? 'bg-emerald-500 text-white border border-emerald-600'
+                                    : 'bg-white/95 hover:bg-emerald-50 text-gray-800 border border-gray-300'
+                            }" title="Select photo for download">
+                                <span>${isSelected ? '✓ Selected' : '+ Select'}</span>
+                            </button>
+
+                            <!-- Thumbnail Image (Click to enlarge in Lightbox) -->
+                            <div onclick="openLightbox(${globalFilteredIdx})" class="w-full aspect-square bg-slate-800 flex items-center justify-center overflow-hidden cursor-pointer p-2">
+                                <img src="${p.thumb}?v=mat1" alt="${p.name}" loading="lazy" class="max-w-full max-h-full object-contain shadow-md group-hover:scale-105 transition duration-300">
+                            </div>
+
+                            <!-- Card Footer -->
+                            <div class="px-2.5 py-2 bg-white border-t border-gray-100 flex items-center justify-between text-xs text-gray-600">
+                                <span class="truncate font-medium" title="${p.name}">${p.name.replace('.jpg', '')}</span>
+                                <a href="${p.full}" download="${p.name}" onclick="event.stopPropagation()" class="text-brand-teal hover:text-teal-800 font-bold shrink-0 ml-1" title="Download this single photo (${kb} KB)">
+                                    ⬇
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                grid.innerHTML = html;
+            }
+
+            window.toggleSelectPhoto = function(photoId, event) {
+                if (event) event.stopPropagation();
+                if (selectedPhotoIds.has(photoId)) {
+                    selectedPhotoIds.delete(photoId);
+                } else {
+                    selectedPhotoIds.add(photoId);
+                }
+                saveSelection();
+                updateCardSelectionVisual(photoId);
+                updateBasketUI();
+                if (showSelectedOnly) {
+                    applyFiltersAndRender();
+                }
+            };
+
+            function updateCardSelectionVisual(photoId) {
+                const card = document.getElementById("card-" + photoId);
+                const chk = document.getElementById("chk-" + photoId);
+                const isSelected = selectedPhotoIds.has(photoId);
+                if (card) {
+                    card.className = `group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition border-2 ${
+                        isSelected ? 'border-emerald-500 ring-2 ring-emerald-400/50' : 'border-gray-200'
+                    } flex flex-col`;
+                }
+                if (chk) {
+                    chk.className = `absolute top-2 right-2 z-10 px-2.5 py-1 rounded-lg text-xs font-extrabold shadow-md transition flex items-center gap-1 ${
+                        isSelected
+                            ? 'bg-emerald-500 text-white border border-emerald-600'
+                            : 'bg-white/95 hover:bg-emerald-50 text-gray-800 border border-gray-300'
+                    }`;
+                    chk.innerHTML = `<span>${isSelected ? '✓ Selected' : '+ Select'}</span>`;
+                }
+            }
+
+            window.selectAllVisible = function() {
+                filteredPhotos.forEach(p => selectedPhotoIds.add(p.id));
+                saveSelection();
+                renderGrid();
+                updateBasketUI();
+            };
+
+            window.selectCurrentPage = function() {
+                const sliceStart = (currentPage - 1) * pageSize;
+                const pageItems = filteredPhotos.slice(sliceStart, sliceStart + pageSize);
+                pageItems.forEach(p => selectedPhotoIds.add(p.id));
+                saveSelection();
+                renderGrid();
+                updateBasketUI();
+            };
+
+            window.clearSelection = function() {
+                selectedPhotoIds.clear();
+                saveSelection();
+                if (showSelectedOnly) {
+                    showSelectedOnly = false;
+                    renderDecadePills();
+                }
+                applyFiltersAndRender();
+                updateBasketUI();
+            };
+
+            window.filterSelectedOnly = function() {
+                if (selectedPhotoIds.size === 0 && !showSelectedOnly) {
+                    alert("You haven't selected any photos yet. Click '+ Select' on any photo card to add it to your basket.");
+                    return;
+                }
+                showSelectedOnly = !showSelectedOnly;
+                currentPage = 1;
+                renderDecadePills();
+                applyFiltersAndRender();
+            };
+
+            window.onSearchChange = function() {
+                searchQuery = document.getElementById("photo-search-input").value || "";
+                currentPage = 1;
+                applyFiltersAndRender();
+            };
+
+            window.onPageSizeChange = function() {
+                pageSize = parseInt(document.getElementById("page-size-select").value, 10) || 120;
+                currentPage = 1;
+                renderGrid();
+            };
+
+            function updateBasketUI() {
+                const count = selectedPhotoIds.size;
+                let totalBytes = 0;
+                selectedPhotoIds.forEach(id => {
+                    const p = photoMap.get(id);
+                    if (p) totalBytes += (p.bytes || 0);
+                });
+                const mb = (totalBytes / (1024 * 1024)).toFixed(1);
+
+                document.getElementById("stat-selected-photos").textContent = count.toLocaleString();
+                document.getElementById("btn-selected-count").textContent = count.toLocaleString();
+                document.getElementById("basket-count").textContent = count.toLocaleString();
+                document.getElementById("basket-size-mb").textContent = mb;
+
+                const bar = document.getElementById("download-basket-bar");
+                if (count > 0) {
+                    bar.classList.remove("translate-y-full");
+                } else {
+                    bar.classList.add("translate-y-full");
+                }
+            }
+
+            // Lightbox Functions with Browser Back-Button History Support
+            let lightboxHistoryPushed = false;
+
+            window.openLightbox = function(filteredIdx) {
+                if (filteredIdx < 0 || filteredIdx >= filteredPhotos.length) return;
+                const modal = document.getElementById("lightbox-modal");
+                const wasHidden = modal.classList.contains("hidden");
+
+                currentLightboxIndex = filteredIdx;
+                const p = filteredPhotos[currentLightboxIndex];
+                document.getElementById("lb-image").src = p.full + "?v=mat1";
+                document.getElementById("lb-decade-badge").textContent = p.decade;
+                document.getElementById("lb-filename").textContent = p.name;
+                document.getElementById("lb-counter").textContent = `(${currentLightboxIndex + 1} of ${filteredPhotos.length.toLocaleString()})`;
+                const dlBtn = document.getElementById("lb-download-single");
+                dlBtn.href = p.full + "?v=mat1";
+                dlBtn.setAttribute("download", p.name);
+                updateLightboxSelectBtn(p.id);
+                modal.classList.remove("hidden");
+
+                // Push history state when opening the modal so Browser Back closes the modal instead of leaving the page
+                if (wasHidden && !lightboxHistoryPushed) {
+                    try {
+                        history.pushState({ haddadLightbox: true }, "", "#photo-viewer");
+                        lightboxHistoryPushed = true;
+                    } catch (e) {}
+                }
+            };
+
+            function hideLightboxDOM() {
+                document.getElementById("lightbox-modal").classList.add("hidden");
+                document.getElementById("lb-image").src = "";
+                currentLightboxIndex = -1;
+            }
+
+            function updateLightboxSelectBtn(photoId) {
+                const btn = document.getElementById("lb-select-btn");
+                const isSel = selectedPhotoIds.has(photoId);
+                if (isSel) {
+                    btn.className = "px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold border bg-emerald-500 border-emerald-400 text-white transition";
+                    btn.textContent = "✓ Selected in Basket";
+                } else {
+                    btn.className = "px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold border bg-gray-800 border-gray-600 text-gray-200 hover:bg-gray-700 transition";
+                    btn.textContent = "+ Select Photo";
+                }
+            }
+
+            window.toggleSelectFromLightbox = function() {
+                if (currentLightboxIndex < 0 || currentLightboxIndex >= filteredPhotos.length) return;
+                const p = filteredPhotos[currentLightboxIndex];
+                window.toggleSelectPhoto(p.id);
+                updateLightboxSelectBtn(p.id);
+            };
+
+            window.closeLightbox = function() {
+                const modal = document.getElementById("lightbox-modal");
+                if (modal.classList.contains("hidden")) return;
+                hideLightboxDOM();
+                // Pop the history entry we pushed so the user's next Back click works normally
+                if (lightboxHistoryPushed) {
+                    lightboxHistoryPushed = false;
+                    try {
+                        history.back();
+                    } catch (e) {}
+                }
+            };
+
+            // Intercept browser Back button (popstate) to close the photo viewer and stay on the grid
+            window.addEventListener("popstate", function(e) {
+                const modal = document.getElementById("lightbox-modal");
+                if (!modal.classList.contains("hidden")) {
+                    lightboxHistoryPushed = false;
+                    hideLightboxDOM();
                 }
             });
-        }
 
-        function setImage(index, element) {
-            currentIndex = index;
-            updateCarousel();
-        }
+            window.lightboxPrev = function() {
+                if (filteredPhotos.length === 0) return;
+                currentLightboxIndex = (currentLightboxIndex - 1 + filteredPhotos.length) % filteredPhotos.length;
+                window.openLightbox(currentLightboxIndex);
+            };
 
-        function prevImage() {
-            currentIndex = (currentIndex - 1 + images.length) % images.length;
-            updateCarousel();
-        }
+            window.lightboxNext = function() {
+                if (filteredPhotos.length === 0) return;
+                currentLightboxIndex = (currentLightboxIndex + 1) % filteredPhotos.length;
+                window.openLightbox(currentLightboxIndex);
+            };
 
-        function nextImage() {
-            currentIndex = (currentIndex + 1) % images.length;
-            updateCarousel();
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            updateCarousel();
-        });
-    </script>
+            document.addEventListener("keydown", function(e) {
+                const modal = document.getElementById("lightbox-modal");
+                if (modal.classList.contains("hidden")) return;
+                if (e.key === "Escape") window.closeLightbox();
+                else if (e.key === "ArrowLeft") window.lightboxPrev();
+                else if (e.key === "ArrowRight") window.lightboxNext();
+                else if (e.key === " ") {
+                    e.preventDefault();
+                    window.toggleSelectFromLightbox();
+                }
+            });
+
+            // Client-Side .ZIP Bundler using JSZip (organizes photos into Decade folders automatically)
+            async function packagePhotosIntoZip(items, zipFilenamePrefix, triggerBtn, statusEl, bulkBannerEl, bulkPctEl) {
+                if (!items || items.length === 0) return;
+
+                if (items.length === 1) {
+                    const a = document.createElement("a");
+                    a.href = items[0].full;
+                    a.download = items[0].name;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    return;
+                }
+
+                const origBtnHtml = triggerBtn ? triggerBtn.innerHTML : "";
+                if (triggerBtn) triggerBtn.disabled = true;
+                if (bulkBannerEl) bulkBannerEl.classList.remove("hidden");
+
+                try {
+                    const zip = new JSZip();
+                    let completed = 0;
+
+                    for (const item of items) {
+                        completed++;
+                        const pct = Math.round((completed / items.length) * 100);
+                        if (triggerBtn) {
+                            triggerBtn.innerHTML = `<span>⏳ Packaging ${completed.toLocaleString()} / ${items.length.toLocaleString()} (${pct}%)...</span>`;
+                        }
+                        if (statusEl) {
+                            statusEl.textContent = `Adding to decade folder ${item.decade}/${item.name} (${completed.toLocaleString()} of ${items.length.toLocaleString()})...`;
+                        }
+                        if (bulkPctEl) {
+                            bulkPctEl.textContent = `${pct}%`;
+                        }
+                        const response = await fetch(item.full + "?v=mat1");
+                        if (!response.ok) throw new Error(`Failed to fetch ${item.name}`);
+                        const blob = await response.blob();
+                        // Organize inside Decade subfolder within the .ZIP archive
+                        zip.file(`${item.decade}/${item.name}`, blob);
+                    }
+
+                    // Also bundle the standalone Norgem_Family_Slideshow_Player.html inside the root of every .ZIP!
+                    try {
+                        const playerResp = await fetch("Norgem_Family_Slideshow_Player.html");
+                        if (playerResp.ok) {
+                            const playerBlob = await playerResp.blob();
+                            zip.file("Norgem_Family_Slideshow_Player.html", playerBlob);
+                        }
+                    } catch (e) {}
+
+                    if (triggerBtn) triggerBtn.innerHTML = `<span>📦 Finalizing .ZIP Archive...</span>`;
+                    if (statusEl) statusEl.textContent = `Building decade-organized .ZIP file for ${items.length.toLocaleString()} photos...`;
+
+                    const zipBlob = await zip.generateAsync({ type: "blob", compression: "STORE" });
+                    const url = URL.createObjectURL(zipBlob);
+                    const a = document.createElement("a");
+                    const dateStr = new Date().toISOString().slice(0, 10);
+                    a.href = url;
+                    a.download = `${zipFilenamePrefix}_${dateStr}.zip`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    setTimeout(() => URL.revokeObjectURL(url), 15000);
+
+                    if (statusEl) statusEl.textContent = `✓ Downloaded ${items.length.toLocaleString()} photos organized by decade folders!`;
+                    if (bulkPctEl) bulkPctEl.textContent = `100%`;
+                } catch (err) {
+                    console.error(err);
+                    alert("An error occurred while packaging the .ZIP download: " + err.message);
+                    if (statusEl) statusEl.textContent = "Error building .ZIP file. Please try again.";
+                } finally {
+                    if (triggerBtn) {
+                        triggerBtn.disabled = false;
+                        triggerBtn.innerHTML = origBtnHtml;
+                    }
+                }
+            }
+
+            window.downloadSelectedAsZip = async function() {
+                if (selectedPhotoIds.size === 0) return;
+                const items = Array.from(selectedPhotoIds).map(id => photoMap.get(id)).filter(Boolean);
+                const btn = document.getElementById("btn-download-zip");
+                const statusEl = document.getElementById("basket-status-text");
+                await packagePhotosIntoZip(items, `Haddad_Family_Selected_${items.length}_Photos`, btn, statusEl, null, null);
+            };
+
+            window.downloadCurrentDecadesAsZip = async function() {
+                if (filteredPhotos.length === 0) {
+                    alert("No photos are currently in view to download.");
+                    return;
+                }
+                const decLabel = Array.from(activeDecades).join("-");
+                const btn = document.getElementById("btn-download-current-decades");
+                const bannerEl = document.getElementById("bulk-download-status");
+                const statusEl = document.getElementById("bulk-download-status-text");
+                const pctEl = document.getElementById("bulk-download-pct");
+                await packagePhotosIntoZip(filteredPhotos, `Haddad_Family_${decLabel}_${filteredPhotos.length}_Photos`, btn, statusEl, bannerEl, pctEl);
+            };
+
+            window.downloadAllDecadesAsZip = async function() {
+                if (allPhotos.length === 0) return;
+                const totalMB = Math.round((manifest.total_bytes || 0) / (1024 * 1024));
+                const ok = confirm(
+                    `Download the complete Haddad Family Archive (${allPhotos.length.toLocaleString()} photos, ~${totalMB} MB)?\n\n` +
+                    `All photos will be saved in a single .ZIP file and automatically organized into separate folders for each decade (Pre-1940s, 1940s, 1950s, 1960s, 1970s, 1980s, 1990s, 2000s, 2010s, and Highlights).`
+                );
+                if (!ok) return;
+                const btn = document.getElementById("btn-download-all-decades");
+                const bannerEl = document.getElementById("bulk-download-status");
+                const statusEl = document.getElementById("bulk-download-status-text");
+                const pctEl = document.getElementById("bulk-download-pct");
+                await packagePhotosIntoZip(allPhotos, `Haddad_Family_Complete_Archive_All_Decades_${allPhotos.length}_Photos`, btn, statusEl, bannerEl, pctEl);
+            };
+
+            document.addEventListener("DOMContentLoaded", init);
+        })();
+        </script>
     </main>
-    
 
     <!-- Footer -->
     <footer class="bg-brand-peach border-t border-orange-200 text-gray-800 py-8 mt-12">
