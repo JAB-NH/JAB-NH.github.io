@@ -10,6 +10,7 @@ from PIL import Image, ImageOps
 
 SOURCE_ROOT = r"G:\My Drive\Agent_Bridge\Family_Photo_Project\Unsorted_Photos"
 RESTORED_VAULT_ROOT = r"G:\My Drive\Agent_Bridge\Family_Photo_Project\Restored_Vault"
+CAPTIONS_JSON = r"G:\My Drive\Agent_Bridge\Family_Photo_Project\photo_captions.json"
 SITE_ROOT = r"c:\Users\j-a-b\.gemini\antigravity\scratch\google_site"
 OUT_ROOT = os.path.join(SITE_ROOT, "assets", "img", "HaddadArchive")
 MANIFEST_JS = os.path.join(OUT_ROOT, "manifest.js")
@@ -130,8 +131,31 @@ def has_pure_white_mat(path: str) -> bool:
         return False
 
 
+def has_museum_caption_plaque(path: str) -> bool:
+    """Checks whether an existing image file has the warm-cream #FAF7F0 [250, 247, 240] Museum Caption Plaque."""
+    if not os.path.isfile(path):
+        return False
+    try:
+        with Image.open(path) as im:
+            im_rgb = im.convert("RGB")
+            w, h = im_rgb.size
+            arr = np.asarray(im_rgb)
+            corners = [
+                arr[0:4, 0:4],
+                arr[0:4, w - 4 : w],
+                arr[h - 4 : h, 0:4],
+                arr[h - 4 : h, w - 4 : w],
+            ]
+            return all(
+                np.all(np.abs(c.astype(int) - np.array([250, 247, 240])) <= 6)
+                for c in corners
+            )
+    except Exception:
+        return False
+
+
 def process_one_photo(task):
-    src_path, decade, filename, sync_vault, force = task
+    src_path, decade, filename, sync_vault, force, caption_text = task
     stem, _ = os.path.splitext(filename)
     out_filename = f"{stem}.jpg"
 
@@ -155,7 +179,11 @@ def process_one_photo(task):
             need_build = True
         elif not has_pure_white_mat(full_path):
             need_build = True
-        elif vault_path and (not os.path.exists(vault_path) or not has_pure_white_mat(vault_path)):
+        elif caption_text and not has_museum_caption_plaque(full_path):
+            need_build = True
+        elif not caption_text and has_museum_caption_plaque(full_path):
+            need_build = True
+        elif vault_path and (not os.path.exists(vault_path) or not has_pure_white_mat(vault_path) or (caption_text and not has_museum_caption_plaque(vault_path))):
             need_build = True
 
     if need_build:
@@ -202,6 +230,7 @@ def process_one_photo(task):
         "id": f"{decade}/{out_filename}",
         "decade": decade,
         "name": out_filename,
+        "caption": caption_text,
         "thumb": f"assets/img/HaddadArchive/thumbs/{decade}/{url_filename}",
         "full": f"assets/img/HaddadArchive/full/{decade}/{url_filename}",
         "w": full_w,
@@ -215,6 +244,23 @@ def main():
     force = "--force" in sys.argv
     t0 = time.time()
     os.makedirs(OUT_ROOT, exist_ok=True)
+
+    captions_map = {}
+    if os.path.isfile(CAPTIONS_JSON):
+        try:
+            with open(CAPTIONS_JSON, "r", encoding="utf-8") as cf:
+                raw_caps = json.load(cf)
+            if isinstance(raw_caps, dict):
+                for k, v in raw_caps.items():
+                    if isinstance(v, dict):
+                        txt = (v.get("caption_text") or "").strip()
+                    else:
+                        txt = str(v).strip()
+                    if txt:
+                        captions_map[k] = txt
+        except Exception as e:
+            print(f"[WARN] Could not load captions JSON: {e}")
+
     tasks = []
 
     for dec in DECADES:
@@ -239,7 +285,8 @@ def main():
                         pass
 
         for f in files:
-            tasks.append((os.path.join(dec_src, f), dec, f, True, force))
+            cap_txt = captions_map.get(f"{dec}/{f}", "")
+            tasks.append((os.path.join(dec_src, f), dec, f, True, force, cap_txt))
 
     # Also include existing curated photos in assets/img/HaddadFamily as a "Highlights" collection
     legacy_dir = os.path.join(SITE_ROOT, "assets", "img", "HaddadFamily")
@@ -250,9 +297,10 @@ def main():
         for f in sorted(os.listdir(legacy_dir)):
             src_p = os.path.join(legacy_dir, f)
             if os.path.isfile(src_p) and f.lower().endswith((".jpg", ".jpeg", ".png")):
-                tasks.append((src_p, legacy_out_dec, f, False, force))
+                cap_txt = captions_map.get(f"{legacy_out_dec}/{f}", "")
+                tasks.append((src_p, legacy_out_dec, f, False, force, cap_txt))
 
-    print(f"Syncing & Gallery-Matting {len(tasks)} photos across decades (force={force}) using ThreadPoolExecutor...")
+    print(f"Syncing & Gallery-Matting {len(tasks)} photos across decades (force={force}, captions={len(captions_map)}) using ThreadPoolExecutor...")
     results = []
     with ThreadPoolExecutor(max_workers=12) as pool:
         futures = [pool.submit(process_one_photo, t) for t in tasks]
@@ -267,18 +315,21 @@ def main():
 
     total_full_mb = sum(r["bytes"] for r in results) / (1024 * 1024)
     total_thumb_mb = sum(r["thumb_bytes"] for r in results) / (1024 * 1024)
+    total_captioned = sum(1 for r in results if r.get("caption"))
 
     decade_summary = {}
     for d in all_decades:
         d_items = [r for r in results if r["decade"] == d]
         decade_summary[d] = {
             "count": len(d_items),
+            "captioned": sum(1 for r in d_items if r.get("caption")),
             "bytes": sum(r["bytes"] for r in d_items),
         }
 
     manifest_payload = {
         "generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
         "total_photos": len(results),
+        "total_captioned": total_captioned,
         "total_bytes": sum(r["bytes"] for r in results),
         "decades": all_decades,
         "decade_summary": decade_summary,
@@ -287,6 +338,7 @@ def main():
                 "id": r["id"],
                 "decade": r["decade"],
                 "name": r["name"],
+                "caption": r.get("caption", ""),
                 "thumb": r["thumb"],
                 "full": r["full"],
                 "w": r["w"],
@@ -306,7 +358,7 @@ def main():
         f.write(";\n")
 
     dt = time.time() - t0
-    print(f"Done in {dt:.1f}s! Total photos: {len(results)} | Full: {total_full_mb:.2f} MB | Thumbs: {total_thumb_mb:.2f} MB")
+    print(f"Done in {dt:.1f}s! Total photos: {len(results)} | Captioned: {total_captioned} | Full: {total_full_mb:.2f} MB | Thumbs: {total_thumb_mb:.2f} MB")
 
 
 if __name__ == "__main__":

@@ -61,7 +61,7 @@
     <!-- Main Content -->
     <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-        <script src="assets/img/HaddadArchive/manifest.js?v=mat1"></script>
+        <script src="assets/img/HaddadArchive/manifest.js?v=cap1"></script>
 
         <div class="max-w-7xl mx-auto pb-28">
             <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4 gap-2">
@@ -96,7 +96,7 @@
                             <span>⬇ Download Current Decade(s) (<span id="btn-current-decades-count">0</span> Photos .ZIP)</span>
                         </button>
                         <button onclick="downloadAllDecadesAsZip()" id="btn-download-all-decades" class="px-4 py-2.5 rounded-xl bg-brand-dark hover:bg-gray-800 text-white font-bold text-sm shadow-md transition flex items-center gap-2">
-                            <span>⬇ Download All Decades (2,099 Photos &bull; 521 MB .ZIP)</span>
+                            <span>⬇ Download All Decades (1,774 Photos &bull; 460 MB .ZIP)</span>
                         </button>
                     </div>
                 </div>
@@ -116,7 +116,10 @@
                     </h2>
                     <div class="flex flex-wrap items-center gap-3 text-xs font-semibold">
                         <span class="px-3 py-1.5 rounded-lg bg-brand-peach-light border border-orange-200 text-gray-800">
-                            Total Archive: <strong id="stat-total-photos">2,099</strong>
+                            Total Archive: <strong id="stat-total-photos">1,774</strong>
+                        </span>
+                        <span class="px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-900">
+                            Captioned: <strong id="stat-captioned-photos">162</strong>
                         </span>
                         <span class="px-3 py-1.5 rounded-lg bg-gray-100 text-gray-800">
                             Showing: <strong id="stat-showing-photos" class="text-brand-teal">0</strong>
@@ -154,11 +157,14 @@
                     <button onclick="filterSelectedOnly()" id="btn-view-selected" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-amber-400 bg-amber-50 hover:bg-amber-100 text-amber-900 text-sm font-semibold transition">
                         <span>🛒 View Selected Only (<span id="btn-selected-count">0</span>)</span>
                     </button>
+                    <button onclick="filterCaptionedOnly()" id="btn-view-captioned" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-orange-300 bg-orange-50 hover:bg-orange-100 text-orange-950 text-sm font-semibold transition" title="Show only photos with family captions">
+                        <span>🏷️ Captioned Only (<span id="btn-captioned-count">162</span>)</span>
+                    </button>
                 </div>
 
                 <div class="flex flex-wrap items-center gap-3">
                     <div class="relative">
-                        <input type="text" id="photo-search-input" oninput="onSearchChange()" placeholder="Filter by photo ID / name..." class="pl-3 pr-8 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal">
+                        <input type="text" id="photo-search-input" oninput="onSearchChange()" placeholder="Search captions, names, or photo ID..." class="pl-3 pr-8 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-teal w-64">
                     </div>
                     <label class="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
                         <span>Per Page:</span>
@@ -247,8 +253,11 @@
             </div>
 
             <!-- Bottom caption -->
-            <div class="text-center text-xs text-gray-400">
-                Use <kbd class="px-1.5 py-0.5 bg-gray-800 rounded border border-gray-700">&larr;</kbd> <kbd class="px-1.5 py-0.5 bg-gray-800 rounded border border-gray-700">&rarr;</kbd> arrow keys to navigate &bull; Press <kbd class="px-1.5 py-0.5 bg-gray-800 rounded border border-gray-700">Space</kbd> to Select/Unselect &bull; Press <kbd class="px-1.5 py-0.5 bg-gray-800 rounded border border-gray-700">Esc</kbd> to Close
+            <div class="text-center space-y-1.5">
+                <div id="lb-caption-text" class="hidden text-sm sm:text-base font-bold text-amber-200 bg-gray-900/90 border border-amber-500/40 px-4 py-1.5 rounded-xl inline-block max-w-3xl"></div>
+                <div class="text-xs text-gray-400">
+                    Use <kbd class="px-1.5 py-0.5 bg-gray-800 rounded border border-gray-700">&larr;</kbd> <kbd class="px-1.5 py-0.5 bg-gray-800 rounded border border-gray-700">&rarr;</kbd> arrow keys to navigate &bull; Press <kbd class="px-1.5 py-0.5 bg-gray-800 rounded border border-gray-700">Space</kbd> to Select/Unselect &bull; Press <kbd class="px-1.5 py-0.5 bg-gray-800 rounded border border-gray-700">Esc</kbd> to Close
+                </div>
             </div>
         </div>
 
@@ -263,6 +272,7 @@
             let multiDecadeMode = true;
             let selectedPhotoIds = new Set();
             let showSelectedOnly = false;
+            let showCaptionedOnly = false;
             let searchQuery = "";
             let pageSize = 120;
             let currentPage = 1;
@@ -286,6 +296,11 @@
 
             function init() {
                 document.getElementById("stat-total-photos").textContent = (manifest.total_photos || allPhotos.length).toLocaleString();
+                const totalCap = manifest.total_captioned || allPhotos.filter(p => p.caption && p.caption.trim()).length;
+                const capStatEl = document.getElementById("stat-captioned-photos");
+                if (capStatEl) capStatEl.textContent = totalCap.toLocaleString();
+                const capBtnCountEl = document.getElementById("btn-captioned-count");
+                if (capBtnCountEl) capBtnCountEl.textContent = totalCap.toLocaleString();
                 const nonEmptyDecades = (manifest.decades || []).filter(d => (manifest.decade_summary[d]?.count || 0) > 0);
                 if (nonEmptyDecades.length > 0) {
                     activeDecades = new Set([nonEmptyDecades.includes("1940s") ? "1940s" : nonEmptyDecades[0]]);
@@ -377,8 +392,16 @@
                     } else {
                         if (!activeDecades.has(p.decade)) return false;
                     }
-                    if (q && !p.name.toLowerCase().includes(q) && !p.decade.toLowerCase().includes(q)) {
+                    if (showCaptionedOnly && !(p.caption && p.caption.trim())) {
                         return false;
+                    }
+                    if (q) {
+                        const matchName = p.name.toLowerCase().includes(q);
+                        const matchDec = p.decade.toLowerCase().includes(q);
+                        const matchCap = p.caption && p.caption.toLowerCase().includes(q);
+                        if (!matchName && !matchDec && !matchCap) {
+                            return false;
+                        }
                     }
                     return true;
                 });
@@ -391,6 +414,14 @@
                     viewSelBtn.className = "inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border-2 border-amber-500 bg-amber-400 text-gray-900 text-sm font-extrabold transition";
                 } else {
                     viewSelBtn.className = "inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-amber-400 bg-amber-50 hover:bg-amber-100 text-amber-900 text-sm font-semibold transition";
+                }
+                const viewCapBtn = document.getElementById("btn-view-captioned");
+                if (viewCapBtn) {
+                    if (showCaptionedOnly) {
+                        viewCapBtn.className = "inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border-2 border-orange-500 bg-orange-400 text-gray-900 text-sm font-extrabold transition";
+                    } else {
+                        viewCapBtn.className = "inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-orange-300 bg-orange-50 hover:bg-orange-100 text-orange-950 text-sm font-semibold transition";
+                    }
                 }
 
                 renderGrid();
@@ -463,6 +494,8 @@
                     const isSelected = selectedPhotoIds.has(p.id);
                     const kb = Math.round((p.bytes || 0) / 1024);
                     const safeId = p.id.replace(/'/g, "\\'");
+                    const capText = (p.caption || "").trim();
+                    const escapedCap = capText.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
                     html += `
                         <div id="card-${p.id}" class="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition border-2 ${
@@ -470,7 +503,7 @@
                         } flex flex-col">
                             <!-- Top-Left Decade Badge -->
                             <span class="absolute top-2 left-2 z-10 px-2 py-0.5 rounded-md bg-gray-900/80 text-white text-[11px] font-bold tracking-wide backdrop-blur-sm">
-                                ${p.decade}
+                                ${p.decade}${capText ? ' &bull; 🏷️' : ''}
                             </span>
 
                             <!-- Top-Right Select Checkbox Button -->
@@ -484,13 +517,15 @@
 
                             <!-- Thumbnail Image (Click to enlarge in Lightbox) -->
                             <div onclick="openLightbox(${globalFilteredIdx})" class="w-full aspect-square bg-slate-800 flex items-center justify-center overflow-hidden cursor-pointer p-2">
-                                <img src="${p.thumb}?v=mat1" alt="${p.name}" loading="lazy" class="max-w-full max-h-full object-contain shadow-md group-hover:scale-105 transition duration-300">
+                                <img src="${p.thumb}?v=cap1" alt="${escapedCap || p.name}" loading="lazy" class="max-w-full max-h-full object-contain shadow-md group-hover:scale-105 transition duration-300">
                             </div>
 
+                            ${capText ? `<div onclick="openLightbox(${globalFilteredIdx})" class="px-2.5 py-1.5 bg-amber-50/95 border-t border-amber-200/80 text-[11px] font-semibold text-amber-950 line-clamp-2 cursor-pointer" title="${escapedCap}">${escapedCap}</div>` : ''}
+
                             <!-- Card Footer -->
-                            <div class="px-2.5 py-2 bg-white border-t border-gray-100 flex items-center justify-between text-xs text-gray-600">
+                            <div class="px-2.5 py-2 bg-white border-t border-gray-100 flex items-center justify-between text-xs text-gray-600 mt-auto">
                                 <span class="truncate font-medium" title="${p.name}">${p.name.replace('.jpg', '')}</span>
-                                <a href="${p.full}" download="${p.name}" onclick="event.stopPropagation()" class="text-brand-teal hover:text-teal-800 font-bold shrink-0 ml-1" title="Download this single photo (${kb} KB)">
+                                <a href="${p.full}?v=cap1" download="${p.name}" onclick="event.stopPropagation()" class="text-brand-teal hover:text-teal-800 font-bold shrink-0 ml-1" title="Download this single photo (${kb} KB)">
                                     ⬇
                                 </a>
                             </div>
@@ -573,6 +608,17 @@
                 applyFiltersAndRender();
             };
 
+            window.filterCaptionedOnly = function() {
+                showCaptionedOnly = !showCaptionedOnly;
+                if (showCaptionedOnly) {
+                    const nonEmpty = (manifest.decades || []).filter(d => (manifest.decade_summary[d]?.count || 0) > 0);
+                    activeDecades = new Set(nonEmpty);
+                }
+                currentPage = 1;
+                renderDecadePills();
+                applyFiltersAndRender();
+            };
+
             window.onSearchChange = function() {
                 searchQuery = document.getElementById("photo-search-input").value || "";
                 currentPage = 1;
@@ -617,12 +663,22 @@
 
                 currentLightboxIndex = filteredIdx;
                 const p = filteredPhotos[currentLightboxIndex];
-                document.getElementById("lb-image").src = p.full + "?v=mat1";
+                document.getElementById("lb-image").src = p.full + "?v=cap1";
                 document.getElementById("lb-decade-badge").textContent = p.decade;
                 document.getElementById("lb-filename").textContent = p.name;
                 document.getElementById("lb-counter").textContent = `(${currentLightboxIndex + 1} of ${filteredPhotos.length.toLocaleString()})`;
+                const lbCapEl = document.getElementById("lb-caption-text");
+                if (lbCapEl) {
+                    if (p.caption && p.caption.trim()) {
+                        lbCapEl.textContent = "🏷️ " + p.caption.trim();
+                        lbCapEl.classList.remove("hidden");
+                    } else {
+                        lbCapEl.textContent = "";
+                        lbCapEl.classList.add("hidden");
+                    }
+                }
                 const dlBtn = document.getElementById("lb-download-single");
-                dlBtn.href = p.full + "?v=mat1";
+                dlBtn.href = p.full + "?v=cap1";
                 dlBtn.setAttribute("download", p.name);
                 updateLightboxSelectBtn(p.id);
                 modal.classList.remove("hidden");
@@ -713,7 +769,7 @@
 
                 if (items.length === 1) {
                     const a = document.createElement("a");
-                    a.href = items[0].full;
+                    a.href = items[0].full + "?v=cap1";
                     a.download = items[0].name;
                     document.body.appendChild(a);
                     a.click();
@@ -741,7 +797,7 @@
                         if (bulkPctEl) {
                             bulkPctEl.textContent = `${pct}%`;
                         }
-                        const response = await fetch(item.full + "?v=mat1");
+                        const response = await fetch(item.full + "?v=cap1");
                         if (!response.ok) throw new Error(`Failed to fetch ${item.name}`);
                         const blob = await response.blob();
                         // Organize inside Decade subfolder within the .ZIP archive
@@ -750,7 +806,7 @@
 
                     // Also bundle the standalone Norgem_Family_Slideshow_Player.html inside the root of every .ZIP!
                     try {
-                        const playerResp = await fetch("Norgem_Family_Slideshow_Player.html");
+                        const playerResp = await fetch("Norgem_Family_Slideshow_Player.html?v=cap1");
                         if (playerResp.ok) {
                             const playerBlob = await playerResp.blob();
                             zip.file("Norgem_Family_Slideshow_Player.html", playerBlob);

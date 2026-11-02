@@ -409,7 +409,7 @@
 <body>
 
 <!-- Optional automatic online manifest loader when previewed directly on the website -->
-<script src="assets/img/HaddadArchive/manifest.js?v=mat1" onerror=""></script>
+<script src="assets/img/HaddadArchive/manifest.js?v=cap1" onerror=""></script>
 
 <div id="launcher-screen">
   <div class="launcher-card">
@@ -513,6 +513,7 @@
     <span style="color:#64748b;">|</span>
     <span id="tv-photo-name" style="font-size:0.82rem; color:#cbd5e1;"></span>
     <span id="tv-counter" style="font-size:0.78rem; color:#94a3b8;"></span>
+    <span id="tv-caption" style="font-size:0.88rem; color:#fde68a; font-weight:700; margin-left:6px;"></span>
   </div>
 
   <!-- Bottom Floating Remote Control HUD -->
@@ -551,7 +552,8 @@
       allPhotos = window.HADDAD_ARCHIVE_MANIFEST.photos.map(p => ({
         decade: p.decade,
         name: p.name,
-        url: p.full + "?v=mat1"
+        caption: p.caption || "",
+        url: p.full + "?v=cap1"
       }));
       recalcDecadeCounts();
       document.getElementById("source-status-pill").textContent =
@@ -770,6 +772,10 @@
     document.getElementById("tv-decade-label").textContent = item.decade;
     document.getElementById("tv-photo-name").textContent = item.name.replace(/\.[^.]+$/, "");
     document.getElementById("tv-counter").textContent = `(${currentIndex + 1} / ${playlist.length.toLocaleString()})`;
+    const tvCapEl = document.getElementById("tv-caption");
+    if (tvCapEl) {
+      tvCapEl.textContent = item.caption ? `• ${item.caption}` : "";
+    }
   }
 
   function scheduleNextSlide() {
