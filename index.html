@@ -233,7 +233,13 @@
                         JAMES * JIMMY * JIDO
                     </a>
                 </div>
-                <div class="flex flex-wrap justify-center gap-x-4 gap-y-2 md:space-x-8">
+                <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 md:space-x-7">
+                    <button type="button" onclick="showNorgemPortal()" title="Return to Norgem 5-Bubble Hub" class="group flex flex-col items-center justify-center px-2 py-0.5 rounded-lg hover:bg-orange-200/60 transition cursor-pointer focus:outline-none">
+                        <div class="w-12 h-12 rounded-full bg-white shadow-sm border-2 border-blue-900 flex items-center justify-center overflow-hidden group-hover:scale-105 group-hover:shadow-md transition">
+                            <img src="assets/img/norgem_logo.png" alt="Norgem Blue Heron Hub" class="w-11 h-11 object-contain">
+                        </div>
+                        <span class="text-xs font-extrabold tracking-wide text-blue-950 group-hover:text-brand-teal mt-0.5">Hub</span>
+                    </button>
                     <a href="index.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold active">Home</a>
                     <a href="why.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Why a Website</a>
                     <a href="who.html" class="nav-link inline-flex items-center px-1 pt-1 text-base font-semibold ">Who Am I</a>
@@ -322,6 +328,11 @@
             if (overlay) {
                 overlay.classList.add('fade-out');
             }
+            try {
+                if (window.history && window.history.pushState) {
+                    window.history.pushState({ view: 'personal' }, '', '?view=personal');
+                }
+            } catch (e) {}
         }
 
         function showNorgemPortal() {
@@ -332,11 +343,45 @@
                     overlay.classList.remove('fade-out');
                 });
             }
+            try {
+                if (window.history && window.history.pushState) {
+                    window.history.pushState({ view: 'hub' }, '', window.location.pathname);
+                }
+            } catch (e) {}
         }
+
+        window.addEventListener('popstate', function () {
+            try {
+                var params = new URLSearchParams(window.location.search);
+                var overlay = document.getElementById('norgem-splash-overlay');
+                if (!overlay) return;
+                if (params.get('view') === 'personal') {
+                    overlay.classList.add('fade-out');
+                } else {
+                    overlay.style.display = 'flex';
+                    requestAnimationFrame(function () {
+                        overlay.classList.remove('fade-out');
+                    });
+                }
+            } catch (e) {}
+        });
 
         (function () {
             try {
                 var params = new URLSearchParams(window.location.search);
+                if (params.get('hub') === '1') {
+                    var ovHub = document.getElementById('norgem-splash-overlay');
+                    if (ovHub) {
+                        ovHub.style.display = 'flex';
+                        ovHub.classList.remove('fade-out');
+                    }
+                    try {
+                        if (window.history && window.history.replaceState) {
+                            window.history.replaceState({ view: 'hub' }, '', window.location.pathname);
+                        }
+                    } catch (e) {}
+                    return;
+                }
                 if (params.get('view') === 'personal') {
                     var ov = document.getElementById('norgem-splash-overlay');
                     if (ov) ov.style.display = 'none';
