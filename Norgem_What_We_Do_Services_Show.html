@@ -629,6 +629,40 @@ function clearTimers() {
   if (fadeTimer) { clearTimeout(fadeTimer); fadeTimer = null; }
 }
 
+const SHOW_KEY = "what_we_do";
+let sonosStreamingActive = false;
+
+function triggerSonosSlide(stageId) {
+  const q = `show=${encodeURIComponent(SHOW_KEY)}&stage=${encodeURIComponent(stageId)}&vol=35`;
+  fetch(`http://127.0.0.1:5002/api/sonos_narrate?${q}`, { mode: 'cors' })
+    .then(r => r.json())
+    .then(d => {
+      if (d && d.status === 'playing_on_sonos') {
+        sonosStreamingActive = true;
+        audioEl.volume = 0.01;
+        liamEl.volume = 0.01;
+      }
+    })
+    .catch(() => {
+      fetch(`http://10.0.0.62:5002/api/sonos_narrate?${q}`, { mode: 'cors' })
+        .then(r => r.json())
+        .then(d => {
+          if (d && d.status === 'playing_on_sonos') {
+            sonosStreamingActive = true;
+            audioEl.volume = 0.01;
+            liamEl.volume = 0.01;
+          }
+        })
+        .catch(() => {});
+    });
+}
+
+function stopSonosSlide() {
+  if (!sonosStreamingActive) return;
+  fetch('http://127.0.0.1:5002/api/sonos_narrate?action=stop', { mode: 'cors' })
+    .catch(() => fetch('http://10.0.0.62:5002/api/sonos_narrate?action=stop', { mode: 'cors' }).catch(() => {}));
+}
+
 function playCurrentSlideAudio() {
   clearTimers();
   inLiamCutin = false;
@@ -642,6 +676,7 @@ function playCurrentSlideAudio() {
   audioEl.src = s.blob_url || s.audio_rel;
   if (isPlaying) {
     if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    triggerSonosSlide(s.num);
     audioEl.play().catch(e => console.warn(e));
   }
 }
@@ -663,6 +698,7 @@ audioEl.addEventListener('ended', () => {
       document.getElementById('subtitleLine').textContent =
         `[LIAM • 0.8ms DDR5 RAM]: "James, on-hand inventory shows: 1 bottle of General Tao's Sauce in the Pantry. Anything else?"`;
       liamEl.currentTime = 0;
+      triggerSonosSlide('2_liam');
       liamEl.play().catch(e => console.warn(e));
     }, 2200);
     return;
@@ -741,8 +777,10 @@ function togglePlay() {
     isPlaying = true;
     document.getElementById('playPauseBtn').innerHTML = '&#10074;&#10074; Pause';
     if (inLiamCutin && liamCutinPhase === 2 && liamEl.paused) {
+      triggerSonosSlide('2_liam');
       liamEl.play();
     } else if (audioEl.paused && audioEl.currentTime > 0 && !audioEl.ended) {
+      triggerSonosSlide(SLIDES[currentIndex].num);
       audioEl.play();
     } else {
       playCurrentSlideAudio();
@@ -753,6 +791,7 @@ function togglePlay() {
     clearTimers();
     audioEl.pause();
     liamEl.pause();
+    stopSonosSlide();
   }
 }
 
@@ -764,6 +803,7 @@ function stopShow() {
   clearTimers();
   audioEl.pause();
   liamEl.pause();
+  stopSonosSlide();
   try { audioEl.currentTime = 0; liamEl.currentTime = 0; } catch (e) {}
   currentIndex = 0;
   renderSlideMeta(0);
