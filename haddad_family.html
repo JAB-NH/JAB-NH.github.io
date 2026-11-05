@@ -884,7 +884,285 @@
                 return null;
             }
 
-            // Client-Side .ZIP Bundler using JSZip (organizes photos into Decade folders + bundles .HTML & .JS Auto-Loader)
+            // ============================================================================
+            // DIRECT-TO-FOLDER SMART DOWNLOAD ENGINE (Single "Haddad_Family" Folder Hierarchy)
+            // Uses Chrome File System Access API + IndexedDB handle persistence to:
+            //   1. Create "Haddad_Family" on the very first download.
+            //   2. Automatically locate the existing "Haddad_Family" folder on all subsequent
+            //      downloads, inspect existing decade subfolders, add new decade subfolders
+            //      and photos directly into "Haddad_Family", and update the slideshow manifest.
+            // ============================================================================
+            const IDB_NAME = "HaddadFamilyArchiveFolderDB_v1";
+            const IDB_STORE = "folderHandles";
+            const IDB_KEY = "haddadFamilyMasterDir";
+
+            function openFolderHandleDB() {
+                return new Promise((resolve, reject) => {
+                    const req = indexedDB.open(IDB_NAME, 1);
+                    req.onupgradeneeded = () => {
+                        const db = req.result;
+                        if (!db.objectStoreNames.contains(IDB_STORE)) {
+                            db.createObjectStore(IDB_STORE);
+                        }
+                    };
+                    req.onsuccess = () => resolve(req.result);
+                    req.onerror = () => reject(req.error);
+                });
+            }
+
+            async function getSavedHaddadFolderHandle() {
+                try {
+                    const db = await openFolderHandleDB();
+                    return await new Promise((resolve, reject) => {
+                        const tx = db.transaction(IDB_STORE, "readonly");
+                        const req = tx.objectStore(IDB_STORE).get(IDB_KEY);
+                        req.onsuccess = () => resolve(req.result || null);
+                        req.onerror = () => resolve(null);
+                    });
+                } catch (e) {
+                    return null;
+                }
+            }
+
+            async function saveHaddadFolderHandle(handle) {
+                try {
+                    const db = await openFolderHandleDB();
+                    await new Promise((resolve, reject) => {
+                        const tx = db.transaction(IDB_STORE, "readwrite");
+                        tx.objectStore(IDB_STORE).put(handle, IDB_KEY);
+                        tx.oncomplete = () => resolve();
+                        tx.onerror = () => resolve();
+                    });
+                } catch (e) {}
+            }
+
+            async function clearSavedHaddadFolderHandle() {
+                try {
+                    const db = await openFolderHandleDB();
+                    await new Promise((resolve) => {
+                        const tx = db.transaction(IDB_STORE, "readwrite");
+                        tx.objectStore(IDB_STORE).delete(IDB_KEY);
+                        tx.oncomplete = () => resolve();
+                        tx.onerror = () => resolve();
+                    });
+                } catch (e) {}
+            }
+
+            async function verifyDirectoryExistsAndWritable(dirHandle) {
+                if (!dirHandle) return false;
+                try {
+                    let perm = await dirHandle.queryPermission({ mode: "readwrite" });
+                    if (perm !== "granted") {
+                        perm = await dirHandle.requestPermission({ mode: "readwrite" });
+                    }
+                    if (perm !== "granted") return false;
+                    // Probe the directory on disk to confirm the user hasn't deleted it in Windows Explorer
+                    const iter = dirHandle.entries();
+                    await iter.next();
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            async function resolveHaddadFamilyDirectoryHandle() {
+                // 1. Check if we already have a valid, existing Haddad_Family folder handle from a previous download
+                const savedHandle = await getSavedHaddadFolderHandle();
+                if (savedHandle) {
+                    // Case A: We saved the parent directory handle (preferred, so we can always find or recreate Haddad_Family inside it)
+                    if (savedHandle.parentHandle && await verifyDirectoryExistsAndWritable(savedHandle.parentHandle)) {
+                        try {
+                            const haddadDir = await savedHandle.parentHandle.getDirectoryHandle("Haddad_Family", { create: true });
+                            await saveHaddadFolderHandle({ parentHandle: savedHandle.parentHandle, haddadDir: haddadDir });
+                            return haddadDir;
+                        } catch (e) {}
+                    }
+                    // Case B: Direct handle to Haddad_Family
+                    const direct = savedHandle.haddadDir || savedHandle;
+                    if (direct && typeof direct.queryPermission === "function" && await verifyDirectoryExistsAndWritable(direct)) {
+                        return direct;
+                    }
+                    await clearSavedHaddadFolderHandle();
+                }
+
+                // 2. First-time download (or previous folder was deleted): ask user where to place Haddad_Family
+                let pickedDir = null;
+                try {
+                    pickedDir = await window.showDirectoryPicker({
+                        id: "haddad_family_root_picker",
+                        mode: "readwrite"
+                    });
+                } catch (pickErr) {
+                    if (pickErr && pickErr.name === "SecurityError") {
+                        alert("Chrome protects the root of that system folder. Please select 'My Drive', 'Documents', or click 'New folder' and name it 'Haddad_Family'.");
+                        pickedDir = await window.showDirectoryPicker({
+                            id: "haddad_family_root_picker",
+                            mode: "readwrite",
+                            startIn: "documents"
+                        });
+                    } else {
+                        throw pickErr;
+                    }
+                }
+
+                if (pickedDir.name && pickedDir.name.toLowerCase().startsWith("haddad_family")) {
+                    await saveHaddadFolderHandle({ parentHandle: null, haddadDir: pickedDir });
+                    return pickedDir;
+                } else {
+                    const haddadDir = await pickedDir.getDirectoryHandle("Haddad_Family", { create: true });
+                    await saveHaddadFolderHandle({ parentHandle: pickedDir, haddadDir: haddadDir });
+                    return haddadDir;
+                }
+            }
+
+            async function scanExistingHaddadFamilyFolder(haddadDir) {
+                const existingDecades = [];
+                const existingPhotosByKey = new Map();
+                const lookupByDecadeAndName = new Map();
+                allPhotos.forEach(p => {
+                    lookupByDecadeAndName.set(`${p.decade}/${p.name}`.toLowerCase(), p);
+                });
+
+                try {
+                    for await (const [entryName, entryHandle] of haddadDir.entries()) {
+                        if (entryHandle.kind === "directory") {
+                            existingDecades.push(entryName);
+                            try {
+                                for await (const [fileName, fileHandle] of entryHandle.entries()) {
+                                    if (fileHandle.kind === "file" && /\.(jpg|jpeg|png|webp)$/i.test(fileName)) {
+                                        const relKey = `${entryName}/${fileName}`;
+                                        const meta = lookupByDecadeAndName.get(relKey.toLowerCase());
+                                        existingPhotosByKey.set(relKey.toLowerCase(), {
+                                            decade: entryName,
+                                            name: fileName,
+                                            url: relKey,
+                                            caption: meta && meta.caption ? meta.caption : ""
+                                        });
+                                    }
+                                }
+                            } catch (e) {}
+                        }
+                    }
+                } catch (e) {}
+
+                return { existingDecades, existingPhotosByKey };
+            }
+
+            async function writeTextFileToDir(dirHandle, fileName, textContent) {
+                const fileHandle = await dirHandle.getFileHandle(fileName, { create: true });
+                const writable = await fileHandle.createWritable();
+                await writable.write(textContent);
+                await writable.close();
+            }
+
+            async function writeBlobFileToDir(dirHandle, fileName, blobContent) {
+                const fileHandle = await dirHandle.getFileHandle(fileName, { create: true });
+                const writable = await fileHandle.createWritable();
+                await writable.write(blobContent);
+                await writable.close();
+            }
+
+            async function packagePhotosDirectToHaddadFolder(items, triggerBtn, statusEl, bulkBannerEl, bulkPctEl) {
+                const haddadDir = await resolveHaddadFamilyDirectoryHandle();
+
+                const origBtnHtml = triggerBtn ? triggerBtn.innerHTML : "";
+                if (triggerBtn) triggerBtn.disabled = true;
+                const bannerEl = bulkBannerEl || document.getElementById("bulk-download-status");
+                const bannerTextEl = document.getElementById("bulk-download-status-text");
+                const bannerPctEl = bulkPctEl || document.getElementById("bulk-download-pct");
+                if (bannerEl) bannerEl.classList.remove("hidden");
+
+                try {
+                    // 1. Inspect existing Haddad_Family folder first to see what decade subfolders & photos already exist
+                    const preScan = await scanExistingHaddadFamilyFolder(haddadDir);
+                    const decadeDirCache = new Map();
+
+                    async function getDecadeSubfolder(decadeName) {
+                        if (decadeDirCache.has(decadeName)) return decadeDirCache.get(decadeName);
+                        const dHandle = await haddadDir.getDirectoryHandle(decadeName, { create: true });
+                        decadeDirCache.set(decadeName, dHandle);
+                        return dHandle;
+                    }
+
+                    let completed = 0;
+                    const batchSize = 6;
+
+                    for (let i = 0; i < items.length; i += batchSize) {
+                        const chunk = items.slice(i, i + batchSize);
+                        await Promise.all(chunk.map(async (item) => {
+                            const blob = await fetchPhotoBlobWithRetry(item, 4);
+                            if (blob) {
+                                const decFolder = await getDecadeSubfolder(item.decade);
+                                await writeBlobFileToDir(decFolder, item.name, blob);
+                                const relKey = `${item.decade}/${item.name}`;
+                                preScan.existingPhotosByKey.set(relKey.toLowerCase(), {
+                                    decade: item.decade,
+                                    name: item.name,
+                                    url: relKey,
+                                    caption: item.caption || ""
+                                });
+                            }
+
+                            completed++;
+                            const pct = Math.round((completed / items.length) * 100);
+                            if (triggerBtn) {
+                                triggerBtn.innerHTML = `<span>? Saving to Haddad_Family (${completed.toLocaleString()} / ${items.length.toLocaleString()} &bull; ${pct}%)...</span>`;
+                            }
+                            const msg = `Saving directly into Haddad_Family/${item.decade}/${item.name} (${completed.toLocaleString()} of ${items.length.toLocaleString()})...`;
+                            if (statusEl) statusEl.textContent = msg;
+                            if (bannerTextEl) bannerTextEl.textContent = msg;
+                            if (bannerPctEl) bannerPctEl.textContent = `${pct}%`;
+                        }));
+                    }
+
+                    // 2. Re-scan Haddad_Family so every existing + newly added decade subfolder is included in the slideshow manifest
+                    const postScan = await scanExistingHaddadFamilyFolder(haddadDir);
+                    const mergedMap = postScan.existingPhotosByKey.size > 0 ? postScan.existingPhotosByKey : preScan.existingPhotosByKey;
+                    const cumulativeManifest = Array.from(mergedMap.values());
+                    const allDecadesInFolder = Array.from(new Set(cumulativeManifest.map(x => x.decade)));
+
+                    const includePlayerChk = document.getElementById("chk-include-player-top");
+                    const shouldIncludePlayer = includePlayerChk ? includePlayerChk.checked : true;
+                    if (shouldIncludePlayer) {
+                        const manifestJson = JSON.stringify(cumulativeManifest);
+                        const siblingFoldersJson = JSON.stringify(["Haddad_Family", ...getKnownZipFolderNames()]);
+                        const jsFileContent = `window.NORGEM_EXTRACTED_ZIP_MANIFEST = ${manifestJson};\nwindow.NORGEM_KNOWN_SIBLING_FOLDERS = ${siblingFoldersJson};\n`;
+                        await writeTextFileToDir(haddadDir, "norgem_extracted_manifest.js", jsFileContent);
+
+                        const playerResp = await fetch("Norgem_Family_Slideshow_Player.html?v=cap6");
+                        if (playerResp.ok) {
+                            let playerHtml = await playerResp.text();
+                            const injectTag = `<script>window.NORGEM_EXTRACTED_ZIP_MANIFEST = ${manifestJson}; window.NORGEM_KNOWN_SIBLING_FOLDERS = ${siblingFoldersJson};<\/script>`;
+                            if (playerHtml.includes("<!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->")) {
+                                playerHtml = playerHtml.replace("<!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->", injectTag);
+                            } else {
+                                playerHtml = playerHtml.replace("</head>", `${injectTag}\n</head>`);
+                            }
+                            await writeTextFileToDir(haddadDir, "Norgem_Family_Slideshow_Player.html", playerHtml);
+                        }
+                    }
+
+                    // Clear selection after download completes so follow-up decade downloads start with an empty basket
+                    autoSelectActiveDecades = false;
+                    selectedPhotoIds.clear();
+                    saveSelection();
+                    renderDecadePills();
+                    renderGrid();
+                    updateBasketUI();
+
+                    const doneMsg = `? Saved ${items.length.toLocaleString()} photos directly into your Haddad_Family folder! (Haddad_Family now holds ${cumulativeManifest.length.toLocaleString()} photos across: ${allDecadesInFolder.join(", ")}).`;
+                    if (statusEl) statusEl.textContent = doneMsg;
+                    if (bannerTextEl) bannerTextEl.textContent = doneMsg;
+                    if (bannerPctEl) bannerPctEl.textContent = `100%`;
+                } finally {
+                    if (triggerBtn) {
+                        triggerBtn.disabled = false;
+                        triggerBtn.innerHTML = origBtnHtml;
+                    }
+                }
+            }
+
+            // Client-Side .ZIP Bundler using JSZip (Automatic Fallback if showDirectoryPicker is unavailable)
             async function packagePhotosIntoZip(items, zipFilenamePrefix, triggerBtn, statusEl, bulkBannerEl, bulkPctEl) {
                 if (!items || items.length === 0) return;
 
@@ -896,6 +1174,19 @@
                     a.click();
                     a.remove();
                     return;
+                }
+
+                // Prefer Direct-to-Folder Smart Download into "Haddad_Family" whenever supported by the browser (Chrome/Edge)
+                if (typeof window.showDirectoryPicker === "function") {
+                    try {
+                        await packagePhotosDirectToHaddadFolder(items, triggerBtn, statusEl, bulkBannerEl, bulkPctEl);
+                        return;
+                    } catch (dirErr) {
+                        if (dirErr && dirErr.name === "AbortError") {
+                            return; // User cancelled the folder picker dialog
+                        }
+                        console.warn("Direct folder write unavailable, falling back to .ZIP download:", dirErr);
+                    }
                 }
 
                 const origBtnHtml = triggerBtn ? triggerBtn.innerHTML : "";
@@ -916,7 +1207,6 @@
                         await Promise.all(chunk.map(async (item) => {
                             const blob = await fetchPhotoBlobWithRetry(item, 4);
                             if (blob) {
-                                // Organize inside Decade subfolder within the .ZIP archive
                                 zip.file(`${item.decade}/${item.name}`, blob);
                                 successfullyPackagedItems.push(item);
                             } else {
@@ -926,7 +1216,7 @@
                             completed++;
                             const pct = Math.round((completed / items.length) * 100);
                             if (triggerBtn) {
-                                triggerBtn.innerHTML = `<span>⏳ Preparing for Immediate Download (${completed.toLocaleString()} / ${items.length.toLocaleString()} &bull; ${pct}%)...</span>`;
+                                triggerBtn.innerHTML = `<span>? Preparing for Immediate Download (${completed.toLocaleString()} / ${items.length.toLocaleString()} &bull; ${pct}%)...</span>`;
                             }
                             const msg = `Preparing for Immediate Download: adding ${item.decade}/${item.name} (${completed.toLocaleString()} of ${items.length.toLocaleString()})...`;
                             if (statusEl) statusEl.textContent = msg;
@@ -935,7 +1225,6 @@
                         }));
                     }
 
-                    // Always bundle BOTH norgem_extracted_manifest.js AND Norgem_Family_Slideshow_Player.html (when checkbox is enabled)
                     const includePlayerChk = document.getElementById("chk-include-player-top");
                     const shouldIncludePlayer = includePlayerChk ? includePlayerChk.checked : true;
                     if (shouldIncludePlayer) {
@@ -950,17 +1239,14 @@
                             const manifestJson = JSON.stringify(embeddedManifest);
 
                             const dateStr = new Date().toISOString().slice(0, 10);
+                            recordKnownZipFolderName("Haddad_Family");
                             recordKnownZipFolderName("Haddad_Family_Photo_Archive");
                             recordKnownZipFolderName(`${zipFilenamePrefix}_${dateStr}`);
                             const siblingFoldersJson = JSON.stringify(getKnownZipFolderNames());
 
-                            // 1. Always write norgem_extracted_manifest.js into the root of the .ZIP archive
-                            const jsFileContent = `window.NORGEM_EXTRACTED_ZIP_MANIFEST = ${manifestJson};
-window.NORGEM_KNOWN_SIBLING_FOLDERS = ${siblingFoldersJson};
-`;
+                            const jsFileContent = `window.NORGEM_EXTRACTED_ZIP_MANIFEST = ${manifestJson};\nwindow.NORGEM_KNOWN_SIBLING_FOLDERS = ${siblingFoldersJson};\n`;
                             zip.file("norgem_extracted_manifest.js", jsFileContent);
 
-                            // 2. Also inject the manifest inline into Norgem_Family_Slideshow_Player.html so it works 100% self-contained
                             const playerResp = await fetch("Norgem_Family_Slideshow_Player.html?v=cap6");
                             if (playerResp.ok) {
                                 let playerHtml = await playerResp.text();
@@ -968,8 +1254,7 @@ window.NORGEM_KNOWN_SIBLING_FOLDERS = ${siblingFoldersJson};
                                 if (playerHtml.includes("<!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->")) {
                                     playerHtml = playerHtml.replace("<!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->", injectTag);
                                 } else {
-                                    playerHtml = playerHtml.replace("</head>", `${injectTag}
-</head>`);
+                                    playerHtml = playerHtml.replace("</head>", `${injectTag}\n</head>`);
                                 }
                                 zip.file("Norgem_Family_Slideshow_Player.html", playerHtml);
                             }
@@ -978,7 +1263,7 @@ window.NORGEM_KNOWN_SIBLING_FOLDERS = ${siblingFoldersJson};
                         }
                     }
 
-                    if (triggerBtn) triggerBtn.innerHTML = `<span>📦 Starting Immediate Download (.ZIP)...</span>`;
+                    if (triggerBtn) triggerBtn.innerHTML = `<span>?? Starting Immediate Download...</span>`;
                     if (statusEl) statusEl.textContent = `Finalizing Haddad_Family_Photo_Archive.zip for ${items.length.toLocaleString()} photos...`;
 
                     const zipBlob = await zip.generateAsync({ type: "blob", compression: "STORE" });
@@ -991,7 +1276,6 @@ window.NORGEM_KNOWN_SIBLING_FOLDERS = ${siblingFoldersJson};
                     a.remove();
                     setTimeout(() => URL.revokeObjectURL(url), 15000);
 
-                    // Clear selection after download completes so follow-up decade downloads start with an empty basket
                     autoSelectActiveDecades = false;
                     selectedPhotoIds.clear();
                     saveSelection();
@@ -999,14 +1283,14 @@ window.NORGEM_KNOWN_SIBLING_FOLDERS = ${siblingFoldersJson};
                     renderGrid();
                     updateBasketUI();
 
-                    const doneMsg = `✓ Immediate Download complete (${items.length.toLocaleString()} photos + Slideshow .HTML + Auto-Loader .JS)! Basket cleared for your next selection.`;
+                    const doneMsg = `? Immediate Download complete (${items.length.toLocaleString()} photos + Slideshow .HTML + Auto-Loader .JS)! Basket cleared for your next selection.`;
                     if (statusEl) statusEl.textContent = doneMsg;
                     if (bannerTextEl) bannerTextEl.textContent = doneMsg;
                     if (bannerPctEl) bannerPctEl.textContent = `100%`;
                 } catch (err) {
                     console.error(err);
-                    alert("An error occurred while preparing the .ZIP download: " + err.message);
-                    if (statusEl) statusEl.textContent = "Error building .ZIP file. Please try again.";
+                    alert("An error occurred while preparing the download: " + err.message);
+                    if (statusEl) statusEl.textContent = "Error preparing download. Please try again.";
                 } finally {
                     if (triggerBtn) {
                         triggerBtn.disabled = false;
