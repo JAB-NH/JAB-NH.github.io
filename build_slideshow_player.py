@@ -543,6 +543,7 @@ def build_slideshow_player():
   }}
 </style>
 <!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->
+<script src="norgem_extracted_manifest.js" onerror=""></script>
 <script src="assets/img/HaddadArchive/manifest.js?v=mat1" onerror=""></script>
 </head>
 <body>
@@ -873,7 +874,7 @@ def build_slideshow_player():
     }} catch (e) {{}}
     // Record current folder name into localStorage so future sibling folders always know it
     try {{
-      const parts = decodeURIComponent(window.location.pathname).replace(/\\/g, "/").split("/").filter(Boolean);
+      const parts = decodeURIComponent(window.location.pathname).split(String.fromCharCode(92)).join("/").split("/").filter(Boolean);
       if (parts.length >= 2) {{
         const curDirName = parts[parts.length - 2];
         if (curDirName) {{
