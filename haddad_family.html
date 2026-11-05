@@ -291,12 +291,47 @@
             let filteredPhotos = [];
             let currentLightboxIndex = -1;
 
+            function recordKnownZipFolderName(folderName) {
+                if (!folderName) return;
+                try {
+                    const existing = new Set(JSON.parse(localStorage.getItem("haddad_known_zip_folders_v1") || "[]"));
+                    existing.add(folderName);
+                    localStorage.setItem("haddad_known_zip_folders_v1", JSON.stringify(Array.from(existing)));
+                } catch (e) {}
+            }
+
+            function getKnownZipFolderNames() {
+                const base = new Set([
+                    "Haddad_Family_Photo_Archive",
+                    "Haddad_Family_Selected_938_Photos_2026-11-05",
+                    "Haddad_Family_Selected_575_Photos_2026-11-05"
+                ]);
+                for (let i = 1; i <= 20; i++) base.add(`Haddad_Family_Photo_Archive (${i})`);
+                try {
+                    const saved = JSON.parse(localStorage.getItem("haddad_known_zip_folders_v1") || "[]");
+                    if (Array.isArray(saved)) saved.forEach(fn => { if (fn) base.add(fn); });
+                } catch (e) {}
+                return Array.from(base);
+            }
+
             try {
                 const saved = sessionStorage.getItem("haddad_selected_photos");
                 if (saved) {
-                    JSON.parse(saved).forEach(id => {
-                        if (photoMap.has(id)) selectedPhotoIds.add(id);
-                    });
+                    const parsed = JSON.parse(saved);
+                    if (!sessionStorage.getItem("haddad_v4_clean_slate")) {
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            const dateStr = new Date().toISOString().slice(0, 10);
+                            recordKnownZipFolderName(`Haddad_Family_Selected_${parsed.length}_Photos_${dateStr}`);
+                        }
+                        sessionStorage.removeItem("haddad_selected_photos");
+                        sessionStorage.setItem("haddad_v4_clean_slate", "1");
+                    } else if (Array.isArray(parsed)) {
+                        parsed.forEach(id => {
+                            if (photoMap.has(id)) selectedPhotoIds.add(id);
+                        });
+                    }
+                } else {
+                    sessionStorage.setItem("haddad_v4_clean_slate", "1");
                 }
             } catch (e) {}
 
@@ -608,10 +643,7 @@
 
             window.selectAllVisible = function() {
                 autoSelectActiveDecades = true;
-                filteredPhotos.forEach(p => selectedPhotoIds.add(p.id));
-                saveSelection();
-                renderGrid();
-                updateBasketUI();
+                syncActiveDecadesToSelection();
             };
 
             window.selectEntireArchive = function() {
@@ -865,10 +897,15 @@
                             }));
                             const manifestJson = JSON.stringify(embeddedManifest);
 
-                            const playerResp = await fetch("Norgem_Family_Slideshow_Player.html?v=cap3");
+                            const dateStr = new Date().toISOString().slice(0, 10);
+                            recordKnownZipFolderName("Haddad_Family_Photo_Archive");
+                            recordKnownZipFolderName(`${zipFilenamePrefix}_${dateStr}`);
+                            const siblingFoldersJson = JSON.stringify(getKnownZipFolderNames());
+
+                            const playerResp = await fetch("Norgem_Family_Slideshow_Player.html?v=cap4");
                             if (playerResp.ok) {
                                 let playerHtml = await playerResp.text();
-                                const injectTag = `<script>window.NORGEM_EXTRACTED_ZIP_MANIFEST = ${manifestJson};<\/script>`;
+                                const injectTag = `<script>window.NORGEM_EXTRACTED_ZIP_MANIFEST = ${manifestJson}; window.NORGEM_KNOWN_SIBLING_FOLDERS = ${siblingFoldersJson};<\/script>`;
                                 if (playerHtml.includes("<!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->")) {
                                     playerHtml = playerHtml.replace("<!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->", injectTag);
                                 } else {
@@ -888,9 +925,9 @@
                     const zipBlob = await zip.generateAsync({ type: "blob", compression: "STORE" });
                     const url = URL.createObjectURL(zipBlob);
                     const a = document.createElement("a");
-                    const dateStr = new Date().toISOString().slice(0, 10);
                     a.href = url;
-                    a.download = `${zipFilenamePrefix}_${dateStr}.zip`;
+                    // Constant clean .ZIP archive name so Windows extracts into a consistent folder name
+                    a.download = "Haddad_Family_Photo_Archive.zip";
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
