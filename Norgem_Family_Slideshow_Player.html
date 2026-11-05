@@ -144,7 +144,7 @@
   }
 
   .status-pill {
-    font-size: 0.86rem;
+    font-size: 0.85rem;
     font-weight: 700;
     padding: 6px 14px;
     border-radius: 999px;
@@ -497,7 +497,6 @@
   }
 </style>
 <!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->
-<script src="norgem_extracted_manifest.js" onerror=""></script>
 <script src="assets/img/HaddadArchive/manifest.js?v=mat1" onerror=""></script>
 </head>
 <body>
@@ -511,15 +510,15 @@
       <div class="brand-subtitle">Haddad Family Decade Slideshow &amp; Smart TV Viewer</div>
     </div>
 
-    <!-- Auto-Detected Decades & Photo Status Bar (Zero Clicks Required) -->
+    <!-- Auto-Detected Decades & Photo Status Bar (Zero Clicks Required + Automatic Multi-Download Merge) -->
     <div class="step-box">
       <div class="step-header">
         <div class="step-title">
           <span class="step-badge">✓</span>
-          <span id="source-title-text">Automatic Decade &amp; Photo Detection</span>
+          <span id="source-title-text">Automatic Decade &amp; Multi-Download Folder Detection</span>
         </div>
         <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-          <span id="source-status-pill" class="status-pill">Scanning extracted decade folders...</span>
+          <span id="source-status-pill" class="status-pill">Scanning decade folders...</span>
           <input type="file" id="folder-input" webkitdirectory directory multiple style="display:none" onchange="handleFolderSelect(event)">
           <button class="folder-btn-subtle" onclick="document.getElementById('folder-input').click()" title="Optional: Load a different folder from your computer">
             <span>📂 Change Folder</span>
@@ -644,6 +643,8 @@
   let decadeCounts = {};
   let randomAllMode = true;
   let highlightedDecades = new Set();
+  let previouslySeenDecades = new Set();
+  let newlyAddedDecadesCount = 0;
   let autoStartEnabled = false;
 
   // Slideshow state
@@ -668,6 +669,9 @@
       if (Array.isArray(prefs.highlightedDecades)) {
         highlightedDecades = new Set(prefs.highlightedDecades);
       }
+      if (Array.isArray(prefs.seenDecades)) {
+        previouslySeenDecades = new Set(prefs.seenDecades);
+      }
       if (prefs.slideInterval) {
         const sel = document.getElementById("slide-interval");
         if (sel) sel.value = String(prefs.slideInterval);
@@ -682,10 +686,12 @@
 
   function savePreferences() {
     try {
+      const currentAvailable = Object.keys(decadeCounts).filter(d => (decadeCounts[d] || 0) > 0);
       const prefs = {
         autoStart: autoStartEnabled,
         randomAllMode: randomAllMode,
         highlightedDecades: Array.from(highlightedDecades),
+        seenDecades: currentAvailable.length > 0 ? currentAvailable : Array.from(previouslySeenDecades),
         slideInterval: document.getElementById("slide-interval").value,
         shuffleSelected: document.getElementById("chk-shuffle-selected").checked
       };
@@ -731,17 +737,35 @@
 
   function reconcilePreferencesWithLoadedDecades() {
     const availableDecades = Object.keys(decadeCounts).filter(d => (decadeCounts[d] || 0) > 0);
+    newlyAddedDecadesCount = 0;
+
+    // Detect if the user downloaded & extracted additional decades since their last session
+    const brandNewDecades = [];
+    if (previouslySeenDecades.size > 0) {
+      availableDecades.forEach(d => {
+        if (!previouslySeenDecades.has(d)) {
+          brandNewDecades.push(d);
+        }
+      });
+    }
+    newlyAddedDecadesCount = brandNewDecades.length;
+
     if (!randomAllMode) {
-      // Keep only highlighted decades that actually exist in the loaded photo set
+      // Keep highlighted decades that exist on disk, AND automatically highlight any newly added decades!
       const validHighlighted = Array.from(highlightedDecades).filter(d => (decadeCounts[d] || 0) > 0);
+      brandNewDecades.forEach(d => {
+        if (!validHighlighted.includes(d)) validHighlighted.push(d);
+      });
       if (validHighlighted.length > 0) {
         highlightedDecades = new Set(validHighlighted);
       } else {
-        // If user hasn't picked specific decades for this folder yet, highlight all available decades
         highlightedDecades = new Set(availableDecades);
         randomAllMode = true;
       }
     }
+
+    previouslySeenDecades = new Set(availableDecades);
+    savePreferences();
   }
 
   function probeImageExists(relUrl, timeoutMs) {
@@ -753,7 +777,7 @@
           done = true;
           resolve(false);
         }
-      }, timeoutMs || 1200);
+      }, timeoutMs || 1100);
       img.onload = () => {
         if (!done) {
           done = true;
@@ -782,35 +806,43 @@
       byDecade[dec].push({ decade: dec, name: row[1], caption: row[2] || "" });
     }
 
-    // Step 1: Quickly test first 3 photos of each decade in parallel to see which decade folders exist next to this HTML file
+    // Step 1: Test candidate relative prefixes for every decade in parallel:
+    //   1) ./{dec}/{name}  (standard decade subfolder alongside this HTML file)
+    //   2) ./{name}          (flattened folder alongside this HTML file)
+    //   3) ../{dec}/{name} (parent folder decade subfolder, in case user extracted a 2nd .ZIP into a child subfolder!)
     const decadesList = Object.keys(byDecade);
     const activeLocalDecades = [];
+
     await Promise.all(decadesList.map(async dec => {
-      const candidates = byDecade[dec].slice(0, 5);
-      for (const c of candidates) {
-        if (await probeImageExists(`${dec}/${c.name}`, 900)) {
-          activeLocalDecades.push({ dec, prefix: `${dec}/` });
-          return;
-        }
-        if (await probeImageExists(c.name, 600)) {
-          activeLocalDecades.push({ dec, prefix: "" });
-          return;
+      const list = byDecade[dec] || [];
+      // Pick 6 evenly spaced sample photos across the decade so partial-decade downloads are detected too!
+      const sampleIndices = [0, Math.floor(list.length * 0.2), Math.floor(list.length * 0.4), Math.floor(list.length * 0.6), Math.floor(list.length * 0.8), list.length - 1];
+      const uniqueSamples = Array.from(new Set(sampleIndices.filter(idx => idx >= 0 && idx < list.length))).map(idx => list[idx]);
+
+      const prefixes = [`${dec}/`, "", `../${dec}/`];
+      for (const pfx of prefixes) {
+        for (const c of uniqueSamples) {
+          if (await probeImageExists(`${pfx}${c.name}`, 750)) {
+            activeLocalDecades.push({ dec, prefix: pfx });
+            return;
+          }
         }
       }
     }));
 
     if (activeLocalDecades.length === 0) return [];
 
-    // Step 2: For every detected decade folder, probe all photos in fast parallel batches of 48
+    // Step 2: For every detected decade folder, probe all photos in fast parallel batches of 64
+    //         (This discovers ALL photos in each decade, including newly added photos merged into an existing decade!)
     const discovered = [];
     for (const info of activeLocalDecades) {
       const list = byDecade[info.dec] || [];
-      const batchSize = 48;
+      const batchSize = 64;
       for (let i = 0; i < list.length; i += batchSize) {
         const chunk = list.slice(i, i + batchSize);
         const results = await Promise.all(chunk.map(async item => {
           const url = `${info.prefix}${item.name}`;
-          const ok = await probeImageExists(url, 1200);
+          const ok = await probeImageExists(url, 950);
           return ok ? { decade: item.decade, name: item.name, url: url, caption: item.caption } : null;
         }));
         for (const r of results) {
@@ -827,7 +859,10 @@
     const activeDecList = KNOWN_DECADES.filter(d => (decadeCounts[d] || 0) > 0);
     const pill = document.getElementById("source-status-pill");
     if (allPhotos.length > 0) {
-      pill.textContent = `✓ Ready: ${allPhotos.length.toLocaleString()} Photos Across ${activeDecList.length} Decade${activeDecList.length === 1 ? '' : 's'} (${activeDecList.join(', ')})`;
+      const addedSuffix = newlyAddedDecadesCount > 0
+        ? ` • +${newlyAddedDecadesCount} New Decade${newlyAddedDecadesCount === 1 ? '' : 's'} Merged`
+        : "";
+      pill.textContent = `✓ Ready: ${allPhotos.length.toLocaleString()} Photos Across ${activeDecList.length} Decade${activeDecList.length === 1 ? '' : 's'} (${activeDecList.join(', ')}${addedSuffix})`;
     } else {
       pill.textContent = sourceDescription || "Click 'Change Folder' to select your unzipped photo folder";
     }
@@ -845,20 +880,8 @@
   async function init() {
     loadSavedPreferences();
 
-    // Priority 1: Injected ZIP manifest (embedded automatically by haddad_family.html when building the .ZIP!)
-    if (Array.isArray(window.NORGEM_EXTRACTED_ZIP_MANIFEST) && window.NORGEM_EXTRACTED_ZIP_MANIFEST.length > 0) {
-      allPhotos = window.NORGEM_EXTRACTED_ZIP_MANIFEST.map(p => ({
-        decade: p.decade,
-        name: p.name,
-        url: p.url || `${p.decade}/${p.name}`,
-        caption: p.caption || ""
-      }));
-      finalizeLoadedPhotos();
-      return;
-    }
-
-    // Priority 2: Online website manifest (when previewed on norgem.ca / jab-nh.github.io)
-    if (window.HADDAD_ARCHIVE_MANIFEST && Array.isArray(window.HADDAD_ARCHIVE_MANIFEST.photos) && window.HADDAD_ARCHIVE_MANIFEST.photos.length > 0) {
+    // If opened online on the website (http/https) where window.HADDAD_ARCHIVE_MANIFEST is loaded:
+    if (window.location.protocol !== "file:" && window.HADDAD_ARCHIVE_MANIFEST && Array.isArray(window.HADDAD_ARCHIVE_MANIFEST.photos) && window.HADDAD_ARCHIVE_MANIFEST.photos.length > 0) {
       allPhotos = window.HADDAD_ARCHIVE_MANIFEST.photos.map(p => ({
         decade: p.decade,
         name: p.name,
@@ -869,15 +892,59 @@
       return;
     }
 
-    // Priority 3: Local extracted folder auto-probe over file:/// (zero clicks even in older extracted folders!)
-    const probed = await autoProbeLocalExtractedFolders();
-    if (probed.length > 0) {
-      allPhotos = probed;
+    // Local Extracted Folder Engine (file:///):
+    // PROTECTION AGAINST MULTI-DOWNLOAD OVERWRITES OR PARTIAL EXTRACTIONS:
+    // Whether the user overwrote Norgem_Family_Slideshow_Player.html during a 2nd download, skipped overwriting it,
+    // or added new decades / new photos to existing decade folders, we ALWAYS combine:
+    //   1) The embedded NORGEM_EXTRACTED_ZIP_MANIFEST (instant 0ms load for the current ZIP), AND
+    //   2) A live disk scan across all 11 decade folders (autoProbeLocalExtractedFolders)
+    // into a deduplicated union so old and new decades/photos merge seamlessly with zero errors!
+    const mergedMap = new Map();
+
+    if (Array.isArray(window.NORGEM_EXTRACTED_ZIP_MANIFEST) && window.NORGEM_EXTRACTED_ZIP_MANIFEST.length > 0) {
+      window.NORGEM_EXTRACTED_ZIP_MANIFEST.forEach(p => {
+        const key = `${p.decade}/${p.name}`;
+        mergedMap.set(key, {
+          decade: p.decade,
+          name: p.name,
+          url: p.url || `${p.decade}/${p.name}`,
+          caption: p.caption || ""
+        });
+      });
+      // Render immediately in 0ms from the embedded manifest while the background disk scan checks for any additional merged decades/photos!
+      allPhotos = Array.from(mergedMap.values());
       finalizeLoadedPhotos();
+    }
+
+    // Now scan the disk folder (and parent folder) for any pre-existing or newly added decades/photos and merge them in!
+    const diskPhotos = await autoProbeLocalExtractedFolders();
+    if (diskPhotos.length > 0) {
+      let addedFromDisk = 0;
+      diskPhotos.forEach(p => {
+        const key = `${p.decade}/${p.name}`;
+        if (!mergedMap.has(key)) {
+          mergedMap.set(key, p);
+          addedFromDisk++;
+        }
+      });
+      if (addedFromDisk > 0 || allPhotos.length === 0) {
+        // Sort merged photos chronologically by KNOWN_DECADES order and filename
+        const decOrder = {};
+        KNOWN_DECADES.forEach((d, idx) => decOrder[d] = idx);
+        allPhotos = Array.from(mergedMap.values()).sort((a, b) => {
+          const da = decOrder[a.decade] !== undefined ? decOrder[a.decade] : 99;
+          const db = decOrder[b.decade] !== undefined ? decOrder[b.decade] : 99;
+          if (da !== db) return da - db;
+          return a.name.localeCompare(b.name);
+        });
+        finalizeLoadedPhotos();
+      }
       return;
     }
 
-    finalizeLoadedPhotos("No local decade folders detected alongside this HTML file");
+    if (allPhotos.length === 0) {
+      finalizeLoadedPhotos("No local decade folders detected alongside this HTML file");
+    }
   }
 
   function recalcDecadeCounts() {
@@ -896,17 +963,19 @@
       return;
     }
 
-    allPhotos.forEach(p => {
-      if (p.isBlob && p.url) URL.revokeObjectURL(p.url);
-    });
-
     const captionLookup = {};
     for (let i = 0; i < COMPACT_ARCHIVE_CATALOG.length; i++) {
       const row = COMPACT_ARCHIVE_CATALOG[i];
       if (row[2]) captionLookup[row[1]] = row[2];
     }
 
-    allPhotos = imageFiles.map(f => {
+    // Merge newly selected folder files with any already loaded photos (deduplicated by decade/filename)
+    const mergedMap = new Map();
+    allPhotos.forEach(p => {
+      mergedMap.set(`${p.decade}/${p.name}`, p);
+    });
+
+    imageFiles.forEach(f => {
       const rel = f.webkitRelativePath || f.name;
       const parts = rel.split("/");
       let detectedDecade = "Other";
@@ -921,15 +990,19 @@
         const m = f.name.match(/(Pre-1940s|1940s|1950s|1960s|1970s|1980s|1990s|2000s|2010s|2020s)/i);
         if (m) detectedDecade = m[1];
       }
-      return {
-        decade: detectedDecade,
-        name: f.name,
-        url: URL.createObjectURL(f),
-        caption: captionLookup[f.name] || "",
-        isBlob: true
-      };
+      const key = `${detectedDecade}/${f.name}`;
+      if (!mergedMap.has(key)) {
+        mergedMap.set(key, {
+          decade: detectedDecade,
+          name: f.name,
+          url: URL.createObjectURL(f),
+          caption: captionLookup[f.name] || "",
+          isBlob: true
+        });
+      }
     });
 
+    allPhotos = Array.from(mergedMap.values());
     finalizeLoadedPhotos();
   };
 

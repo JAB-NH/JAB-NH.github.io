@@ -853,9 +853,9 @@ def build_slideshow_player():
     }}
 
     // Step 1: Test candidate relative prefixes for every decade in parallel:
-    //   1) ./{dec}/{name}  (standard decade subfolder alongside this HTML file)
-    //   2) ./{name}        (flattened folder alongside this HTML file)
-    //   3) ../{dec}/{name} (parent folder decade subfolder, in case user extracted a 2nd .ZIP into a child subfolder!)
+    //   1) ./{{dec}}/{{name}}  (standard decade subfolder alongside this HTML file)
+    //   2) ./{{name}}          (flattened folder alongside this HTML file)
+    //   3) ../{{dec}}/{{name}} (parent folder decade subfolder, in case user extracted a 2nd .ZIP into a child subfolder!)
     const decadesList = Object.keys(byDecade);
     const activeLocalDecades = [];
 

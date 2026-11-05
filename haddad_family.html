@@ -99,6 +99,12 @@
                             <span>⬇ Download All Decades (1,774 Photos &bull; 460 MB .ZIP)</span>
                         </button>
                     </div>
+                    <div class="pt-1 flex flex-wrap items-center justify-between gap-2 text-xs text-gray-700">
+                        <label class="inline-flex items-center gap-2 font-semibold text-gray-800 bg-white/90 px-3 py-1.5 rounded-xl border border-orange-300 cursor-pointer shadow-sm">
+                            <input type="checkbox" id="chk-include-player-top" checked onchange="syncIncludePlayerCheckbox(this.checked)" class="w-4 h-4 accent-teal-600 rounded cursor-pointer">
+                            <span>Include Slideshow Player in .ZIP <span class="font-normal text-gray-600">(Safe to leave checked on follow-up downloads &mdash; automatically merges new decades &amp; photos into your existing folder)</span></span>
+                        </label>
+                    </div>
                 </div>
                 <!-- Progress bar for bulk downloads when active -->
                 <div id="bulk-download-status" class="hidden mt-3 pt-3 border-t border-orange-200 text-sm font-semibold text-brand-teal flex items-center justify-between">
@@ -206,6 +212,10 @@
                     </div>
                 </div>
                 <div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto justify-center sm:justify-end">
+                    <label class="inline-flex items-center gap-2 text-xs font-semibold text-gray-200 bg-gray-800/90 px-3 py-2 rounded-lg border border-gray-600 cursor-pointer" title="Even if left checked when downloading additional decades later, the Slideshow Player automatically merges all old and new decades on disk without errors.">
+                        <input type="checkbox" id="chk-include-player-basket" checked onchange="syncIncludePlayerCheckbox(this.checked)" class="w-4 h-4 accent-teal-500 rounded cursor-pointer">
+                        <span>Include Slideshow Player <span class="text-[11px] font-normal text-teal-300">(Auto-Merges New Decades)</span></span>
+                    </label>
                     <button onclick="clearSelection()" class="px-3.5 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-200 text-xs sm:text-sm font-semibold border border-gray-600 transition">
                         Clear All
                     </button>
@@ -842,32 +852,34 @@
                         zip.file(`${item.decade}/${item.name}`, blob);
                     }
 
-                    // Bundle Norgem_Family_Slideshow_Player.html pre-populated with the exact manifest of downloaded decades & photos!
-                    try {
-                        const embeddedManifest = items.map(item => ({
-                            decade: item.decade,
-                            name: item.name,
-                            url: `${item.decade}/${item.name}`,
-                            caption: item.caption || ""
-                        }));
-                        const manifestJson = JSON.stringify(embeddedManifest);
-                        zip.file("norgem_extracted_manifest.js", `window.NORGEM_EXTRACTED_ZIP_MANIFEST = ${manifestJson};
-`);
+                    // Bundle Norgem_Family_Slideshow_Player.html (when checkbox is enabled) with Unified Disk + Manifest Merge protection
+                    const includePlayerChk = document.getElementById("chk-include-player-top");
+                    const shouldIncludePlayer = includePlayerChk ? includePlayerChk.checked : true;
+                    if (shouldIncludePlayer) {
+                        try {
+                            const embeddedManifest = items.map(item => ({
+                                decade: item.decade,
+                                name: item.name,
+                                url: `${item.decade}/${item.name}`,
+                                caption: item.caption || ""
+                            }));
+                            const manifestJson = JSON.stringify(embeddedManifest);
 
-                        const playerResp = await fetch("Norgem_Family_Slideshow_Player.html?v=cap2");
-                        if (playerResp.ok) {
-                            let playerHtml = await playerResp.text();
-                            const injectTag = `<script>window.NORGEM_EXTRACTED_ZIP_MANIFEST = ${manifestJson};<\/script>`;
-                            if (playerHtml.includes("<!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->")) {
-                                playerHtml = playerHtml.replace("<!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->", injectTag);
-                            } else {
-                                playerHtml = playerHtml.replace("</head>", `${injectTag}
+                            const playerResp = await fetch("Norgem_Family_Slideshow_Player.html?v=cap3");
+                            if (playerResp.ok) {
+                                let playerHtml = await playerResp.text();
+                                const injectTag = `<script>window.NORGEM_EXTRACTED_ZIP_MANIFEST = ${manifestJson};<\/script>`;
+                                if (playerHtml.includes("<!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->")) {
+                                    playerHtml = playerHtml.replace("<!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->", injectTag);
+                                } else {
+                                    playerHtml = playerHtml.replace("</head>", `${injectTag}
 </head>`);
+                                }
+                                zip.file("Norgem_Family_Slideshow_Player.html", playerHtml);
                             }
-                            zip.file("Norgem_Family_Slideshow_Player.html", playerHtml);
+                        } catch (e) {
+                            console.error("Slideshow bundle warning:", e);
                         }
-                    } catch (e) {
-                        console.error("Slideshow bundle warning:", e);
                     }
 
                     if (triggerBtn) triggerBtn.innerHTML = `<span>📦 Finalizing .ZIP Archive...</span>`;
@@ -884,8 +896,23 @@
                     a.remove();
                     setTimeout(() => URL.revokeObjectURL(url), 15000);
 
-                    if (statusEl) statusEl.textContent = `✓ Downloaded ${items.length.toLocaleString()} photos organized by decade folders!`;
+                    // Automatically clear the completed selection so if the user selects additional decades/photos next, previous photos aren't re-downloaded
+                    autoSelectActiveDecades = false;
+                    selectedPhotoIds.clear();
+                    saveSelection();
+                    renderDecadePills();
+                    renderGrid();
+                    updateBasketUI();
+
+                    const bannerEl = document.getElementById("bulk-download-status");
+                    const bannerTextEl = document.getElementById("bulk-download-status-text");
+                    const bannerPctEl = document.getElementById("bulk-download-pct");
+                    if (bannerEl) bannerEl.classList.remove("hidden");
+                    const doneMsg = `✓ Downloaded ${items.length.toLocaleString()} photos! Selection cleared so you can pick additional decades or photos anytime — extracting into the same folder automatically merges new & existing decades.`;
+                    if (statusEl) statusEl.textContent = doneMsg;
+                    if (bannerTextEl) bannerTextEl.textContent = doneMsg;
                     if (bulkPctEl) bulkPctEl.textContent = `100%`;
+                    if (bannerPctEl) bannerPctEl.textContent = `100%`;
                 } catch (err) {
                     console.error(err);
                     alert("An error occurred while packaging the .ZIP download: " + err.message);
@@ -897,6 +924,13 @@
                     }
                 }
             }
+
+            window.syncIncludePlayerCheckbox = function(checked) {
+                const topChk = document.getElementById("chk-include-player-top");
+                const basketChk = document.getElementById("chk-include-player-basket");
+                if (topChk) topChk.checked = !!checked;
+                if (basketChk) basketChk.checked = !!checked;
+            };
 
             window.downloadSelectedAsZip = async function() {
                 if (selectedPhotoIds.size === 0) return;
