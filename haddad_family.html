@@ -851,6 +851,39 @@
                 }
             });
 
+            // Helper: Fault-tolerant photo fetcher with 4-attempt automatic retry & thumbnail fallback
+            async function fetchPhotoBlobWithRetry(item, maxAttempts = 4) {
+                const candidateUrls = [
+                    item.full + "?v=cap1",
+                    item.full,
+                    item.Full || item.thumb + "?v=cap1"
+                ].filter(Boolean);
+
+                for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+                    try {
+                        const url = attempt === 1
+                            ? (item.full + "?v=cap1")
+                            : (item.full + `?v=cap1&retry=${attempt}`);
+                        const resp = await fetch(url, { cache: attempt > 1 ? "reload" : "default" });
+                        if (resp && resp.ok) {
+                            return await resp.blob();
+                        }
+                    } catch (err) {
+                        // Transient network or HTTP/2 stream glitch; wait briefly and retry
+                    }
+                    await new Promise(r => setTimeout(r, 300 * attempt));
+                }
+
+                // Fallback to thumbnail if full-res still failed after 4 retries so the .ZIP build never crashes
+                if (item.thumb) {
+                    try {
+                        const tResp = await fetch(item.thumb + "?v=cap1");
+                        if (tResp && tResp.ok) return await tResp.blob();
+                    } catch (e) {}
+                }
+                return null;
+            }
+
             // Client-Side .ZIP Bundler using JSZip (organizes photos into Decade folders + bundles .HTML & .JS Auto-Loader)
             async function packagePhotosIntoZip(items, zipFilenamePrefix, triggerBtn, statusEl, bulkBannerEl, bulkPctEl) {
                 if (!items || items.length === 0) return;
@@ -875,23 +908,31 @@
                 try {
                     const zip = new JSZip();
                     let completed = 0;
+                    const successfullyPackagedItems = [];
+                    const batchSize = 6;
 
-                    for (const item of items) {
-                        completed++;
-                        const pct = Math.round((completed / items.length) * 100);
-                        if (triggerBtn) {
-                            triggerBtn.innerHTML = `<span>⏳ Preparing for Immediate Download (${completed.toLocaleString()} / ${items.length.toLocaleString()} &bull; ${pct}%)...</span>`;
-                        }
-                        const msg = `Preparing for Immediate Download: adding ${item.decade}/${item.name} (${completed.toLocaleString()} of ${items.length.toLocaleString()})...`;
-                        if (statusEl) statusEl.textContent = msg;
-                        if (bannerTextEl) bannerTextEl.textContent = msg;
-                        if (bannerPctEl) bannerPctEl.textContent = `${pct}%`;
+                    for (let i = 0; i < items.length; i += batchSize) {
+                        const chunk = items.slice(i, i + batchSize);
+                        await Promise.all(chunk.map(async (item) => {
+                            const blob = await fetchPhotoBlobWithRetry(item, 4);
+                            if (blob) {
+                                // Organize inside Decade subfolder within the .ZIP archive
+                                zip.file(`${item.decade}/${item.name}`, blob);
+                                successfullyPackagedItems.push(item);
+                            } else {
+                                console.warn(`Skipped unreachable photo after 4 retries: ${item.decade}/${item.name}`);
+                            }
 
-                        const response = await fetch(item.full + "?v=cap1");
-                        if (!response.ok) throw new Error(`Failed to fetch ${item.name}`);
-                        const blob = await response.blob();
-                        // Organize inside Decade subfolder within the .ZIP archive
-                        zip.file(`${item.decade}/${item.name}`, blob);
+                            completed++;
+                            const pct = Math.round((completed / items.length) * 100);
+                            if (triggerBtn) {
+                                triggerBtn.innerHTML = `<span>⏳ Preparing for Immediate Download (${completed.toLocaleString()} / ${items.length.toLocaleString()} &bull; ${pct}%)...</span>`;
+                            }
+                            const msg = `Preparing for Immediate Download: adding ${item.decade}/${item.name} (${completed.toLocaleString()} of ${items.length.toLocaleString()})...`;
+                            if (statusEl) statusEl.textContent = msg;
+                            if (bannerTextEl) bannerTextEl.textContent = msg;
+                            if (bannerPctEl) bannerPctEl.textContent = `${pct}%`;
+                        }));
                     }
 
                     // Always bundle BOTH norgem_extracted_manifest.js AND Norgem_Family_Slideshow_Player.html (when checkbox is enabled)
@@ -899,7 +940,8 @@
                     const shouldIncludePlayer = includePlayerChk ? includePlayerChk.checked : true;
                     if (shouldIncludePlayer) {
                         try {
-                            const embeddedManifest = items.map(item => ({
+                            const manifestItems = successfullyPackagedItems.length > 0 ? successfullyPackagedItems : items;
+                            const embeddedManifest = manifestItems.map(item => ({
                                 decade: item.decade,
                                 name: item.name,
                                 url: `${item.decade}/${item.name}`,
