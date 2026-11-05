@@ -1,10 +1,12 @@
 import os
 import io
+import json
 import base64
 from PIL import Image
 
 HERON_SRC = r"c:\Users\j-a-b\.gemini\antigravity\scratch\food_tracker\extracted_kitchen\heron_luminous.png"
 SITE_ROOT = r"c:\Users\j-a-b\.gemini\antigravity\scratch\google_site"
+MANIFEST_JS = os.path.join(SITE_ROOT, "assets", "img", "HaddadArchive", "manifest.js")
 OUT_HTML = os.path.join(SITE_ROOT, "Norgem_Family_Slideshow_Player.html")
 
 
@@ -17,8 +19,31 @@ def get_heron_data_uri():
         return f"data:image/png;base64,{b64}"
 
 
+def load_compact_catalog():
+    """
+    Extracts a compact [decade, filename, caption] catalog of all 1,774 archive photos from manifest.js.
+    This enables Norgem_Family_Slideshow_Player.html to auto-discover local decade subfolders (1950s/, 1960s/, 1970s/, etc.)
+    via relative paths over file:/// even if opened in a pre-existing extracted folder where NORGEM_EXTRACTED_ZIP_MANIFEST
+    was not yet injected.
+    """
+    if not os.path.exists(MANIFEST_JS):
+        return "[]"
+    with open(MANIFEST_JS, "r", encoding="utf-8") as f:
+        raw = f.read()
+    idx = raw.find("{")
+    r_idx = raw.rfind("}")
+    if idx < 0 or r_idx < 0:
+        return "[]"
+    data = json.loads(raw[idx:r_idx + 1])
+    compact = []
+    for p in data.get("photos", []):
+        compact.append([p.get("decade", ""), p.get("name", ""), p.get("caption", "") or ""])
+    return json.dumps(compact, ensure_ascii=False, separators=(",", ":"))
+
+
 def build_slideshow_player():
     heron_uri = get_heron_data_uri()
+    compact_catalog_json = load_compact_catalog()
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -56,20 +81,20 @@ def build_slideshow_player():
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 24px 20px;
+    padding: 20px 18px;
     background:
       radial-gradient(circle at 50% 22%, rgba(14, 116, 144, 0.22) 0%, rgba(15, 23, 42, 0.55) 42%, #020617 80%);
   }}
 
   .launcher-card {{
     width: 100%;
-    max-width: 880px;
-    background: rgba(15, 23, 42, 0.82);
+    max-width: 900px;
+    background: rgba(15, 23, 42, 0.85);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(56, 189, 248, 0.28);
     border-radius: 24px;
-    padding: 28px 32px;
+    padding: 26px 30px;
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), 0 0 40px rgba(56, 189, 248, 0.08);
     margin: auto 0;
   }}
@@ -79,30 +104,18 @@ def build_slideshow_player():
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-bottom: 22px;
+    margin-bottom: 18px;
   }}
 
   .heron-logo {{
-    width: 120px;
-    height: 120px;
+    width: 108px;
+    height: 108px;
     object-fit: contain;
-    margin-bottom: 10px;
-    animation: sentinel-pulse 7s ease-in-out infinite;
-  }}
-
-  @keyframes sentinel-pulse {{
-    0%, 100% {{
-      filter: brightness(0.88) drop-shadow(0 0 18px rgba(56, 189, 248, 0.28));
-      transform: scale(1.0);
-    }}
-    50% {{
-      filter: brightness(1.0) drop-shadow(0 0 32px rgba(56, 189, 248, 0.52));
-      transform: scale(1.02);
-    }}
+    margin-bottom: 8px;
   }}
 
   .brand-title {{
-    font-size: 1.65rem;
+    font-size: 1.55rem;
     font-weight: 800;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -110,7 +123,7 @@ def build_slideshow_player():
   }}
 
   .brand-subtitle {{
-    font-size: 0.92rem;
+    font-size: 0.9rem;
     color: #38bdf8;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -120,10 +133,10 @@ def build_slideshow_player():
 
   .step-box {{
     background: rgba(2, 6, 23, 0.65);
-    border: 1px solid rgba(148, 163, 184, 0.2);
+    border: 1px solid rgba(148, 163, 184, 0.22);
     border-radius: 16px;
-    padding: 18px 20px;
-    margin-bottom: 16px;
+    padding: 16px 20px;
+    margin-bottom: 14px;
   }}
 
   .step-header {{
@@ -132,11 +145,10 @@ def build_slideshow_player():
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 12px;
   }}
 
   .step-title {{
-    font-size: 1rem;
+    font-size: 0.98rem;
     font-weight: 700;
     color: #e2e8f0;
     display: flex;
@@ -157,35 +169,117 @@ def build_slideshow_player():
     justify-content: center;
   }}
 
-  .folder-btn {{
-    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-    color: #ffffff;
-    border: 1px solid #38bdf8;
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-size: 0.95rem;
-    font-weight: 700;
+  .folder-btn-subtle {{
+    background: rgba(30, 41, 59, 0.85);
+    color: #cbd5e1;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    padding: 7px 14px;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
   }}
 
-  .folder-btn:hover {{
-    background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
-    box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
-    transform: translateY(-1px);
+  .folder-btn-subtle:hover {{
+    background: rgba(51, 65, 85, 0.95);
+    color: #ffffff;
+    border-color: #38bdf8;
   }}
 
   .status-pill {{
-    font-size: 0.85rem;
-    font-weight: 600;
+    font-size: 0.86rem;
+    font-weight: 700;
     padding: 6px 14px;
     border-radius: 999px;
-    background: rgba(16, 185, 129, 0.15);
+    background: rgba(16, 185, 129, 0.16);
     color: #34d399;
-    border: 1px solid rgba(16, 185, 129, 0.35);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+  }}
+
+  /* Auto-Start Toggle Switch Bar */
+  .autostart-bar {{
+    background: linear-gradient(135deg, rgba(14, 116, 144, 0.22) 0%, rgba(15, 23, 42, 0.8) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    border-radius: 16px;
+    padding: 14px 20px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+  }}
+
+  .autostart-info {{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }}
+
+  .autostart-title {{
+    font-size: 0.96rem;
+    font-weight: 800;
+    color: #f8fafc;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }}
+
+  .autostart-desc {{
+    font-size: 0.8rem;
+    color: #94a3b8;
+  }}
+
+  .toggle-switch-wrap {{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }}
+
+  .toggle-label-state {{
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    min-width: 34px;
+    text-align: right;
+  }}
+
+  .toggle-switch {{
+    position: relative;
+    width: 54px;
+    height: 28px;
+    background: #334155;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    transition: all 0.25s ease;
+  }}
+
+  .toggle-switch::after {{
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    background: #f8fafc;
+    border-radius: 50%;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  }}
+
+  .toggle-switch.on {{
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-color: #6ee7b7;
+    box-shadow: 0 0 14px rgba(16, 185, 129, 0.45);
+  }}
+
+  .toggle-switch.on::after {{
+    transform: translateX(25px);
   }}
 
   /* Mode & Decade Selector Buttons */
@@ -193,15 +287,16 @@ def build_slideshow_player():
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    margin-top: 12px;
     margin-bottom: 14px;
   }}
 
   .random-btn {{
     flex: 1;
-    min-width: 220px;
-    padding: 13px 18px;
+    min-width: 210px;
+    padding: 12px 18px;
     border-radius: 14px;
-    font-size: 1rem;
+    font-size: 0.96rem;
     font-weight: 800;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -255,7 +350,7 @@ def build_slideshow_player():
   }}
 
   .decade-btn:disabled {{
-    opacity: 0.35;
+    opacity: 0.28;
     cursor: not-allowed;
   }}
 
@@ -274,8 +369,8 @@ def build_slideshow_player():
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    margin-top: 18px;
-    padding-top: 18px;
+    margin-top: 14px;
+    padding-top: 14px;
     border-top: 1px solid rgba(148, 163, 184, 0.2);
   }}
 
@@ -302,9 +397,9 @@ def build_slideshow_player():
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: #ffffff;
     border: 2px solid #6ee7b7;
-    padding: 14px 38px;
+    padding: 13px 36px;
     border-radius: 16px;
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: 900;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -329,9 +424,9 @@ def build_slideshow_player():
 
   .cast-tip {{
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 0.79rem;
     color: #94a3b8;
-    margin-top: 14px;
+    margin-top: 12px;
   }}
 
   /* ==========================================================================
@@ -378,25 +473,46 @@ def build_slideshow_player():
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(2, 6, 23, 0.65);
+    background: rgba(2, 6, 23, 0.72);
     backdrop-filter: blur(10px);
     padding: 8px 16px;
     border-radius: 999px;
-    border: 1px solid rgba(56, 189, 248, 0.3);
+    border: 1px solid rgba(56, 189, 248, 0.35);
     z-index: 110;
     transition: opacity 0.4s ease;
+  }}
+
+  /* Optional Photo Caption Pill Above HUD */
+  .tv-caption {{
+    position: absolute;
+    bottom: 86px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(2, 6, 23, 0.85);
+    color: #fde68a;
+    border: 1px solid rgba(245, 158, 11, 0.45);
+    padding: 8px 20px;
+    border-radius: 14px;
+    font-size: 0.98rem;
+    font-weight: 700;
+    max-width: 82vw;
+    text-align: center;
+    z-index: 110;
+    display: none;
   }}
 
   /* Auto-hiding bottom HUD bar */
   .tv-hud {{
     position: absolute;
-    bottom: 28px;
+    bottom: 24px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
-    background: rgba(15, 23, 42, 0.85);
+    background: rgba(15, 23, 42, 0.88);
     backdrop-filter: blur(14px);
     padding: 10px 20px;
     border-radius: 999px;
@@ -427,11 +543,11 @@ def build_slideshow_player():
     border-color: #38bdf8;
   }}
 </style>
+<!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->
+<script src="norgem_extracted_manifest.js" onerror=""></script>
+<script src="assets/img/HaddadArchive/manifest.js?v=mat1" onerror=""></script>
 </head>
 <body>
-
-<!-- Optional automatic online manifest loader when previewed directly on the website -->
-<script src="assets/img/HaddadArchive/manifest.js?v=mat1" onerror=""></script>
 
 <div id="launcher-screen">
   <div class="launcher-card">
@@ -442,44 +558,55 @@ def build_slideshow_player():
       <div class="brand-subtitle">Haddad Family Decade Slideshow &amp; Smart TV Viewer</div>
     </div>
 
-    <!-- Step 1: Load Downloaded Folder (or Auto-Loaded Archive) -->
+    <!-- Auto-Detected Decades & Photo Status Bar (Zero Clicks Required) -->
     <div class="step-box">
       <div class="step-header">
         <div class="step-title">
-          <span class="step-badge">1</span>
-          <span>Photo Source Folder</span>
+          <span class="step-badge">✓</span>
+          <span id="source-title-text">Automatic Decade &amp; Photo Detection</span>
         </div>
-        <span id="source-status-pill" class="status-pill">No folder loaded yet</span>
-      </div>
-      <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px;">
-        <p style="font-size:0.88rem; color:#94a3b8; max-width:520px; line-height:1.45;">
-          After unzipping your downloaded Haddad Family photos, click <strong>Load Downloaded Photo Folder</strong> and select your unzipped folder. It automatically detects all Decade subfolders!
-        </p>
-        <div>
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <span id="source-status-pill" class="status-pill">Scanning extracted decade folders...</span>
           <input type="file" id="folder-input" webkitdirectory directory multiple style="display:none" onchange="handleFolderSelect(event)">
-          <button class="folder-btn" onclick="document.getElementById('folder-input').click()">
-            <span>📂 Load Downloaded Photo Folder</span>
+          <button class="folder-btn-subtle" onclick="document.getElementById('folder-input').click()" title="Optional: Load a different folder from your computer">
+            <span>📂 Change Folder</span>
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Step 2: Pick Random OR Highlight Any Number of Decades -->
+    <!-- Auto-Start Toggle Switch (Runs Last Selected Configuration Automatically When Turned ON) -->
+    <div class="autostart-bar">
+      <div class="autostart-info">
+        <div class="autostart-title">
+          <span>⚡ Auto-Start Slideshow on Launch</span>
+        </div>
+        <div class="autostart-desc">
+          When turned <strong>ON</strong>, opening this Slideshow HTML automatically runs your last selected decade &amp; speed configuration without clicking anything.
+        </div>
+      </div>
+      <div class="toggle-switch-wrap" onclick="toggleAutoStart()">
+        <span id="autostart-state-label" class="toggle-label-state" style="color:#94a3b8;">OFF</span>
+        <div id="autostart-switch" class="toggle-switch" role="switch" aria-checked="false"></div>
+      </div>
+    </div>
+
+    <!-- Pick Random OR Highlight Any Number of Decades -->
     <div class="step-box">
       <div class="step-header">
         <div class="step-title">
-          <span class="step-badge">2</span>
+          <span class="step-badge">★</span>
           <span>Pick <strong>Random Shuffle</strong> OR Select One or More <strong>Decades</strong> (Stay Highlighted)</span>
         </div>
-        <span id="selection-summary" style="font-size:0.82rem; color:#38bdf8; font-weight:700;"></span>
+        <span id="selection-summary" style="font-size:0.84rem; color:#38bdf8; font-weight:700;"></span>
       </div>
 
-      <!-- Random All Button vs. Shuffle Selected Toggle -->
+      <!-- Random All Button vs. Highlight All Decades -->
       <div class="mode-row">
         <button id="btn-random-all" class="random-btn active" onclick="activateRandomAllMode()">
           <span>🎲 RANDOM (All Decades Shuffle)</span>
         </button>
-        <button id="btn-select-all-decades" class="random-btn" style="flex:0.6;" onclick="highlightAllDecades()">
+        <button id="btn-select-all-decades" class="random-btn" style="flex:0.65;" onclick="highlightAllDecades()">
           <span>☑️ Highlight All Decades</span>
         </button>
       </div>
@@ -490,12 +617,12 @@ def build_slideshow_player():
       </div>
     </div>
 
-    <!-- Step 3: Interval & GO Button -->
+    <!-- Interval & GO Button -->
     <div class="launch-row">
       <div class="settings-group">
         <label>
           Slide Speed:
-          <select id="slide-interval" class="settings-select">
+          <select id="slide-interval" class="settings-select" onchange="onSettingsChanged()">
             <option value="4000">4 Seconds</option>
             <option value="6000" selected>6 Seconds (Recommended)</option>
             <option value="10000">10 Seconds</option>
@@ -503,13 +630,13 @@ def build_slideshow_player():
           </select>
         </label>
         <label style="display:inline-flex; align-items:center; gap:6px; cursor:pointer;">
-          <input type="checkbox" id="chk-shuffle-selected" checked style="width:16px; height:16px;">
+          <input type="checkbox" id="chk-shuffle-selected" checked style="width:16px; height:16px;" onchange="onSettingsChanged()">
           <span>Shuffle Order</span>
         </label>
       </div>
 
       <button id="btn-go" class="go-btn" onclick="startSlideshow()">
-        <span>▶ GO (Full Screen)</span>
+        <span>▶ GO (Start Slideshow)</span>
       </button>
     </div>
 
@@ -518,7 +645,7 @@ def build_slideshow_player():
     </div>
   </div>
 
-  <div style="font-size:0.78rem; color:#64748b; text-align:center; padding-top:12px;">
+  <div style="font-size:0.78rem; color:#64748b; text-align:center; padding-top:10px;">
     &copy; 2026 Norgem Enterprises &bull; James Allen Bates &bull; Sovereign Family Archival Viewer
   </div>
 </div>
@@ -537,12 +664,16 @@ def build_slideshow_player():
     <span id="tv-counter" style="font-size:0.78rem; color:#94a3b8;"></span>
   </div>
 
+  <!-- Optional Family Caption Banner -->
+  <div id="tv-caption" class="tv-caption"></div>
+
   <!-- Bottom Floating Remote Control HUD -->
   <div id="tv-hud" class="tv-hud" onclick="event.stopPropagation()">
-    <button class="hud-btn" onclick="stopSlideshow()">&larr; Change Decades</button>
+    <button class="hud-btn" onclick="stopSlideshow()">&larr; Change Decades / Settings</button>
     <button class="hud-btn" onclick="prevSlide()">&#10094; Prev</button>
     <button id="btn-pause-resume" class="hud-btn" onclick="togglePause()">⏸ Pause</button>
     <button class="hud-btn" onclick="nextSlide()">Next &#10095;</button>
+    <button id="btn-hud-autostart" class="hud-btn" onclick="toggleAutoStart()">⚡ Auto-Start: OFF</button>
     <button class="hud-btn" onclick="toggleFullscreen()">⛶ Full Screen</button>
   </div>
 </div>
@@ -553,11 +684,14 @@ def build_slideshow_player():
     "Pre-1940s", "1940s", "1950s", "1960s", "1970s",
     "1980s", "1990s", "2000s", "2010s", "2020s", "Highlights"
   ];
+  const PREFS_STORAGE_KEY = "norgem_family_slideshow_prefs_v2";
+  const COMPACT_ARCHIVE_CATALOG = {compact_catalog_json};
 
-  let allPhotos = []; // Each item: {{ decade, name, url }}
+  let allPhotos = []; // Each item: {{ decade, name, url, caption }}
   let decadeCounts = {{}};
   let randomAllMode = true;
   let highlightedDecades = new Set();
+  let autoStartEnabled = false;
 
   // Slideshow state
   let playlist = [];
@@ -567,22 +701,230 @@ def build_slideshow_player():
   let activeImgSlot = "a";
   let hudTimeout = null;
 
-  function init() {{
-    // If opened online or inside the website folder where window.HADDAD_ARCHIVE_MANIFEST is available, pre-load it!
-    if (window.HADDAD_ARCHIVE_MANIFEST && Array.isArray(window.HADDAD_ARCHIVE_MANIFEST.photos)) {{
-      allPhotos = window.HADDAD_ARCHIVE_MANIFEST.photos.map(p => ({{
-        decade: p.decade,
-        name: p.name,
-        url: p.full + "?v=mat1"
-      }}));
-      recalcDecadeCounts();
-      document.getElementById("source-status-pill").textContent =
-        `✓ Ready: ${{allPhotos.length.toLocaleString()}} Archive Photos Detected`;
+  function loadSavedPreferences() {{
+    try {{
+      const raw = localStorage.getItem(PREFS_STORAGE_KEY);
+      if (!raw) return;
+      const prefs = JSON.parse(raw);
+      if (typeof prefs.autoStart === "boolean") {{
+        autoStartEnabled = prefs.autoStart;
+      }}
+      if (typeof prefs.randomAllMode === "boolean") {{
+        randomAllMode = prefs.randomAllMode;
+      }}
+      if (Array.isArray(prefs.highlightedDecades)) {{
+        highlightedDecades = new Set(prefs.highlightedDecades);
+      }}
+      if (prefs.slideInterval) {{
+        const sel = document.getElementById("slide-interval");
+        if (sel) sel.value = String(prefs.slideInterval);
+      }}
+      if (typeof prefs.shuffleSelected === "boolean") {{
+        const chk = document.getElementById("chk-shuffle-selected");
+        if (chk) chk.checked = prefs.shuffleSelected;
+      }}
+    }} catch (e) {{}}
+    updateAutoStartUI();
+  }}
+
+  function savePreferences() {{
+    try {{
+      const prefs = {{
+        autoStart: autoStartEnabled,
+        randomAllMode: randomAllMode,
+        highlightedDecades: Array.from(highlightedDecades),
+        slideInterval: document.getElementById("slide-interval").value,
+        shuffleSelected: document.getElementById("chk-shuffle-selected").checked
+      }};
+      localStorage.setItem(PREFS_STORAGE_KEY, JSON.stringify(prefs));
+    }} catch (e) {{}}
+  }}
+
+  function updateAutoStartUI() {{
+    const sw = document.getElementById("autostart-switch");
+    const lbl = document.getElementById("autostart-state-label");
+    const hudBtn = document.getElementById("btn-hud-autostart");
+    if (sw) {{
+      if (autoStartEnabled) {{
+        sw.classList.add("on");
+        sw.setAttribute("aria-checked", "true");
+      }} else {{
+        sw.classList.remove("on");
+        sw.setAttribute("aria-checked", "false");
+      }}
+    }}
+    if (lbl) {{
+      lbl.textContent = autoStartEnabled ? "ON" : "OFF";
+      lbl.style.color = autoStartEnabled ? "#34d399" : "#94a3b8";
+    }}
+    if (hudBtn) {{
+      hudBtn.textContent = "⚡ Auto-Start: " + (autoStartEnabled ? "ON" : "OFF");
+      hudBtn.style.borderColor = autoStartEnabled ? "#34d399" : "rgba(148, 163, 184, 0.3)";
+    }}
+  }}
+
+  window.toggleAutoStart = function() {{
+    autoStartEnabled = !autoStartEnabled;
+    updateAutoStartUI();
+    savePreferences();
+  }};
+
+  window.onSettingsChanged = function() {{
+    savePreferences();
+    if (document.getElementById("slideshow-stage").classList.contains("active")) {{
+      scheduleNextSlide();
+    }}
+  }};
+
+  function reconcilePreferencesWithLoadedDecades() {{
+    const availableDecades = Object.keys(decadeCounts).filter(d => (decadeCounts[d] || 0) > 0);
+    if (!randomAllMode) {{
+      // Keep only highlighted decades that actually exist in the loaded photo set
+      const validHighlighted = Array.from(highlightedDecades).filter(d => (decadeCounts[d] || 0) > 0);
+      if (validHighlighted.length > 0) {{
+        highlightedDecades = new Set(validHighlighted);
+      }} else {{
+        // If user hasn't picked specific decades for this folder yet, highlight all available decades
+        highlightedDecades = new Set(availableDecades);
+        randomAllMode = true;
+      }}
+    }}
+  }}
+
+  function probeImageExists(relUrl, timeoutMs) {{
+    return new Promise(resolve => {{
+      const img = new Image();
+      let done = false;
+      const timer = setTimeout(() => {{
+        if (!done) {{
+          done = true;
+          resolve(false);
+        }}
+      }}, timeoutMs || 1200);
+      img.onload = () => {{
+        if (!done) {{
+          done = true;
+          clearTimeout(timer);
+          resolve(true);
+        }}
+      }};
+      img.onerror = () => {{
+        if (!done) {{
+          done = true;
+          clearTimeout(timer);
+          resolve(false);
+        }}
+      }};
+      img.src = relUrl;
+    }});
+  }}
+
+  async function autoProbeLocalExtractedFolders() {{
+    // Group compact catalog by decade: [decade, name, caption]
+    const byDecade = {{}};
+    for (let i = 0; i < COMPACT_ARCHIVE_CATALOG.length; i++) {{
+      const row = COMPACT_ARCHIVE_CATALOG[i];
+      const dec = row[0];
+      if (!byDecade[dec]) byDecade[dec] = [];
+      byDecade[dec].push({{ decade: dec, name: row[1], caption: row[2] || "" }});
+    }}
+
+    // Step 1: Quickly test first 3 photos of each decade in parallel to see which decade folders exist next to this HTML file
+    const decadesList = Object.keys(byDecade);
+    const activeLocalDecades = [];
+    await Promise.all(decadesList.map(async dec => {{
+      const candidates = byDecade[dec].slice(0, 5);
+      for (const c of candidates) {{
+        if (await probeImageExists(`${{dec}}/${{c.name}}`, 900)) {{
+          activeLocalDecades.push({{ dec, prefix: `${{dec}}/` }});
+          return;
+        }}
+        if (await probeImageExists(c.name, 600)) {{
+          activeLocalDecades.push({{ dec, prefix: "" }});
+          return;
+        }}
+      }}
+    }}));
+
+    if (activeLocalDecades.length === 0) return [];
+
+    // Step 2: For every detected decade folder, probe all photos in fast parallel batches of 48
+    const discovered = [];
+    for (const info of activeLocalDecades) {{
+      const list = byDecade[info.dec] || [];
+      const batchSize = 48;
+      for (let i = 0; i < list.length; i += batchSize) {{
+        const chunk = list.slice(i, i + batchSize);
+        const results = await Promise.all(chunk.map(async item => {{
+          const url = `${{info.prefix}}${{item.name}}`;
+          const ok = await probeImageExists(url, 1200);
+          return ok ? {{ decade: item.decade, name: item.name, url: url, caption: item.caption }} : null;
+        }}));
+        for (const r of results) {{
+          if (r) discovered.push(r);
+        }}
+      }}
+    }}
+    return discovered;
+  }}
+
+  function finalizeLoadedPhotos(sourceDescription) {{
+    recalcDecadeCounts();
+    reconcilePreferencesWithLoadedDecades();
+    const activeDecList = KNOWN_DECADES.filter(d => (decadeCounts[d] || 0) > 0);
+    const pill = document.getElementById("source-status-pill");
+    if (allPhotos.length > 0) {{
+      pill.textContent = `✓ Ready: ${{allPhotos.length.toLocaleString()}} Photos Across ${{activeDecList.length}} Decade${{activeDecList.length === 1 ? '' : 's'}} (${{activeDecList.join(', ')}})`;
     }} else {{
-      recalcDecadeCounts();
+      pill.textContent = sourceDescription || "Click 'Change Folder' to select your unzipped photo folder";
     }}
     renderDecadeButtons();
     updateSelectionSummary();
+
+    // If Auto-Start Toggle is ON and photos are loaded, automatically launch the last selected slideshow configuration!
+    if (autoStartEnabled && allPhotos.length > 0) {{
+      setTimeout(() => {{
+        window.startSlideshow();
+      }}, 250);
+    }}
+  }}
+
+  async function init() {{
+    loadSavedPreferences();
+
+    // Priority 1: Injected ZIP manifest (embedded automatically by haddad_family.html when building the .ZIP!)
+    if (Array.isArray(window.NORGEM_EXTRACTED_ZIP_MANIFEST) && window.NORGEM_EXTRACTED_ZIP_MANIFEST.length > 0) {{
+      allPhotos = window.NORGEM_EXTRACTED_ZIP_MANIFEST.map(p => ({{
+        decade: p.decade,
+        name: p.name,
+        url: p.url || `${{p.decade}}/${{p.name}}`,
+        caption: p.caption || ""
+      }}));
+      finalizeLoadedPhotos();
+      return;
+    }}
+
+    // Priority 2: Online website manifest (when previewed on norgem.ca / jab-nh.github.io)
+    if (window.HADDAD_ARCHIVE_MANIFEST && Array.isArray(window.HADDAD_ARCHIVE_MANIFEST.photos) && window.HADDAD_ARCHIVE_MANIFEST.photos.length > 0) {{
+      allPhotos = window.HADDAD_ARCHIVE_MANIFEST.photos.map(p => ({{
+        decade: p.decade,
+        name: p.name,
+        url: p.full + "?v=mat1",
+        caption: p.caption || ""
+      }}));
+      finalizeLoadedPhotos();
+      return;
+    }}
+
+    // Priority 3: Local extracted folder auto-probe over file:/// (zero clicks even in older extracted folders!)
+    const probed = await autoProbeLocalExtractedFolders();
+    if (probed.length > 0) {{
+      allPhotos = probed;
+      finalizeLoadedPhotos();
+      return;
+    }}
+
+    finalizeLoadedPhotos("No local decade folders detected alongside this HTML file");
   }}
 
   function recalcDecadeCounts() {{
@@ -601,10 +943,15 @@ def build_slideshow_player():
       return;
     }}
 
-    // Revoke previous object URLs if any
     allPhotos.forEach(p => {{
       if (p.isBlob && p.url) URL.revokeObjectURL(p.url);
     }});
+
+    const captionLookup = {{}};
+    for (let i = 0; i < COMPACT_ARCHIVE_CATALOG.length; i++) {{
+      const row = COMPACT_ARCHIVE_CATALOG[i];
+      if (row[2]) captionLookup[row[1]] = row[2];
+    }}
 
     allPhotos = imageFiles.map(f => {{
       const rel = f.webkitRelativePath || f.name;
@@ -618,7 +965,6 @@ def build_slideshow_player():
         }}
       }}
       if (detectedDecade === "Other") {{
-        // Check filename pattern Photo_1950s_...
         const m = f.name.match(/(Pre-1940s|1940s|1950s|1960s|1970s|1980s|1990s|2000s|2010s|2020s)/i);
         if (m) detectedDecade = m[1];
       }}
@@ -626,25 +972,19 @@ def build_slideshow_player():
         decade: detectedDecade,
         name: f.name,
         url: URL.createObjectURL(f),
+        caption: captionLookup[f.name] || "",
         isBlob: true
       }};
     }});
 
-    recalcDecadeCounts();
-    document.getElementById("source-status-pill").textContent =
-      `✓ Loaded ${{allPhotos.length.toLocaleString()}} Photos from Folder`;
-
-    // Default to Random All mode when a new folder is loaded
-    randomAllMode = true;
-    highlightedDecades.clear();
-    renderDecadeButtons();
-    updateSelectionSummary();
+    finalizeLoadedPhotos();
   }};
 
   window.activateRandomAllMode = function() {{
     randomAllMode = true;
     highlightedDecades.clear();
     document.getElementById("chk-shuffle-selected").checked = true;
+    savePreferences();
     renderDecadeButtons();
     updateSelectionSummary();
   }};
@@ -655,6 +995,7 @@ def build_slideshow_player():
     Object.keys(decadeCounts).forEach(d => {{
       if (decadeCounts[d] > 0) highlightedDecades.add(d);
     }});
+    savePreferences();
     renderDecadeButtons();
     updateSelectionSummary();
   }};
@@ -669,6 +1010,7 @@ def build_slideshow_player():
     }} else {{
       highlightedDecades.add(dec);
     }}
+    savePreferences();
     renderDecadeButtons();
     updateSelectionSummary();
   }};
@@ -704,13 +1046,13 @@ def build_slideshow_player():
     const el = document.getElementById("selection-summary");
     const goBtn = document.getElementById("btn-go");
     if (allPhotos.length === 0) {{
-      el.textContent = "Load your downloaded photo folder in Step 1 to begin";
+      el.textContent = "Waiting for photo folder...";
       goBtn.disabled = true;
       return;
     }}
     goBtn.disabled = false;
     if (randomAllMode) {{
-      el.textContent = `Mode: Random Shuffle Across All ${{allPhotos.length.toLocaleString()}} Photos`;
+      el.textContent = `Mode: Random Shuffle Across All ${{allPhotos.length.toLocaleString()}} Loaded Photos`;
     }} else {{
       const list = Array.from(highlightedDecades);
       const count = allPhotos.filter(p => highlightedDecades.has(p.decade)).length;
@@ -731,7 +1073,7 @@ def build_slideshow_player():
 
   window.startSlideshow = function() {{
     if (allPhotos.length === 0) {{
-      alert("Please load your downloaded photo folder in Step 1 first.");
+      alert("No photos are loaded yet.");
       return;
     }}
 
@@ -744,10 +1086,10 @@ def build_slideshow_player():
     }}
 
     if (playlist.length === 0) {{
-      alert("No photos found in the highlighted decades.");
-      return;
+      playlist = shuffleArray(allPhotos);
     }}
 
+    savePreferences();
     currentIndex = 0;
     isPaused = false;
     document.getElementById("btn-pause-resume").textContent = "⏸ Pause";
@@ -755,7 +1097,6 @@ def build_slideshow_player():
     const stage = document.getElementById("slideshow-stage");
     stage.classList.add("active");
 
-    // Request browser full-screen so it fills the TV/Monitor cleanly
     if (document.documentElement.requestFullscreen) {{
       document.documentElement.requestFullscreen().catch(() => {{}});
     }}
@@ -792,6 +1133,17 @@ def build_slideshow_player():
     document.getElementById("tv-decade-label").textContent = item.decade;
     document.getElementById("tv-photo-name").textContent = item.name.replace(/\\.[^.]+$/, "");
     document.getElementById("tv-counter").textContent = `(${{currentIndex + 1}} / ${{playlist.length.toLocaleString()}})`;
+
+    const capEl = document.getElementById("tv-caption");
+    if (capEl) {{
+      if (item.caption && item.caption.trim()) {{
+        capEl.textContent = "🏷️ " + item.caption.trim();
+        capEl.style.display = "block";
+      }} else {{
+        capEl.textContent = "";
+        capEl.style.display = "none";
+      }}
+    }}
   }}
 
   function scheduleNextSlide() {{

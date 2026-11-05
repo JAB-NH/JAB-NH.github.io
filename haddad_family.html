@@ -86,14 +86,14 @@
                         </p>
                     </div>
                     <div class="flex flex-wrap items-center gap-3 pt-1">
-                        <a href="Norgem_Family_Slideshow_Player.html" target="_blank" class="px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-sky-300 border border-sky-400/50 font-bold text-sm shadow-md transition flex items-center gap-2" title="Preview the Norgem Enterprises Slideshow Player">
+                        <a href="Norgem_Family_Slideshow_Player.html" target="_blank" class="px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-sky-300 border border-sky-400/50 font-bold text-sm shadow-md transition flex items-center gap-2" title="Preview the Norgem Enterprises Slideshow Player online">
                             <span>📺 Preview Slideshow Player</span>
                         </a>
-                        <a href="Norgem_Family_Slideshow_Player.html" download="Norgem_Family_Slideshow_Player.html" class="px-3.5 py-2.5 rounded-xl bg-white hover:bg-gray-50 text-gray-800 border border-gray-300 font-bold text-sm shadow-sm transition flex items-center gap-2" title="Download the standalone Norgem Slideshow Player program">
-                            <span>⬇ Download Slideshow Player</span>
-                        </a>
+                        <button onclick="selectAllVisible()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md transition flex items-center gap-2" title="Select all photos across your chosen decade(s)">
+                            <span>☑️ Select All Photos (<span id="btn-top-select-all-count">0</span>)</span>
+                        </button>
                         <button onclick="downloadCurrentDecadesAsZip()" id="btn-download-current-decades" class="px-4 py-2.5 rounded-xl bg-brand-teal hover:bg-teal-700 text-white font-bold text-sm shadow-md transition flex items-center gap-2">
-                            <span>⬇ Download Current Decade(s) (<span id="btn-current-decades-count">0</span> Photos .ZIP)</span>
+                            <span>⬇ Download Current Decade(s) (<span id="btn-current-decades-count">0</span> Photos + Auto-Slideshow .ZIP)</span>
                         </button>
                         <button onclick="downloadAllDecadesAsZip()" id="btn-download-all-decades" class="px-4 py-2.5 rounded-xl bg-brand-dark hover:bg-gray-800 text-white font-bold text-sm shadow-md transition flex items-center gap-2">
                             <span>⬇ Download All Decades (1,774 Photos &bull; 460 MB .ZIP)</span>
@@ -145,11 +145,11 @@
             <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div class="flex flex-wrap items-center gap-2">
                     <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-brand-teal text-white text-xs font-bold mr-1">2</span>
-                    <button onclick="selectAllVisible()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold shadow-sm transition">
-                        <span>☑️ Select All in View</span>
+                    <button onclick="selectAllVisible()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-extrabold shadow-sm transition" title="Select all photos across all chosen decade(s)">
+                        <span>☑️ Select All Photos (<span id="btn-select-all-count">0</span>)</span>
                     </button>
-                    <button onclick="selectCurrentPage()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-brand-teal hover:bg-teal-700 text-white text-sm font-semibold shadow-sm transition">
-                        <span>✓ Select This Page</span>
+                    <button onclick="selectEntireArchive()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-brand-teal hover:bg-teal-700 text-white text-sm font-semibold shadow-sm transition" title="Select all 1,774 photos across every decade in the archive">
+                        <span>☑️ Select All 1,774 Archive Photos</span>
                     </button>
                     <button onclick="clearSelection()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold transition">
                         <span>✕ Clear Selection</span>
@@ -269,6 +269,8 @@
             allPhotos.forEach(p => photoMap.set(p.id, p));
 
             let activeDecades = new Set(["1940s"]);
+            let userHasTouchedDecades = false;
+            let autoSelectActiveDecades = false;
             let multiDecadeMode = true;
             let selectedPhotoIds = new Set();
             let showSelectedOnly = false;
@@ -321,16 +323,24 @@
 
             window.selectAllDecades = function() {
                 showSelectedOnly = false;
+                userHasTouchedDecades = true;
                 const nonEmpty = (manifest.decades || []).filter(d => (manifest.decade_summary[d]?.count || 0) > 0);
                 activeDecades = new Set(nonEmpty);
                 currentPage = 1;
                 renderDecadePills();
                 applyFiltersAndRender();
+                if (autoSelectActiveDecades) {
+                    syncActiveDecadesToSelection();
+                }
             };
 
             window.toggleDecade = function(decade) {
                 showSelectedOnly = false;
                 if (!multiDecadeMode) {
+                    activeDecades = new Set([decade]);
+                } else if (!userHasTouchedDecades) {
+                    // First click on a decade button replaces the initial default 1940s placeholder cleanly
+                    userHasTouchedDecades = true;
                     activeDecades = new Set([decade]);
                 } else {
                     if (activeDecades.has(decade)) {
@@ -339,10 +349,22 @@
                         activeDecades.add(decade);
                     }
                 }
+                userHasTouchedDecades = true;
                 currentPage = 1;
                 renderDecadePills();
                 applyFiltersAndRender();
+                if (autoSelectActiveDecades) {
+                    syncActiveDecadesToSelection();
+                }
             };
+
+            function syncActiveDecadesToSelection() {
+                selectedPhotoIds.clear();
+                filteredPhotos.forEach(p => selectedPhotoIds.add(p.id));
+                saveSelection();
+                renderGrid();
+                updateBasketUI();
+            }
 
             function renderDecadePills() {
                 const container = document.getElementById("decade-pills-container");
@@ -409,6 +431,10 @@
                 document.getElementById("stat-showing-photos").textContent = filteredPhotos.length.toLocaleString();
                 const curDecCountEl = document.getElementById("btn-current-decades-count");
                 if (curDecCountEl) curDecCountEl.textContent = filteredPhotos.length.toLocaleString();
+                const selAllCountEl = document.getElementById("btn-select-all-count");
+                if (selAllCountEl) selAllCountEl.textContent = filteredPhotos.length.toLocaleString();
+                const topSelAllCountEl = document.getElementById("btn-top-select-all-count");
+                if (topSelAllCountEl) topSelAllCountEl.textContent = filteredPhotos.length.toLocaleString();
                 const viewSelBtn = document.getElementById("btn-view-selected");
                 if (showSelectedOnly) {
                     viewSelBtn.className = "inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border-2 border-amber-500 bg-amber-400 text-gray-900 text-sm font-extrabold transition";
@@ -571,22 +597,24 @@
             }
 
             window.selectAllVisible = function() {
+                autoSelectActiveDecades = true;
                 filteredPhotos.forEach(p => selectedPhotoIds.add(p.id));
                 saveSelection();
                 renderGrid();
                 updateBasketUI();
             };
 
-            window.selectCurrentPage = function() {
-                const sliceStart = (currentPage - 1) * pageSize;
-                const pageItems = filteredPhotos.slice(sliceStart, sliceStart + pageSize);
-                pageItems.forEach(p => selectedPhotoIds.add(p.id));
+            window.selectEntireArchive = function() {
+                autoSelectActiveDecades = true;
+                window.selectAllDecades();
+                allPhotos.forEach(p => selectedPhotoIds.add(p.id));
                 saveSelection();
                 renderGrid();
                 updateBasketUI();
             };
 
             window.clearSelection = function() {
+                autoSelectActiveDecades = false;
                 selectedPhotoIds.clear();
                 saveSelection();
                 if (showSelectedOnly) {
@@ -634,9 +662,13 @@
             function updateBasketUI() {
                 const count = selectedPhotoIds.size;
                 let totalBytes = 0;
+                const decBreakdown = {};
                 selectedPhotoIds.forEach(id => {
                     const p = photoMap.get(id);
-                    if (p) totalBytes += (p.bytes || 0);
+                    if (p) {
+                        totalBytes += (p.bytes || 0);
+                        decBreakdown[p.decade] = (decBreakdown[p.decade] || 0) + 1;
+                    }
                 });
                 const mb = (totalBytes / (1024 * 1024)).toFixed(1);
 
@@ -644,6 +676,12 @@
                 document.getElementById("btn-selected-count").textContent = count.toLocaleString();
                 document.getElementById("basket-count").textContent = count.toLocaleString();
                 document.getElementById("basket-size-mb").textContent = mb;
+
+                const statusEl = document.getElementById("basket-status-text");
+                if (statusEl && count > 0) {
+                    const decSummary = Object.keys(decBreakdown).map(d => `${d} (${decBreakdown[d]})`).join(", ");
+                    statusEl.textContent = `Decades included in .ZIP: ${decSummary} — Auto-loads into bundled Norgem Slideshow Player`;
+                }
 
                 const bar = document.getElementById("download-basket-bar");
                 if (count > 0) {
@@ -804,14 +842,33 @@
                         zip.file(`${item.decade}/${item.name}`, blob);
                     }
 
-                    // Also bundle the standalone Norgem_Family_Slideshow_Player.html inside the root of every .ZIP!
+                    // Bundle Norgem_Family_Slideshow_Player.html pre-populated with the exact manifest of downloaded decades & photos!
                     try {
-                        const playerResp = await fetch("Norgem_Family_Slideshow_Player.html?v=cap1");
+                        const embeddedManifest = items.map(item => ({
+                            decade: item.decade,
+                            name: item.name,
+                            url: `${item.decade}/${item.name}`,
+                            caption: item.caption || ""
+                        }));
+                        const manifestJson = JSON.stringify(embeddedManifest);
+                        zip.file("norgem_extracted_manifest.js", `window.NORGEM_EXTRACTED_ZIP_MANIFEST = ${manifestJson};
+`);
+
+                        const playerResp = await fetch("Norgem_Family_Slideshow_Player.html?v=cap2");
                         if (playerResp.ok) {
-                            const playerBlob = await playerResp.blob();
-                            zip.file("Norgem_Family_Slideshow_Player.html", playerBlob);
+                            let playerHtml = await playerResp.text();
+                            const injectTag = `<script>window.NORGEM_EXTRACTED_ZIP_MANIFEST = ${manifestJson};<\/script>`;
+                            if (playerHtml.includes("<!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->")) {
+                                playerHtml = playerHtml.replace("<!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->", injectTag);
+                            } else {
+                                playerHtml = playerHtml.replace("</head>", `${injectTag}
+</head>`);
+                            }
+                            zip.file("Norgem_Family_Slideshow_Player.html", playerHtml);
                         }
-                    } catch (e) {}
+                    } catch (e) {
+                        console.error("Slideshow bundle warning:", e);
+                    }
 
                     if (triggerBtn) triggerBtn.innerHTML = `<span>📦 Finalizing .ZIP Archive...</span>`;
                     if (statusEl) statusEl.textContent = `Building decade-organized .ZIP file for ${items.length.toLocaleString()} photos...`;

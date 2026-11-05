@@ -34,20 +34,20 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 24px 20px;
+    padding: 20px 18px;
     background:
       radial-gradient(circle at 50% 22%, rgba(14, 116, 144, 0.22) 0%, rgba(15, 23, 42, 0.55) 42%, #020617 80%);
   }
 
   .launcher-card {
     width: 100%;
-    max-width: 880px;
-    background: rgba(15, 23, 42, 0.82);
+    max-width: 900px;
+    background: rgba(15, 23, 42, 0.85);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(56, 189, 248, 0.28);
     border-radius: 24px;
-    padding: 28px 32px;
+    padding: 26px 30px;
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), 0 0 40px rgba(56, 189, 248, 0.08);
     margin: auto 0;
   }
@@ -57,30 +57,18 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-bottom: 22px;
+    margin-bottom: 18px;
   }
 
   .heron-logo {
-    width: 120px;
-    height: 120px;
+    width: 108px;
+    height: 108px;
     object-fit: contain;
-    margin-bottom: 10px;
-    animation: sentinel-pulse 7s ease-in-out infinite;
-  }
-
-  @keyframes sentinel-pulse {
-    0%, 100% {
-      filter: brightness(0.88) drop-shadow(0 0 18px rgba(56, 189, 248, 0.28));
-      transform: scale(1.0);
-    }
-    50% {
-      filter: brightness(1.0) drop-shadow(0 0 32px rgba(56, 189, 248, 0.52));
-      transform: scale(1.02);
-    }
+    margin-bottom: 8px;
   }
 
   .brand-title {
-    font-size: 1.65rem;
+    font-size: 1.55rem;
     font-weight: 800;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -88,7 +76,7 @@
   }
 
   .brand-subtitle {
-    font-size: 0.92rem;
+    font-size: 0.9rem;
     color: #38bdf8;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -98,10 +86,10 @@
 
   .step-box {
     background: rgba(2, 6, 23, 0.65);
-    border: 1px solid rgba(148, 163, 184, 0.2);
+    border: 1px solid rgba(148, 163, 184, 0.22);
     border-radius: 16px;
-    padding: 18px 20px;
-    margin-bottom: 16px;
+    padding: 16px 20px;
+    margin-bottom: 14px;
   }
 
   .step-header {
@@ -110,11 +98,10 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 12px;
   }
 
   .step-title {
-    font-size: 1rem;
+    font-size: 0.98rem;
     font-weight: 700;
     color: #e2e8f0;
     display: flex;
@@ -135,35 +122,117 @@
     justify-content: center;
   }
 
-  .folder-btn {
-    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-    color: #ffffff;
-    border: 1px solid #38bdf8;
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-size: 0.95rem;
-    font-weight: 700;
+  .folder-btn-subtle {
+    background: rgba(30, 41, 59, 0.85);
+    color: #cbd5e1;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    padding: 7px 14px;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
   }
 
-  .folder-btn:hover {
-    background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
-    box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
-    transform: translateY(-1px);
+  .folder-btn-subtle:hover {
+    background: rgba(51, 65, 85, 0.95);
+    color: #ffffff;
+    border-color: #38bdf8;
   }
 
   .status-pill {
-    font-size: 0.85rem;
-    font-weight: 600;
+    font-size: 0.86rem;
+    font-weight: 700;
     padding: 6px 14px;
     border-radius: 999px;
-    background: rgba(16, 185, 129, 0.15);
+    background: rgba(16, 185, 129, 0.16);
     color: #34d399;
-    border: 1px solid rgba(16, 185, 129, 0.35);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+  }
+
+  /* Auto-Start Toggle Switch Bar */
+  .autostart-bar {
+    background: linear-gradient(135deg, rgba(14, 116, 144, 0.22) 0%, rgba(15, 23, 42, 0.8) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    border-radius: 16px;
+    padding: 14px 20px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .autostart-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .autostart-title {
+    font-size: 0.96rem;
+    font-weight: 800;
+    color: #f8fafc;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .autostart-desc {
+    font-size: 0.8rem;
+    color: #94a3b8;
+  }
+
+  .toggle-switch-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .toggle-label-state {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    min-width: 34px;
+    text-align: right;
+  }
+
+  .toggle-switch {
+    position: relative;
+    width: 54px;
+    height: 28px;
+    background: #334155;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    transition: all 0.25s ease;
+  }
+
+  .toggle-switch::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    background: #f8fafc;
+    border-radius: 50%;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  }
+
+  .toggle-switch.on {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-color: #6ee7b7;
+    box-shadow: 0 0 14px rgba(16, 185, 129, 0.45);
+  }
+
+  .toggle-switch.on::after {
+    transform: translateX(25px);
   }
 
   /* Mode & Decade Selector Buttons */
@@ -171,15 +240,16 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    margin-top: 12px;
     margin-bottom: 14px;
   }
 
   .random-btn {
     flex: 1;
-    min-width: 220px;
-    padding: 13px 18px;
+    min-width: 210px;
+    padding: 12px 18px;
     border-radius: 14px;
-    font-size: 1rem;
+    font-size: 0.96rem;
     font-weight: 800;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -233,7 +303,7 @@
   }
 
   .decade-btn:disabled {
-    opacity: 0.35;
+    opacity: 0.28;
     cursor: not-allowed;
   }
 
@@ -252,8 +322,8 @@
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    margin-top: 18px;
-    padding-top: 18px;
+    margin-top: 14px;
+    padding-top: 14px;
     border-top: 1px solid rgba(148, 163, 184, 0.2);
   }
 
@@ -280,9 +350,9 @@
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: #ffffff;
     border: 2px solid #6ee7b7;
-    padding: 14px 38px;
+    padding: 13px 36px;
     border-radius: 16px;
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: 900;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -307,9 +377,9 @@
 
   .cast-tip {
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 0.79rem;
     color: #94a3b8;
-    margin-top: 14px;
+    margin-top: 12px;
   }
 
   /* ==========================================================================
@@ -356,25 +426,46 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(2, 6, 23, 0.65);
+    background: rgba(2, 6, 23, 0.72);
     backdrop-filter: blur(10px);
     padding: 8px 16px;
     border-radius: 999px;
-    border: 1px solid rgba(56, 189, 248, 0.3);
+    border: 1px solid rgba(56, 189, 248, 0.35);
     z-index: 110;
     transition: opacity 0.4s ease;
+  }
+
+  /* Optional Photo Caption Pill Above HUD */
+  .tv-caption {
+    position: absolute;
+    bottom: 86px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(2, 6, 23, 0.85);
+    color: #fde68a;
+    border: 1px solid rgba(245, 158, 11, 0.45);
+    padding: 8px 20px;
+    border-radius: 14px;
+    font-size: 0.98rem;
+    font-weight: 700;
+    max-width: 82vw;
+    text-align: center;
+    z-index: 110;
+    display: none;
   }
 
   /* Auto-hiding bottom HUD bar */
   .tv-hud {
     position: absolute;
-    bottom: 28px;
+    bottom: 24px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
-    background: rgba(15, 23, 42, 0.85);
+    background: rgba(15, 23, 42, 0.88);
     backdrop-filter: blur(14px);
     padding: 10px 20px;
     border-radius: 999px;
@@ -405,11 +496,11 @@
     border-color: #38bdf8;
   }
 </style>
+<!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->
+<script src="norgem_extracted_manifest.js" onerror=""></script>
+<script src="assets/img/HaddadArchive/manifest.js?v=mat1" onerror=""></script>
 </head>
 <body>
-
-<!-- Optional automatic online manifest loader when previewed directly on the website -->
-<script src="assets/img/HaddadArchive/manifest.js?v=cap1" onerror=""></script>
 
 <div id="launcher-screen">
   <div class="launcher-card">
@@ -420,44 +511,55 @@
       <div class="brand-subtitle">Haddad Family Decade Slideshow &amp; Smart TV Viewer</div>
     </div>
 
-    <!-- Step 1: Load Downloaded Folder (or Auto-Loaded Archive) -->
+    <!-- Auto-Detected Decades & Photo Status Bar (Zero Clicks Required) -->
     <div class="step-box">
       <div class="step-header">
         <div class="step-title">
-          <span class="step-badge">1</span>
-          <span>Photo Source Folder</span>
+          <span class="step-badge">✓</span>
+          <span id="source-title-text">Automatic Decade &amp; Photo Detection</span>
         </div>
-        <span id="source-status-pill" class="status-pill">No folder loaded yet</span>
-      </div>
-      <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px;">
-        <p style="font-size:0.88rem; color:#94a3b8; max-width:520px; line-height:1.45;">
-          After unzipping your downloaded Haddad Family photos, click <strong>Load Downloaded Photo Folder</strong> and select your unzipped folder. It automatically detects all Decade subfolders!
-        </p>
-        <div>
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <span id="source-status-pill" class="status-pill">Scanning extracted decade folders...</span>
           <input type="file" id="folder-input" webkitdirectory directory multiple style="display:none" onchange="handleFolderSelect(event)">
-          <button class="folder-btn" onclick="document.getElementById('folder-input').click()">
-            <span>📂 Load Downloaded Photo Folder</span>
+          <button class="folder-btn-subtle" onclick="document.getElementById('folder-input').click()" title="Optional: Load a different folder from your computer">
+            <span>📂 Change Folder</span>
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Step 2: Pick Random OR Highlight Any Number of Decades -->
+    <!-- Auto-Start Toggle Switch (Runs Last Selected Configuration Automatically When Turned ON) -->
+    <div class="autostart-bar">
+      <div class="autostart-info">
+        <div class="autostart-title">
+          <span>⚡ Auto-Start Slideshow on Launch</span>
+        </div>
+        <div class="autostart-desc">
+          When turned <strong>ON</strong>, opening this Slideshow HTML automatically runs your last selected decade &amp; speed configuration without clicking anything.
+        </div>
+      </div>
+      <div class="toggle-switch-wrap" onclick="toggleAutoStart()">
+        <span id="autostart-state-label" class="toggle-label-state" style="color:#94a3b8;">OFF</span>
+        <div id="autostart-switch" class="toggle-switch" role="switch" aria-checked="false"></div>
+      </div>
+    </div>
+
+    <!-- Pick Random OR Highlight Any Number of Decades -->
     <div class="step-box">
       <div class="step-header">
         <div class="step-title">
-          <span class="step-badge">2</span>
+          <span class="step-badge">★</span>
           <span>Pick <strong>Random Shuffle</strong> OR Select One or More <strong>Decades</strong> (Stay Highlighted)</span>
         </div>
-        <span id="selection-summary" style="font-size:0.82rem; color:#38bdf8; font-weight:700;"></span>
+        <span id="selection-summary" style="font-size:0.84rem; color:#38bdf8; font-weight:700;"></span>
       </div>
 
-      <!-- Random All Button vs. Shuffle Selected Toggle -->
+      <!-- Random All Button vs. Highlight All Decades -->
       <div class="mode-row">
         <button id="btn-random-all" class="random-btn active" onclick="activateRandomAllMode()">
           <span>🎲 RANDOM (All Decades Shuffle)</span>
         </button>
-        <button id="btn-select-all-decades" class="random-btn" style="flex:0.6;" onclick="highlightAllDecades()">
+        <button id="btn-select-all-decades" class="random-btn" style="flex:0.65;" onclick="highlightAllDecades()">
           <span>☑️ Highlight All Decades</span>
         </button>
       </div>
@@ -468,12 +570,12 @@
       </div>
     </div>
 
-    <!-- Step 3: Interval & GO Button -->
+    <!-- Interval & GO Button -->
     <div class="launch-row">
       <div class="settings-group">
         <label>
           Slide Speed:
-          <select id="slide-interval" class="settings-select">
+          <select id="slide-interval" class="settings-select" onchange="onSettingsChanged()">
             <option value="4000">4 Seconds</option>
             <option value="6000" selected>6 Seconds (Recommended)</option>
             <option value="10000">10 Seconds</option>
@@ -481,13 +583,13 @@
           </select>
         </label>
         <label style="display:inline-flex; align-items:center; gap:6px; cursor:pointer;">
-          <input type="checkbox" id="chk-shuffle-selected" checked style="width:16px; height:16px;">
+          <input type="checkbox" id="chk-shuffle-selected" checked style="width:16px; height:16px;" onchange="onSettingsChanged()">
           <span>Shuffle Order</span>
         </label>
       </div>
 
       <button id="btn-go" class="go-btn" onclick="startSlideshow()">
-        <span>▶ GO (Full Screen)</span>
+        <span>▶ GO (Start Slideshow)</span>
       </button>
     </div>
 
@@ -496,7 +598,7 @@
     </div>
   </div>
 
-  <div style="font-size:0.78rem; color:#64748b; text-align:center; padding-top:12px;">
+  <div style="font-size:0.78rem; color:#64748b; text-align:center; padding-top:10px;">
     &copy; 2026 Norgem Enterprises &bull; James Allen Bates &bull; Sovereign Family Archival Viewer
   </div>
 </div>
@@ -513,15 +615,18 @@
     <span style="color:#64748b;">|</span>
     <span id="tv-photo-name" style="font-size:0.82rem; color:#cbd5e1;"></span>
     <span id="tv-counter" style="font-size:0.78rem; color:#94a3b8;"></span>
-    <span id="tv-caption" style="font-size:0.88rem; color:#fde68a; font-weight:700; margin-left:6px;"></span>
   </div>
+
+  <!-- Optional Family Caption Banner -->
+  <div id="tv-caption" class="tv-caption"></div>
 
   <!-- Bottom Floating Remote Control HUD -->
   <div id="tv-hud" class="tv-hud" onclick="event.stopPropagation()">
-    <button class="hud-btn" onclick="stopSlideshow()">&larr; Change Decades</button>
+    <button class="hud-btn" onclick="stopSlideshow()">&larr; Change Decades / Settings</button>
     <button class="hud-btn" onclick="prevSlide()">&#10094; Prev</button>
     <button id="btn-pause-resume" class="hud-btn" onclick="togglePause()">⏸ Pause</button>
     <button class="hud-btn" onclick="nextSlide()">Next &#10095;</button>
+    <button id="btn-hud-autostart" class="hud-btn" onclick="toggleAutoStart()">⚡ Auto-Start: OFF</button>
     <button class="hud-btn" onclick="toggleFullscreen()">⛶ Full Screen</button>
   </div>
 </div>
@@ -532,11 +637,14 @@
     "Pre-1940s", "1940s", "1950s", "1960s", "1970s",
     "1980s", "1990s", "2000s", "2010s", "2020s", "Highlights"
   ];
+  const PREFS_STORAGE_KEY = "norgem_family_slideshow_prefs_v2";
+  const COMPACT_ARCHIVE_CATALOG = [["Pre-1940s","Photo_Pre-1940s_362E36_p1.jpg",""],["Pre-1940s","Photo_Pre-1940s_362E36_p2.jpg",""],["Pre-1940s","Photo_Pre-1940s_6C0F31_p1.jpg","BACK ROW - LEFT TO RIGHT:  USTA  MICKEAL  CHIFICA  JABRA\nFRONT ROW - LEFT TO RIGHT:  SUAAD  ANIS  ABDULA  SELWA  ANISI"],["Pre-1940s","Photo_Pre-1940s_EB7EC2_p1.jpg","FARIZ MAZAR - MOM'S FATHER (Standing)"],["1940s","Photo_1940s_02BB7F_p4.jpg",""],["1940s","Photo_1940s_02BB7F_p5.jpg",""],["1940s","Photo_1940s_02BB7F_p6.jpg",""],["1940s","Photo_1940s_02BB7F_p7.jpg",""],["1940s","Photo_1940s_02BB7F_p8.jpg",""],["1940s","Photo_1940s_0915EF_p1.jpg","Hala Betty"],["1940s","Photo_1940s_0A4DB0_p2.jpg","Amit Nuha, Teta Chafica, Mom"],["1940s","Photo_1940s_0A4DB0_p5.jpg","Teta Chafica"],["1940s","Photo_1940s_0A4DB0_p6.jpg","Back Row: Teta Chafica, Dad, Teta Rifka, Mom\nFront Row:  Amti Nabiha, Amti Alexandra"],["1940s","Photo_1940s_0A4DB0_p8.jpg",""],["1940s","Photo_1940s_0A9FBC_p1.jpg","Jido Basilla, Hala Betty, Teta Rifka"],["1940s","Photo_1940s_0A9FBC_p2.jpg","Teta Rifka, Amti Alexandra, Jido Basilla, Dad, Mom, Amti Nuha, Amti Alexandra, Baby Hala Betty"],["1940s","Photo_1940s_0A9FBC_p3.jpg",""],["1940s","Photo_1940s_0A9FBC_p4.jpg","Amo Jamil, Amti Rose, Mom, Dad and Baby Hala Betty"],["1940s","Photo_1940s_0A9FBC_p5.jpg","Back Row: Amo Elias, Amo Anis and others\nFront Row: Amit Nabiha, Mom, Amit Alexandra and others\nBaby: Hala Betty"],["1940s","Photo_1940s_12A495_p1.jpg",""],["1940s","Photo_1940s_130945_p1.jpg","Dad's parents - Basil and Rifka, and sibs Anis, Alexandra and Nabiha"],["1940s","Photo_1940s_130945_p2.jpg","Dad's sibs - Nabiha, Elias, Alexandra"],["1940s","Photo_1940s_130945_p3.jpg","Dad's Mother Rifka and Dad's sibs - Anis, Alexandra and Nabiha"],["1940s","Photo_1940s_130945_p5.jpg","Amo Elias and Amo Anis"],["1940s","Photo_1940s_1D21AC_p4.jpg",""],["1940s","Photo_1940s_1FEACC_p1.jpg",""],["1940s","Photo_1940s_1FEACC_p2.jpg","Amit Nuha, Teta Chafica, Teta Rifka, Mom, Dad"],["1940s","Photo_1940s_301D7F_p3.jpg","Teta Chafica, Mom, Dad"],["1940s","Photo_1940s_32566C_p1.jpg","Dad and Mom"],["1940s","Photo_1940s_32566C_p3.jpg","Nabiha Haddad, Anis Haddad, Alexandra Haddad - Dad's sibs"],["1940s","Photo_1940s_32566C_p4.jpg","Nuha Mary Srougi Ketteridge (Mom's sister)"],["1940s","Photo_1940s_32566C_p5.jpg","Mom's sister, Rose Mazbar Srougi"],["1940s","Photo_1940s_32566C_p6.jpg","Said Naddaf, his wife, Teta Chafica, Teta Rifka, Jido Basilla, Alexandra, Nabiha, Anis"],["1940s","Photo_1940s_32566C_p7.jpg","Lamia Kathryn Mazbar Haddad"],["1940s","Photo_1940s_32566C_p8.jpg","Mom's mother - Chafica Mazbar Srougi"],["1940s","Photo_1940s_37B7F0_p1.jpg","Nuha Mary Mazbar Ketteridge (Mom's sister)"],["1940s","Photo_1940s_37B7F0_p3.jpg","Nuha Mary Mazbar Ketteridge (Mom's sister)"],["1940s","Photo_1940s_3EE319_p2.jpg",""],["1940s","Photo_1940s_400F2E_p3.jpg","Dad and others"],["1940s","Photo_1940s_400F2E_p4.jpg","Teta Chafica, Mom, Dad, others"],["1940s","Photo_1940s_400F2E_p7.jpg","Mom, Teta Chafica, Amti Olga, Amti Rose"],["1940s","Photo_1940s_411A02_p2.jpg",""],["1940s","Photo_1940s_411A02_p3.jpg",""],["1940s","Photo_1940s_411A02_p6.jpg",""],["1940s","Photo_1940s_411A02_p7.jpg",""],["1940s","Photo_1940s_43FBCA_p1.jpg","Jido Basilla, Amti Alexandra, Teta Rifka, Teta Chafica, Dad, Mom"],["1940s","Photo_1940s_43FBCA_p2.jpg","Amti Rose (I think), Mom"],["1940s","Photo_1940s_43FBCA_p3.jpg","Mom, Dad, Teta Chafica and others"],["1940s","Photo_1940s_444B5F_p1.jpg",""],["1940s","Photo_1940s_444B5F_p3.jpg",""],["1940s","Photo_1940s_444B5F_p4.jpg","Hala Betty"],["1940s","Photo_1940s_444B5F_p5.jpg","Hala Betty"],["1940s","Photo_1940s_444B5F_p6.jpg",""],["1940s","Photo_1940s_444B5F_p7.jpg","Hala Betty"],["1940s","Photo_1940s_444B5F_p9.jpg","Hala Betty"],["1940s","Photo_1940s_480700_p3.jpg",""],["1940s","Photo_1940s_480700_p6.jpg","Dennis Ketteridge, Nuha Mary Mazbar Ketteridge, Lamia Kathryn Mazbar Haddad"],["1940s","Photo_1940s_4824EB_p1.jpg","Dad, Mom, Hala Betty\nUnknown Baby\nHala Betty"],["1940s","Photo_1940s_4824EB_p2.jpg",""],["1940s","Photo_1940s_4824EB_p3.jpg",""],["1940s","Photo_1940s_483E2F_p2.jpg","Nuha, Dennis, Mom, Dad"],["1940s","Photo_1940s_483E2F_p3.jpg",""],["1940s","Photo_1940s_483E2F_p4.jpg",""],["1940s","Photo_1940s_483E2F_p6.jpg",""],["1940s","Photo_1940s_483E2F_p7.jpg",""],["1940s","Photo_1940s_4A37EE_p1.jpg",""],["1940s","Photo_1940s_4A37EE_p3.jpg","Dad, Mom, Uncle Dennis, Amti Nuha, Amo Assad, Amti Olga"],["1940s","Photo_1940s_4A37EE_p4.jpg","Dad, Mom, Uncle Dennis, Amti Nuha, Amo Jamil, Amti Rose"],["1940s","Photo_1940s_501081_p2.jpg","Amti Nuha, Mom"],["1940s","Photo_1940s_542A04_p1.jpg","Jido Basilla"],["1940s","Photo_1940s_542A04_p3.jpg","Amo Elias"],["1940s","Photo_1940s_5A3270_p1.jpg","Jido Basilla, Anti Nabiha, Dad, Teta Rifka, Amo Elias, Amti Alexandra"],["1940s","Photo_1940s_5A3270_p2.jpg","Teta Rifka, Amti Alexandra, Jido Basilla, Dad, Mom, Teta Chafica, Amti Nabiha"],["1940s","Photo_1940s_5B3575_p5.jpg",""],["1940s","Photo_1940s_5E68E5_p5.jpg",""],["1940s","Photo_1940s_5FEA84_p3.jpg","Mom"],["1940s","Photo_1940s_615599_p1.jpg",""],["1940s","Photo_1940s_615599_p4.jpg",""],["1940s","Photo_1940s_615599_p5.jpg","Mom, Hala Betty, Dad"],["1940s","Photo_1940s_615599_p6.jpg","Tele Rifka and Hala Betty"],["1940s","Photo_1940s_615599_p8.jpg",""],["1940s","Photo_1940s_619784_p2.jpg","Amo Elias"],["1940s","Photo_1940s_619784_p3.jpg","Amti Nabiha"],["1940s","Photo_1940s_619784_p4.jpg","Jido Basilla, Hala Betty, Teta Rifka"],["1940s","Photo_1940s_619784_p5.jpg","Teta Rifka"],["1940s","Photo_1940s_619784_p7.jpg","Dad"],["1940s","Photo_1940s_619784_p8.jpg","Teta Rifka, Hala Betty"],["1940s","Photo_1940s_619784_p9.jpg","Amo Anis"],["1940s","Photo_1940s_6372D9_p10.jpg","Second from left: John Adel Haddad"],["1940s","Photo_1940s_6372D9_p12.jpg","Left: John Adel Haddad"],["1940s","Photo_1940s_6372D9_p7.jpg","(I think) Mama Norma Haddad and Hala Betty Haddad"],["1940s","Photo_1940s_6372D9_p8.jpg","Third from left:  John Adel Haddad"],["1940s","Photo_1940s_6D050B_p5.jpg","Hala Betty and Mom"],["1940s","Photo_1940s_6E420D_p3.jpg",""],["1940s","Photo_1940s_6E420D_p5.jpg",""],["1940s","Photo_1940s_6E420D_p6.jpg","Dad, Mom, Hala Betty, Amti Rose and children"],["1940s","Photo_1940s_726563_p1.jpg","Amti Nuha and Uncle Dennis' wedding"],["1940s","Photo_1940s_76A158_p1.jpg",""],["1940s","Photo_1940s_76A158_p2.jpg","Lamia Kathryn Haddad and Hala Betty Haddad"],["1940s","Photo_1940s_76A158_p3.jpg","Mom"],["1940s","Photo_1940s_76A158_p5.jpg","Lamia Kathryn Mazbar Haddad"],["1940s","Photo_1940s_76A158_p6.jpg","John Adel Haddad"],["1940s","Photo_1940s_79B0FA_p1.jpg",""],["1940s","Photo_1940s_79B0FA_p2.jpg",""],["1940s","Photo_1940s_79B0FA_p3.jpg",""],["1940s","Photo_1940s_79B0FA_p4.jpg","Dad, Mom, Hala Betty"],["1940s","Photo_1940s_7A8629_p1.jpg",""],["1940s","Photo_1940s_7A8629_p4.jpg",""],["1940s","Photo_1940s_7A8629_p6.jpg",""],["1940s","Photo_1940s_7A8629_p9.jpg",""],["1940s","Photo_1940s_7B38ED_p1.jpg",""],["1940s","Photo_1940s_7B38ED_p3.jpg",""],["1940s","Photo_1940s_7B38ED_p4.jpg",""],["1940s","Photo_1940s_7B38ED_p5.jpg",""],["1940s","Photo_1940s_7B5908_p1.jpg",""],["1940s","Photo_1940s_7B5908_p2.jpg",""],["1940s","Photo_1940s_7B5908_p4.jpg",""],["1940s","Photo_1940s_7B5908_p5.jpg",""],["1940s","Photo_1940s_7D0720_p3.jpg",""],["1940s","Photo_1940s_7D0720_p5.jpg",""],["1940s","Photo_1940s_7D0720_p6.jpg",""],["1940s","Photo_1940s_7D0720_p8.jpg",""],["1940s","Photo_1940s_7D8035_p4.jpg","Said Naddaf and wife, Amti Nabiha, Teta Rifka, Amti Alexandra, Amo Anis, Teta Chafica, Jido Basilla"],["1940s","Photo_1940s_804EFF_p4.jpg",""],["1940s","Photo_1940s_82FAC9_p2.jpg","Amo Elias"],["1940s","Photo_1940s_87B000_p1.jpg","Amit Nuha, Amti Rose, Teta Chafica, Mom"],["1940s","Photo_1940s_87B000_p2.jpg","Amo Anis, Dad, Amo Elias, Amti Alexandra, Teta Rifka and others"],["1940s","Photo_1940s_87B000_p4.jpg","Amo Jamil, Amit Rose, Dad, Mom, Teta Chafica, Amti Nuha, Uncle Dennis"],["1940s","Photo_1940s_87B000_p5.jpg","Uncle Dennis, Dad, others"],["1940s","Photo_1940s_87B000_p6.jpg","Amit Rose, Teta Chafica, Amti Nuha, Uncle Dennis, Dad, Mom"],["1940s","Photo_1940s_87B000_p7.jpg","Mom and others"],["1940s","Photo_1940s_87B000_p8.jpg","Amit Nuha, Mom, Amti Rose"],["1940s","Photo_1940s_87B71C_p2.jpg","Amti Alexandra, Teta Rifka, Amo Anis, Amti Nabiha"],["1940s","Photo_1940s_87B71C_p6.jpg","Seated:  Dad"],["1940s","Photo_1940s_87B71C_p7.jpg",""],["1940s","Photo_1940s_87B71C_p8.jpg",""],["1940s","Photo_1940s_8BA7C7_p1.jpg",""],["1940s","Photo_1940s_8BA7C7_p2.jpg",""],["1940s","Photo_1940s_8BA7C7_p3.jpg",""],["1940s","Photo_1940s_8BA7C7_p5.jpg",""],["1940s","Photo_1940s_8BA7C7_p7.jpg",""],["1940s","Photo_1940s_8F8E24_p1.jpg",""],["1940s","Photo_1940s_8F8E24_p2.jpg",""],["1940s","Photo_1940s_8F8E24_p3.jpg",""],["1940s","Photo_1940s_8F8E24_p4.jpg",""],["1940s","Photo_1940s_8F8E24_p5.jpg",""],["1940s","Photo_1940s_9703B8_p1.jpg",""],["1940s","Photo_1940s_99ED68_p1.jpg","Back Row:  Amo Elias, Teta Rifka, Dad, Mom, Hala Betty\nFront Row: Amti Nabiha, Amti Alexandra"],["1940s","Photo_1940s_99ED68_p3.jpg","Amti Nuha, Mom"],["1940s","Photo_1940s_9DF590_p1.jpg","Teta Chafica, Dad"],["1940s","Photo_1940s_9DF590_p2.jpg",""],["1940s","Photo_1940s_9DF590_p4.jpg",""],["1940s","Photo_1940s_9DF590_p6.jpg","Hala Betty and Dad"],["1940s","Photo_1940s_9DF590_p8.jpg","Dad"],["1940s","Photo_1940s_A4D5D6_p1.jpg",""],["1940s","Photo_1940s_A4D5D6_p3.jpg",""],["1940s","Photo_1940s_A4D5D6_p4.jpg",""],["1940s","Photo_1940s_A4D5D6_p7.jpg",""],["1940s","Photo_1940s_B18665_p1.jpg",""],["1940s","Photo_1940s_B18665_p6.jpg",""],["1940s","Photo_1940s_B24902_p2.jpg","Chafica Mazbar Srougi (Mom's mother)"],["1940s","Photo_1940s_B50FA8_p1.jpg",""],["1940s","Photo_1940s_B50FA8_p2.jpg",""],["1940s","Photo_1940s_B55259_p9.jpg",""],["1940s","Photo_1940s_BDEA27_p1.jpg",""],["1940s","Photo_1940s_BDEA27_p2.jpg","Teta Chafica"],["1940s","Photo_1940s_BDEA27_p3.jpg","Amo Anis, Amti Nabiha, Jido Basila, Teta Rifka, Teta Chafica, Mrs. Naddaf, Said Naddaf, Amti Alexandra, Dad, Mom"],["1940s","Photo_1940s_C61BEB_p5.jpg","Jido Basilla"],["1940s","Photo_1940s_C61BEB_p6.jpg","Amti Alexandra"],["1940s","Photo_1940s_C61BEB_p7.jpg","Amti Alexandra, Jido Basilla, Amo Elias, Amo Anis, Amti Alexandra, Dad, Mom, Amti Nuha, Teta Chafica and others"],["1940s","Photo_1940s_C8E34B_p2.jpg",""],["1940s","Photo_1940s_C8E34B_p6.jpg","Hala Betty"],["1940s","Photo_1940s_C927E0_p1.jpg",""],["1940s","Photo_1940s_C927E0_p2.jpg",""],["1940s","Photo_1940s_C927E0_p3.jpg",""],["1940s","Photo_1940s_C927E0_p5.jpg",""],["1940s","Photo_1940s_C927E0_p7.jpg",""],["1940s","Photo_1940s_C927E0_p8.jpg",""],["1940s","Photo_1940s_CB495F_p1.jpg","Lamia Kathryn Mazbar"],["1940s","Photo_1940s_CB495F_p2.jpg","Nuha Mary Mazbar, Dennis Ketteridge, John Adel Haddad, Lamia Kathryn Mazbar, Chafica Srougi, and (I think) Emile"],["1940s","Photo_1940s_CB495F_p3.jpg","Lamia Kathryn Mazbar and John Adel Haddad"],["1940s","Photo_1940s_CB495F_p4.jpg","John Adel Haddad (Dad) third from left"],["1940s","Photo_1940s_CBBA92_p2.jpg",""],["1940s","Photo_1940s_D235E3_p3.jpg",""],["1940s","Photo_1940s_D235E3_p5.jpg",""],["1940s","Photo_1940s_D235E3_p7.jpg",""],["1940s","Photo_1940s_D4CB1B_p1.jpg","Mom"],["1940s","Photo_1940s_DCF68E_p10.jpg",""],["1940s","Photo_1940s_DCF68E_p4.jpg",""],["1940s","Photo_1940s_DCF68E_p5.jpg",""],["1940s","Photo_1940s_DCF68E_p6.jpg",""],["1940s","Photo_1940s_DCF68E_p8.jpg",""],["1940s","Photo_1940s_DCF68E_p9.jpg",""],["1940s","Photo_1940s_DF4390_p2.jpg",""],["1940s","Photo_1940s_DF4390_p3.jpg",""],["1940s","Photo_1940s_DF4390_p4.jpg",""],["1940s","Photo_1940s_DF4390_p6.jpg",""],["1940s","Photo_1940s_DF4390_p8.jpg","Dad and Mom's wedding"],["1940s","Photo_1940s_E1FBD1_p2.jpg",""],["1940s","Photo_1940s_E1FBD1_p3.jpg",""],["1940s","Photo_1940s_E1FBD1_p4.jpg",""],["1940s","Photo_1940s_E1FBD1_p5.jpg",""],["1940s","Photo_1940s_E1FBD1_p6.jpg",""],["1940s","Photo_1940s_E1FBD1_p7.jpg",""],["1940s","Photo_1940s_E40532_p5.jpg","Dad and others"],["1940s","Photo_1940s_E4E9F2_p1.jpg",""],["1940s","Photo_1940s_E4E9F2_p3.jpg",""],["1940s","Photo_1940s_E4E9F2_p4.jpg",""],["1940s","Photo_1940s_E4E9F2_p5.jpg",""],["1940s","Photo_1940s_E4E9F2_p6.jpg",""],["1940s","Photo_1940s_E73E5F_p2.jpg",""],["1940s","Photo_1940s_E91B7D_p7.jpg","Amit Nabiha, Amit Rose, Teta Chafica, Mom, Dad, Uncle Dennis, Amti Nuha, Teta Rifka, Amti Alexandra and others"],["1940s","Photo_1940s_F6AB0C_p1.jpg",""],["1940s","Photo_1940s_F6AB0C_p2.jpg",""],["1940s","Photo_1940s_F6AB0C_p3.jpg",""],["1940s","Photo_1940s_F6AB0C_p4.jpg",""],["1940s","Photo_1940s_FB280D_p7.jpg","Nuha Mary Mazbar, Lamia Kathryn Haddad"],["1940s","Photo_1940s_FCCDD1_p6.jpg","Chafica Mazbar  Srougi - Mom's mother"],["1950s","Photo_1950s_057EE7_p1.jpg",""],["1950s","Photo_1950s_057EE7_p3.jpg",""],["1950s","Photo_1950s_057EE7_p4.jpg",""],["1950s","Photo_1950s_09136D_p2.jpg",""],["1950s","Photo_1950s_09136D_p5.jpg",""],["1950s","Photo_1950s_09136D_p6.jpg",""],["1950s","Photo_1950s_0915EF_p2.jpg",""],["1950s","Photo_1950s_0915EF_p3.jpg",""],["1950s","Photo_1950s_0915EF_p4.jpg",""],["1950s","Photo_1950s_0915EF_p5.jpg",""],["1950s","Photo_1950s_09541B_p1.jpg",""],["1950s","Photo_1950s_09541B_p2.jpg",""],["1950s","Photo_1950s_09541B_p3.jpg",""],["1950s","Photo_1950s_09541B_p4.jpg",""],["1950s","Photo_1950s_0A9FBC_p6.jpg",""],["1950s","Photo_1950s_0A9FBC_p7.jpg",""],["1950s","Photo_1950s_0A9FBC_p9.jpg",""],["1950s","Photo_1950s_0E2CCA_p1.jpg",""],["1950s","Photo_1950s_0E2CCA_p2.jpg",""],["1950s","Photo_1950s_0E2CCA_p3.jpg",""],["1950s","Photo_1950s_10F3EA_p1.jpg",""],["1950s","Photo_1950s_10F3EA_p4.jpg",""],["1950s","Photo_1950s_1FEACC_p3.jpg",""],["1950s","Photo_1950s_1FEACC_p4.jpg",""],["1950s","Photo_1950s_1FEACC_p5.jpg",""],["1950s","Photo_1950s_301D7F_p4.jpg",""],["1950s","Photo_1950s_32566C_p2.jpg","John Adel Haddad and Lamia Kathryn Mazbar Haddad"],["1950s","Photo_1950s_3577DE_p3.jpg",""],["1950s","Photo_1950s_375BF1_p1.jpg",""],["1950s","Photo_1950s_375BF1_p2.jpg",""],["1950s","Photo_1950s_375BF1_p3.jpg",""],["1950s","Photo_1950s_375BF1_p4.jpg",""],["1950s","Photo_1950s_3B510F_p2.jpg",""],["1950s","Photo_1950s_3B510F_p3.jpg",""],["1950s","Photo_1950s_3B510F_p4.jpg",""],["1950s","Photo_1950s_43FBCA_p4.jpg",""],["1950s","Photo_1950s_43FBCA_p5.jpg",""],["1950s","Photo_1950s_474EE8_p1.jpg",""],["1950s","Photo_1950s_474EE8_p2.jpg",""],["1950s","Photo_1950s_474EE8_p3.jpg",""],["1950s","Photo_1950s_474EE8_p5.jpg",""],["1950s","Photo_1950s_4824EB_p4.jpg",""],["1950s","Photo_1950s_4824EB_p5.jpg",""],["1950s","Photo_1950s_4900C3_p1.jpg",""],["1950s","Photo_1950s_4900C3_p2.jpg","Unknown, Amti Alexandra, Mrs. Zeitoun, Amti Afiffi"],["1950s","Photo_1950s_4900C3_p4.jpg","Amti Afiffi, Amti Alexandra, Amti Nabiha, Amo Shafik, unknown"],["1950s","Photo_1950s_4900C3_p5.jpg","Hala, Norma, Susie"],["1950s","Photo_1950s_4900C3_p6.jpg","Amti Nabiha, Linda Haddad, F. Haddad, Amti Afiffi, Mrs. Zeitoun"],["1950s","Photo_1950s_4A782F_p1.jpg",""],["1950s","Photo_1950s_4A782F_p2.jpg",""],["1950s","Photo_1950s_4A782F_p4.jpg",""],["1950s","Photo_1950s_4E103F_p1.jpg",""],["1950s","Photo_1950s_4E103F_p2.jpg",""],["1950s","Photo_1950s_4E103F_p3.jpg",""],["1950s","Photo_1950s_4E103F_p4.jpg",""],["1950s","Photo_1950s_501081_p1.jpg",""],["1950s","Photo_1950s_501081_p3.jpg",""],["1950s","Photo_1950s_501081_p4.jpg",""],["1950s","Photo_1950s_501081_p5.jpg","Teta Rifka, Amo Assad, Jido Basilla, Amo Brahim, Amti Matille, Amti Afiffi"],["1950s","Photo_1950s_518B00_p1.jpg",""],["1950s","Photo_1950s_518B00_p2.jpg",""],["1950s","Photo_1950s_518B00_p3.jpg",""],["1950s","Photo_1950s_55D34D_p2.jpg",""],["1950s","Photo_1950s_5A3270_p3.jpg",""],["1950s","Photo_1950s_5A3270_p5.jpg",""],["1950s","Photo_1950s_5A3270_p6.jpg","Amti Alexandra, Amti Rose, Teta Chafica, Uncle Dennis, Amti Nuha, Mom, Dad,unknown, Teta Rifka, Amti Alexandra"],["1950s","Photo_1950s_5B1799_p3.jpg",""],["1950s","Photo_1950s_5B3575_p1.jpg",""],["1950s","Photo_1950s_5B3575_p2.jpg",""],["1950s","Photo_1950s_5B3575_p4.jpg",""],["1950s","Photo_1950s_5FEA84_p2.jpg",""],["1950s","Photo_1950s_619784_p1.jpg",""],["1950s","Photo_1950s_6372D9_p1.jpg","Mom, Dad and Hala Betty"],["1950s","Photo_1950s_6372D9_p2.jpg","Lamia Kathryn Haddad, (I think-Maha Norma), John Adel Haddad"],["1950s","Photo_1950s_6372D9_p9.jpg",""],["1950s","Photo_1950s_6B01B2_p6.jpg",""],["1950s","Photo_1950s_6CF0F9_p1.jpg",""],["1950s","Photo_1950s_6CF0F9_p2.jpg",""],["1950s","Photo_1950s_6CF0F9_p3.jpg",""],["1950s","Photo_1950s_6CF0F9_p4.jpg",""],["1950s","Photo_1950s_6D050B_p4.jpg",""],["1950s","Photo_1950s_6E420D_p1.jpg",""],["1950s","Photo_1950s_6E420D_p2.jpg",""],["1950s","Photo_1950s_6E420D_p4.jpg",""],["1950s","Photo_1950s_6E420D_p7.jpg",""],["1950s","Photo_1950s_75E9A7_p1.jpg",""],["1950s","Photo_1950s_75E9A7_p3.jpg",""],["1950s","Photo_1950s_79B0FA_p5.jpg",""],["1950s","Photo_1950s_79BDAF_p1.jpg",""],["1950s","Photo_1950s_79BDAF_p2.jpg",""],["1950s","Photo_1950s_79BDAF_p3.jpg",""],["1950s","Photo_1950s_79BDAF_p4.jpg",""],["1950s","Photo_1950s_79BDAF_p5.jpg",""],["1950s","Photo_1950s_79BDAF_p6.jpg",""],["1950s","Photo_1950s_7A27A7_p2.jpg",""],["1950s","Photo_1950s_7B9976_p3.jpg",""],["1950s","Photo_1950s_7B9976_p4.jpg",""],["1950s","Photo_1950s_7B9976_p5.jpg","Amo Elias, Amti Jackie"],["1950s","Photo_1950s_7D0720_p1.jpg",""],["1950s","Photo_1950s_7D0720_p4.jpg",""],["1950s","Photo_1950s_7D8035_p2.jpg","Amti Matille, Amti Afiffi, Amti Alexandra, Mom, Amti Nabiha"],["1950s","Photo_1950s_7D8035_p3.jpg","Teta Rifka (Dad's mother)"],["1950s","Photo_1950s_81BA83_p1.jpg",""],["1950s","Photo_1950s_82B4AC_p1.jpg",""],["1950s","Photo_1950s_82B4AC_p2.jpg",""],["1950s","Photo_1950s_82B4AC_p3.jpg",""],["1950s","Photo_1950s_82B4AC_p4.jpg",""],["1950s","Photo_1950s_82FAC9_p3.jpg","Amo Elias"],["1950s","Photo_1950s_839287_p1.jpg",""],["1950s","Photo_1950s_839287_p2.jpg",""],["1950s","Photo_1950s_839287_p4.jpg",""],["1950s","Photo_1950s_855680_p6.jpg",""],["1950s","Photo_1950s_87B71C_p1.jpg",""],["1950s","Photo_1950s_8EC50C_p1.jpg","Maha Norma Theresa Haddad"],["1950s","Photo_1950s_8EC50C_p2.jpg","Teta Chafica"],["1950s","Photo_1950s_8EC50C_p3.jpg","Mom, Abuna Atallah, unknown, Amti Alexandra"],["1950s","Photo_1950s_8EC50C_p4.jpg","Centre - Teta Chafica"],["1950s","Photo_1950s_9703B8_p2.jpg",""],["1950s","Photo_1950s_9703B8_p3.jpg",""],["1950s","Photo_1950s_9703B8_p4.jpg",""],["1950s","Photo_1950s_9703B8_p5.jpg",""],["1950s","Photo_1950s_98C3A9_p1.jpg","Unknown, Dad, Amo Shafik"],["1950s","Photo_1950s_98C3A9_p3.jpg",""],["1950s","Photo_1950s_99ED68_p5.jpg",""],["1950s","Photo_1950s_9A9CCE_p1.jpg","Standing - Mom, Amti Afiffi\nSleeping - Uncle Shafik\nKneeling - Diane Farrah"],["1950s","Photo_1950s_9A9CCE_p2.jpg","Teta Chafica"],["1950s","Photo_1950s_9A9CCE_p4.jpg",""],["1950s","Photo_1950s_9DF6DD_p1.jpg",""],["1950s","Photo_1950s_9DF6DD_p2.jpg","Rasheed, Hala Betty, Maha Norma, Fareed"],["1950s","Photo_1950s_9DF6DD_p3.jpg","Amti Afiffi, Susie, Maha Norma, Mom"],["1950s","Photo_1950s_9DF6DD_p4.jpg","Picnic at Vincent Massey Park\nAmti Afiffi, Mom, Diane Farrah, Hala Betty, Maha Norma, Uncle Shafik\nSeated - Rasheed, Fareed, Susie"],["1950s","Photo_1950s_A9BC4F_p1.jpg",""],["1950s","Photo_1950s_A9BC4F_p3.jpg",""],["1950s","Photo_1950s_A9BC4F_p4.jpg",""],["1950s","Photo_1950s_AFEC34_p3.jpg","Mom, Amity Afiffi, Maha Norma?"],["1950s","Photo_1950s_B03638_p2.jpg",""],["1950s","Photo_1950s_B03638_p3.jpg",""],["1950s","Photo_1950s_B03638_p5.jpg",""],["1950s","Photo_1950s_B09E9F_p1.jpg",""],["1950s","Photo_1950s_B09E9F_p2.jpg","Back Row-Teta Rifka, Amo Elias, Amti Jackie, unknown, Amo Anis\nFront Row-Jido Basilla, Amo Brahim, Amo ?"],["1950s","Photo_1950s_B09E9F_p3.jpg","Back Row-Amo Elias,Amti Alexandra, Amti Nabiha, Amo Anis\nFront Row-Teta Rifka, Jido Basilla"],["1950s","Photo_1950s_B09E9F_p4.jpg","Teta Rifka, Jido Basilla"],["1950s","Photo_1950s_B09E9F_p5.jpg","Amti Alexandra"],["1950s","Photo_1950s_B55259_p2.jpg",""],["1950s","Photo_1950s_BBE87A_p1.jpg",""],["1950s","Photo_1950s_BBE87A_p2.jpg",""],["1950s","Photo_1950s_BBE87A_p3.jpg",""],["1950s","Photo_1950s_BBE87A_p4.jpg","Hala Betty, Mom, Susie, Maha Norma"],["1950s","Photo_1950s_C28FB6_p1.jpg","Teta Rifka, Amti Hasibi"],["1950s","Photo_1950s_C28FB6_p2.jpg","Amti Alexandra"],["1950s","Photo_1950s_C28FB6_p3.jpg","Amti Alexandra, Teta Rifka, Amti Nabiha"],["1950s","Photo_1950s_C28FB6_p4.jpg","Back Row-Amti Jackie, Amo Elias, Teta Rifa, Jido Basilla\nFront Row-Dad, Mom, Norma"],["1950s","Photo_1950s_C28FB6_p5.jpg","Mom, Susie, Norma, Dad, Teta Rifka, Hala"],["1950s","Photo_1950s_C28FB6_p6.jpg","Amo Assad, Amo Niaf (Dad's father's brothers)"],["1950s","Photo_1950s_C28FB6_p7.jpg","Back Row-Anti Nabiha, Amti Alexandra\nFrom Row-Tea Rifka, Mom"],["1950s","Photo_1950s_C8E34B_p1.jpg",""],["1950s","Photo_1950s_C8E34B_p3.jpg",""],["1950s","Photo_1950s_C8E34B_p4.jpg",""],["1950s","Photo_1950s_C8E34B_p5.jpg",""],["1950s","Photo_1950s_C8E34B_p7.jpg",""],["1950s","Photo_1950s_C927E0_p6.jpg",""],["1950s","Photo_1950s_CB3AB1_p1.jpg",""],["1950s","Photo_1950s_CBFE14_p1.jpg",""],["1950s","Photo_1950s_CBFE14_p2.jpg",""],["1950s","Photo_1950s_CBFE14_p3.jpg",""],["1950s","Photo_1950s_CBFE14_p4.jpg",""],["1950s","Photo_1950s_CBFE14_p5.jpg",""],["1950s","Photo_1950s_CBFE14_p6.jpg",""],["1950s","Photo_1950s_CBFE14_p7.jpg",""],["1950s","Photo_1950s_CDA06C_p1.jpg",""],["1950s","Photo_1950s_CDA06C_p2.jpg",""],["1950s","Photo_1950s_D4CB1B_p4.jpg","Amti Nabiha, Teta Rifka, Amati Jackie, Amo Elias, Mom with baby, Hala Betty, Maha Norma"],["1950s","Photo_1950s_E40532_p3.jpg",""],["1950s","Photo_1950s_E40532_p4.jpg",""],["1950s","Photo_1950s_E91029_p5.jpg",""],["1950s","Photo_1950s_E91B7D_p3.jpg",""],["1950s","Photo_1950s_EB6BA0_p1.jpg",""],["1950s","Photo_1950s_EB6BA0_p2.jpg",""],["1950s","Photo_1950s_EB6BA0_p4.jpg",""],["1950s","Photo_1950s_EBCCCF_p1.jpg",""],["1950s","Photo_1950s_EBCCCF_p2.jpg",""],["1950s","Photo_1950s_EBCCCF_p4.jpg",""],["1950s","Photo_1950s_F289A0_p3.jpg",""],["1950s","Photo_1950s_F348C9_p2.jpg","Amti Afiffi, Mom"],["1950s","Photo_1950s_F348C9_p3.jpg","Back Row - Teta Rifka, Hala Betty\nFront Row - Maha Norma, Susie Amal"],["1950s","Photo_1950s_FD6670_p2.jpg",""],["1950s","Photo_1950s_FD6670_p4.jpg",""],["1950s","Photo_1950s_FDBDEF_p1.jpg",""],["1950s","Photo_1950s_FDBDEF_p3.jpg",""],["1950s","Photo_1950s_FDBDEF_p4.jpg",""],["1960s","Photo_1960s_00D405_p4.jpg","Teta Chafica"],["1960s","Photo_1960s_0462A1_p2.jpg",""],["1960s","Photo_1960s_0462A1_p5.jpg",""],["1960s","Photo_1960s_0462A1_p6.jpg",""],["1960s","Photo_1960s_1AF190_p1.jpg",""],["1960s","Photo_1960s_1AF190_p2.jpg",""],["1960s","Photo_1960s_1AF190_p5.jpg",""],["1960s","Photo_1960s_1AF190_p6.jpg",""],["1960s","Photo_1960s_1E71E2_p1.jpg",""],["1960s","Photo_1960s_1E71E2_p2.jpg",""],["1960s","Photo_1960s_245F77_p1.jpg",""],["1960s","Photo_1960s_245F77_p2.jpg",""],["1960s","Photo_1960s_245F77_p3.jpg",""],["1960s","Photo_1960s_245F77_p4.jpg",""],["1960s","Photo_1960s_2E9C97_p1.jpg",""],["1960s","Photo_1960s_2E9C97_p2.jpg",""],["1960s","Photo_1960s_2E9C97_p3.jpg",""],["1960s","Photo_1960s_2E9C97_p4.jpg",""],["1960s","Photo_1960s_2E9C97_p5.jpg",""],["1960s","Photo_1960s_2E9C97_p6.jpg",""],["1960s","Photo_1960s_31D91E_p5.jpg",""],["1960s","Photo_1960s_3CBDFE_p1.jpg",""],["1960s","Photo_1960s_3CBDFE_p3.jpg",""],["1960s","Photo_1960s_3CBDFE_p4.jpg",""],["1960s","Photo_1960s_449F05_p1.jpg",""],["1960s","Photo_1960s_449F05_p2.jpg",""],["1960s","Photo_1960s_449F05_p3.jpg",""],["1960s","Photo_1960s_449F05_p4.jpg",""],["1960s","Photo_1960s_44C337_p1.jpg",""],["1960s","Photo_1960s_44C337_p2.jpg",""],["1960s","Photo_1960s_44C337_p3.jpg",""],["1960s","Photo_1960s_44C337_p4.jpg",""],["1960s","Photo_1960s_44C337_p5.jpg",""],["1960s","Photo_1960s_49F58B_p1.jpg",""],["1960s","Photo_1960s_49F58B_p2.jpg",""],["1960s","Photo_1960s_49F58B_p3.jpg",""],["1960s","Photo_1960s_4A72A9_p2.jpg","Gary Booth - Hala Betty's husband to be"],["1960s","Photo_1960s_4A72A9_p3.jpg","Michael Thomas Egli - 1979\nHala Betty's wedding - 1969"],["1960s","Photo_1960s_52C72D_p2.jpg",""],["1960s","Photo_1960s_52C72D_p3.jpg",""],["1960s","Photo_1960s_5930DC_p1.jpg",""],["1960s","Photo_1960s_5930DC_p2.jpg",""],["1960s","Photo_1960s_5930DC_p3.jpg",""],["1960s","Photo_1960s_5930DC_p4.jpg",""],["1960s","Photo_1960s_5930DC_p5.jpg",""],["1960s","Photo_1960s_5930DC_p6.jpg",""],["1960s","Photo_1960s_5F5817_p6.jpg","Hala Betty's wedding shower"],["1960s","Photo_1960s_62B587_p6.jpg",""],["1960s","Photo_1960s_6372D9_p11.jpg",""],["1960s","Photo_1960s_64F430_p1.jpg",""],["1960s","Photo_1960s_6D9DAB_p2.jpg",""],["1960s","Photo_1960s_71A3D5_p1.jpg",""],["1960s","Photo_1960s_71A3D5_p2.jpg",""],["1960s","Photo_1960s_71A3D5_p3.jpg","Amo Anis, Diane Haddad, Baby Lynn, Abuna Atallah"],["1960s","Photo_1960s_76A158_p4.jpg",""],["1960s","Photo_1960s_789FF6_p1.jpg",""],["1960s","Photo_1960s_789FF6_p2.jpg",""],["1960s","Photo_1960s_789FF6_p3.jpg",""],["1960s","Photo_1960s_789FF6_p4.jpg",""],["1960s","Photo_1960s_789FF6_p5.jpg",""],["1960s","Photo_1960s_789FF6_p6.jpg",""],["1960s","Photo_1960s_7A27A7_p1.jpg","Amti Nabiha, Amti Alexandra, Amti Raymonde"],["1960s","Photo_1960s_7D8035_p1.jpg","Jido Basilla, Teta Rifka, Dad"],["1960s","Photo_1960s_7EE9EE_p1.jpg",""],["1960s","Photo_1960s_7EE9EE_p2.jpg",""],["1960s","Photo_1960s_7EE9EE_p3.jpg",""],["1960s","Photo_1960s_7EE9EE_p4.jpg",""],["1960s","Photo_1960s_81BA83_p3.jpg",""],["1960s","Photo_1960s_81CEB5_p1.jpg",""],["1960s","Photo_1960s_81CEB5_p4.jpg",""],["1960s","Photo_1960s_855680_p1.jpg",""],["1960s","Photo_1960s_855680_p2.jpg",""],["1960s","Photo_1960s_855680_p3.jpg",""],["1960s","Photo_1960s_855680_p4.jpg",""],["1960s","Photo_1960s_855680_p5.jpg",""],["1960s","Photo_1960s_8BFC41_p1.jpg",""],["1960s","Photo_1960s_8BFC41_p2.jpg",""],["1960s","Photo_1960s_8C83F1_p1.jpg",""],["1960s","Photo_1960s_8C83F1_p2.jpg",""],["1960s","Photo_1960s_8C83F1_p6.jpg",""],["1960s","Photo_1960s_8C83F1_p8.jpg",""],["1960s","Photo_1960s_AF4218_p1.jpg","Amti Hasibi, Amti Alexandra"],["1960s","Photo_1960s_AF4218_p2.jpg","Amti Nabiha, Amti Hasibi, Amti Alexandra and the Montreal girls"],["1960s","Photo_1960s_AF4218_p3.jpg","Amo Assad, Amti Matille, Amo Naif, Amti Carrie"],["1960s","Photo_1960s_AF4218_p4.jpg",""],["1960s","Photo_1960s_AF4218_p5.jpg","Amo Assad, Amo Naif, Amo Brahim, Jido Basilla"],["1960s","Photo_1960s_AFEC34_p2.jpg","Roger, Lynn"],["1960s","Photo_1960s_B79CF1_p2.jpg","For Canada's 1967 Centennial celebration, government workers were asked to create outfits from the 1867s.  Mom made this outfit"],["1960s","Photo_1960s_B9ED2B_p1.jpg",""],["1960s","Photo_1960s_B9ED2B_p2.jpg",""],["1960s","Photo_1960s_B9ED2B_p3.jpg",""],["1960s","Photo_1960s_B9ED2B_p4.jpg",""],["1960s","Photo_1960s_B9ED2B_p5.jpg",""],["1960s","Photo_1960s_C1409D_p1.jpg",""],["1960s","Photo_1960s_C1409D_p2.jpg",""],["1960s","Photo_1960s_C1409D_p3.jpg",""],["1960s","Photo_1960s_C1409D_p4.jpg",""],["1960s","Photo_1960s_C1409D_p5.jpg",""],["1960s","Photo_1960s_C1409D_p6.jpg",""],["1960s","Photo_1960s_C5BB24_p1.jpg",""],["1960s","Photo_1960s_C5BB24_p2.jpg",""],["1960s","Photo_1960s_C5BB24_p3.jpg",""],["1960s","Photo_1960s_C61BEB_p4.jpg","Amti Nabiha, Amti Hasibi, Amti Malaki, Amti Alexandra"],["1960s","Photo_1960s_CB3AB1_p2.jpg",""],["1960s","Photo_1960s_CB3AB1_p3.jpg",""],["1960s","Photo_1960s_D08280_p1.jpg",""],["1960s","Photo_1960s_DC37BF_p4.jpg",""],["1960s","Photo_1960s_E35531_p3.jpg","Lynn"],["1960s","Photo_1960s_E35531_p4.jpg",""],["1960s","Photo_1960s_E91029_p1.jpg",""],["1960s","Photo_1960s_E91029_p2.jpg",""],["1960s","Photo_1960s_E91029_p4.jpg",""],["1960s","Photo_1960s_F289A0_p1.jpg",""],["1960s","Photo_1960s_F56150_p1.jpg",""],["1960s","Photo_1960s_F910BB_p4.jpg",""],["1960s","Photo_1960s_FA13F1_p1.jpg",""],["1960s","Photo_1960s_FA13F1_p2.jpg",""],["1960s","Photo_1960s_FA13F1_p4.jpg",""],["1960s","Photo_1960s_FA13F1_p6.jpg",""],["1960s","Photo_1960s_FED29B_p2.jpg","One of many picnics at Vincent Massey Park"],["1970s","Photo_1970s_00D405_p1.jpg",""],["1970s","Photo_1970s_00D405_p2.jpg",""],["1970s","Photo_1970s_00D405_p3.jpg",""],["1970s","Photo_1970s_0120B6_p1.jpg",""],["1970s","Photo_1970s_0120B6_p2.jpg",""],["1970s","Photo_1970s_0120B6_p3.jpg",""],["1970s","Photo_1970s_0120B6_p4.jpg",""],["1970s","Photo_1970s_03FB53_p1.jpg",""],["1970s","Photo_1970s_03FB53_p2.jpg",""],["1970s","Photo_1970s_03FB53_p3.jpg",""],["1970s","Photo_1970s_03FB53_p4.jpg",""],["1970s","Photo_1970s_081E19_p1.jpg",""],["1970s","Photo_1970s_081E19_p2.jpg","Dad and Michael in Selinsgrove, Pa"],["1970s","Photo_1970s_081E19_p3.jpg",""],["1970s","Photo_1970s_081E19_p4.jpg",""],["1970s","Photo_1970s_081E19_p5.jpg",""],["1970s","Photo_1970s_081E19_p6.jpg",""],["1970s","Photo_1970s_0B2393_p1.jpg",""],["1970s","Photo_1970s_0D5BCE_p1.jpg",""],["1970s","Photo_1970s_0D5BCE_p2.jpg",""],["1970s","Photo_1970s_0D5BCE_p3.jpg",""],["1970s","Photo_1970s_1060C5_p1.jpg",""],["1970s","Photo_1970s_1060C5_p2.jpg",""],["1970s","Photo_1970s_1060C5_p3.jpg",""],["1970s","Photo_1970s_1060C5_p4.jpg",""],["1970s","Photo_1970s_1060C5_p5.jpg",""],["1970s","Photo_1970s_182ABE_p1.jpg",""],["1970s","Photo_1970s_182ABE_p2.jpg",""],["1970s","Photo_1970s_1AF190_p3.jpg",""],["1970s","Photo_1970s_1AF190_p4.jpg",""],["1970s","Photo_1970s_21ECD1_p1.jpg",""],["1970s","Photo_1970s_21ECD1_p2.jpg",""],["1970s","Photo_1970s_21ECD1_p3.jpg",""],["1970s","Photo_1970s_21ECD1_p4.jpg",""],["1970s","Photo_1970s_21ECD1_p5.jpg",""],["1970s","Photo_1970s_21ECD1_p6.jpg",""],["1970s","Photo_1970s_29357C_p1.jpg",""],["1970s","Photo_1970s_29357C_p2.jpg",""],["1970s","Photo_1970s_29357C_p3.jpg",""],["1970s","Photo_1970s_29357C_p4.jpg",""],["1970s","Photo_1970s_2B4019_p1.jpg",""],["1970s","Photo_1970s_2B4019_p2.jpg",""],["1970s","Photo_1970s_2B4019_p3.jpg",""],["1970s","Photo_1970s_2B4019_p4.jpg",""],["1970s","Photo_1970s_323775_p1.jpg",""],["1970s","Photo_1970s_323775_p2.jpg",""],["1970s","Photo_1970s_323775_p3.jpg",""],["1970s","Photo_1970s_336CE0_p1.jpg",""],["1970s","Photo_1970s_336CE0_p2.jpg",""],["1970s","Photo_1970s_336CE0_p3.jpg",""],["1970s","Photo_1970s_336CE0_p4.jpg",""],["1970s","Photo_1970s_357DEE_p1.jpg",""],["1970s","Photo_1970s_357DEE_p2.jpg",""],["1970s","Photo_1970s_357DEE_p3.jpg",""],["1970s","Photo_1970s_37823E_p1.jpg",""],["1970s","Photo_1970s_37823E_p2.jpg",""],["1970s","Photo_1970s_37823E_p4.jpg",""],["1970s","Photo_1970s_385E71_p2.jpg",""],["1970s","Photo_1970s_3E8A82_p1.jpg",""],["1970s","Photo_1970s_3E8A82_p3.jpg",""],["1970s","Photo_1970s_3E8A82_p4.jpg",""],["1970s","Photo_1970s_44C337_p6.jpg",""],["1970s","Photo_1970s_473B6C_p1.jpg",""],["1970s","Photo_1970s_473B6C_p2.jpg",""],["1970s","Photo_1970s_489F2B_p1.jpg",""],["1970s","Photo_1970s_489F2B_p2.jpg",""],["1970s","Photo_1970s_4A72A9_p4.jpg",""],["1970s","Photo_1970s_4C459A_p1.jpg","Amti Alexandra, Cousin Paul"],["1970s","Photo_1970s_4C459A_p3.jpg",""],["1970s","Photo_1970s_4C459A_p4.jpg",""],["1970s","Photo_1970s_4F3A9F_p1.jpg",""],["1970s","Photo_1970s_4F3A9F_p2.jpg",""],["1970s","Photo_1970s_4F3A9F_p3.jpg",""],["1970s","Photo_1970s_4F3A9F_p4.jpg",""],["1970s","Photo_1970s_5073B4_p1.jpg",""],["1970s","Photo_1970s_5073B4_p2.jpg",""],["1970s","Photo_1970s_5073B4_p3.jpg",""],["1970s","Photo_1970s_5073B4_p4.jpg",""],["1970s","Photo_1970s_5073B4_p5.jpg",""],["1970s","Photo_1970s_5073B4_p6.jpg",""],["1970s","Photo_1970s_521378_p1.jpg",""],["1970s","Photo_1970s_521378_p2.jpg",""],["1970s","Photo_1970s_521378_p3.jpg",""],["1970s","Photo_1970s_521378_p4.jpg",""],["1970s","Photo_1970s_521378_p5.jpg",""],["1970s","Photo_1970s_521378_p6.jpg",""],["1970s","Photo_1970s_529BC1_p1.jpg",""],["1970s","Photo_1970s_529BC1_p2.jpg",""],["1970s","Photo_1970s_529BC1_p3.jpg",""],["1970s","Photo_1970s_529BC1_p4.jpg",""],["1970s","Photo_1970s_52C72D_p4.jpg",""],["1970s","Photo_1970s_52CC8B_p1.jpg",""],["1970s","Photo_1970s_52CC8B_p2.jpg",""],["1970s","Photo_1970s_52CC8B_p3.jpg",""],["1970s","Photo_1970s_52CC8B_p4.jpg",""],["1970s","Photo_1970s_5AC0AC_p1.jpg",""],["1970s","Photo_1970s_5AC0AC_p2.jpg",""],["1970s","Photo_1970s_5AC0AC_p3.jpg",""],["1970s","Photo_1970s_5AC0AC_p4.jpg",""],["1970s","Photo_1970s_5C5890_p1.jpg",""],["1970s","Photo_1970s_5C5890_p2.jpg",""],["1970s","Photo_1970s_5C5890_p3.jpg",""],["1970s","Photo_1970s_5C5890_p4.jpg",""],["1970s","Photo_1970s_5F5817_p1.jpg",""],["1970s","Photo_1970s_5F5817_p2.jpg",""],["1970s","Photo_1970s_5F5817_p3.jpg",""],["1970s","Photo_1970s_5F5817_p4.jpg",""],["1970s","Photo_1970s_62B587_p1.jpg",""],["1970s","Photo_1970s_62B587_p2.jpg",""],["1970s","Photo_1970s_62B587_p4.jpg",""],["1970s","Photo_1970s_62B587_p5.jpg",""],["1970s","Photo_1970s_64F430_p4.jpg",""],["1970s","Photo_1970s_64F430_p5.jpg",""],["1970s","Photo_1970s_6638C7_p1.jpg",""],["1970s","Photo_1970s_6638C7_p2.jpg",""],["1970s","Photo_1970s_6638C7_p3.jpg",""],["1970s","Photo_1970s_6638C7_p4.jpg",""],["1970s","Photo_1970s_66591D_p1.jpg",""],["1970s","Photo_1970s_66591D_p3.jpg",""],["1970s","Photo_1970s_66591D_p5.jpg",""],["1970s","Photo_1970s_6A7520_p1.jpg",""],["1970s","Photo_1970s_6C245B_p1.jpg",""],["1970s","Photo_1970s_6C245B_p2.jpg",""],["1970s","Photo_1970s_6C245B_p3.jpg",""],["1970s","Photo_1970s_6C245B_p4.jpg",""],["1970s","Photo_1970s_6C245B_p5.jpg",""],["1970s","Photo_1970s_6C245B_p6.jpg",""],["1970s","Photo_1970s_6C839F_p1.jpg",""],["1970s","Photo_1970s_6C839F_p2.jpg",""],["1970s","Photo_1970s_6C839F_p3.jpg",""],["1970s","Photo_1970s_6C839F_p4.jpg",""],["1970s","Photo_1970s_6D9DAB_p1.jpg",""],["1970s","Photo_1970s_6D9DAB_p3.jpg",""],["1970s","Photo_1970s_6D9DAB_p4.jpg",""],["1970s","Photo_1970s_6D9DAB_p5.jpg",""],["1970s","Photo_1970s_74A8A2_p5.jpg",""],["1970s","Photo_1970s_74A8A2_p7.jpg",""],["1970s","Photo_1970s_766762_p1.jpg",""],["1970s","Photo_1970s_766762_p2.jpg",""],["1970s","Photo_1970s_766762_p3.jpg",""],["1970s","Photo_1970s_766762_p4.jpg",""],["1970s","Photo_1970s_766762_p5.jpg",""],["1970s","Photo_1970s_766762_p6.jpg",""],["1970s","Photo_1970s_788727_p1.jpg",""],["1970s","Photo_1970s_788727_p2.jpg",""],["1970s","Photo_1970s_788727_p3.jpg",""],["1970s","Photo_1970s_788727_p4.jpg",""],["1970s","Photo_1970s_7AFA8A_p1.jpg",""],["1970s","Photo_1970s_7AFA8A_p2.jpg",""],["1970s","Photo_1970s_7AFA8A_p3.jpg",""],["1970s","Photo_1970s_7AFA8A_p4.jpg",""],["1970s","Photo_1970s_7AFA8A_p5.jpg",""],["1970s","Photo_1970s_7AFA8A_p6.jpg",""],["1970s","Photo_1970s_7CE448_p1.jpg",""],["1970s","Photo_1970s_7CE448_p2.jpg",""],["1970s","Photo_1970s_7CE448_p3.jpg",""],["1970s","Photo_1970s_7CE448_p4.jpg",""],["1970s","Photo_1970s_7CE448_p5.jpg",""],["1970s","Photo_1970s_7CE448_p6.jpg",""],["1970s","Photo_1970s_81BA83_p2.jpg",""],["1970s","Photo_1970s_81CEB5_p2.jpg",""],["1970s","Photo_1970s_81CEB5_p3.jpg",""],["1970s","Photo_1970s_81F634_p1.jpg",""],["1970s","Photo_1970s_81F634_p2.jpg",""],["1970s","Photo_1970s_81F634_p3.jpg",""],["1970s","Photo_1970s_81F634_p4.jpg",""],["1970s","Photo_1970s_82B4A8_p1.jpg",""],["1970s","Photo_1970s_82B4A8_p2.jpg",""],["1970s","Photo_1970s_82B4A8_p3.jpg",""],["1970s","Photo_1970s_82B4A8_p4.jpg",""],["1970s","Photo_1970s_82B4A8_p5.jpg",""],["1970s","Photo_1970s_82B4A8_p6.jpg",""],["1970s","Photo_1970s_85A7E0_p1.jpg",""],["1970s","Photo_1970s_85A7E0_p2.jpg",""],["1970s","Photo_1970s_85A7E0_p3.jpg",""],["1970s","Photo_1970s_8C83F1_p5.jpg",""],["1970s","Photo_1970s_8CB2E4_p1.jpg",""],["1970s","Photo_1970s_8CB2E4_p2.jpg",""],["1970s","Photo_1970s_8CB2E4_p3.jpg",""],["1970s","Photo_1970s_8CB2E4_p4.jpg",""],["1970s","Photo_1970s_8DBDE5_p1.jpg",""],["1970s","Photo_1970s_8DBDE5_p2.jpg",""],["1970s","Photo_1970s_8DBDE5_p3.jpg",""],["1970s","Photo_1970s_8DBDE5_p4.jpg",""],["1970s","Photo_1970s_92AD86_p1.jpg",""],["1970s","Photo_1970s_92AD86_p2.jpg",""],["1970s","Photo_1970s_92AD86_p3.jpg",""],["1970s","Photo_1970s_92AD86_p4.jpg",""],["1970s","Photo_1970s_92AD86_p5.jpg",""],["1970s","Photo_1970s_92AD86_p6.jpg",""],["1970s","Photo_1970s_97D8B7_p1.jpg",""],["1970s","Photo_1970s_988858_p1.jpg",""],["1970s","Photo_1970s_988858_p2.jpg",""],["1970s","Photo_1970s_988858_p3.jpg",""],["1970s","Photo_1970s_988858_p4.jpg",""],["1970s","Photo_1970s_9E970B_p1.jpg",""],["1970s","Photo_1970s_9E970B_p2.jpg",""],["1970s","Photo_1970s_9E970B_p3.jpg",""],["1970s","Photo_1970s_9E970B_p4.jpg",""],["1970s","Photo_1970s_9E970B_p5.jpg",""],["1970s","Photo_1970s_9E970B_p6.jpg",""],["1970s","Photo_1970s_A2CF5D_p2.jpg",""],["1970s","Photo_1970s_A2CF5D_p4.jpg",""],["1970s","Photo_1970s_A5BC91_p1.jpg",""],["1970s","Photo_1970s_A5BC91_p2.jpg",""],["1970s","Photo_1970s_A5BC91_p3.jpg",""],["1970s","Photo_1970s_A5BC91_p4.jpg",""],["1970s","Photo_1970s_AA7FE5_p1.jpg",""],["1970s","Photo_1970s_AA7FE5_p2.jpg",""],["1970s","Photo_1970s_AA7FE5_p3.jpg",""],["1970s","Photo_1970s_AA7FE5_p4.jpg",""],["1970s","Photo_1970s_AA7FE5_p5.jpg",""],["1970s","Photo_1970s_AFEBD5_p1.jpg",""],["1970s","Photo_1970s_AFEBD5_p2.jpg",""],["1970s","Photo_1970s_B031B8_p1.jpg",""],["1970s","Photo_1970s_B031B8_p2.jpg",""],["1970s","Photo_1970s_B031B8_p3.jpg",""],["1970s","Photo_1970s_B031B8_p4.jpg",""],["1970s","Photo_1970s_B510B0_p1.jpg",""],["1970s","Photo_1970s_B510B0_p2.jpg",""],["1970s","Photo_1970s_B510B0_p3.jpg",""],["1970s","Photo_1970s_B79CF1_p1.jpg",""],["1970s","Photo_1970s_B7BFBC_p1.jpg",""],["1970s","Photo_1970s_BA6A6B_p1.jpg",""],["1970s","Photo_1970s_BA6A6B_p2.jpg",""],["1970s","Photo_1970s_BEC729_p1.jpg",""],["1970s","Photo_1970s_BEC729_p2.jpg",""],["1970s","Photo_1970s_BEC729_p3.jpg",""],["1970s","Photo_1970s_BEC729_p4.jpg",""],["1970s","Photo_1970s_BEC729_p5.jpg",""],["1970s","Photo_1970s_BEC729_p6.jpg",""],["1970s","Photo_1970s_BEE41F_p1.jpg",""],["1970s","Photo_1970s_BEE41F_p2.jpg",""],["1970s","Photo_1970s_BEE41F_p3.jpg",""],["1970s","Photo_1970s_BEE41F_p4.jpg",""],["1970s","Photo_1970s_BEE41F_p5.jpg",""],["1970s","Photo_1970s_BEE41F_p6.jpg",""],["1970s","Photo_1970s_C34B7D_p1.jpg",""],["1970s","Photo_1970s_C34B7D_p2.jpg",""],["1970s","Photo_1970s_C34B7D_p3.jpg",""],["1970s","Photo_1970s_CACCDC_p1.jpg",""],["1970s","Photo_1970s_CC2A6E_p2.jpg",""],["1970s","Photo_1970s_CC2A6E_p3.jpg",""],["1970s","Photo_1970s_CC2A6E_p4.jpg",""],["1970s","Photo_1970s_CC2A6E_p5.jpg",""],["1970s","Photo_1970s_CC2A6E_p6.jpg",""],["1970s","Photo_1970s_CD04B5_p1.jpg",""],["1970s","Photo_1970s_CD04B5_p2.jpg",""],["1970s","Photo_1970s_CD04B5_p3.jpg",""],["1970s","Photo_1970s_CD04B5_p4.jpg",""],["1970s","Photo_1970s_D1F204_p1.jpg",""],["1970s","Photo_1970s_D1F204_p2.jpg",""],["1970s","Photo_1970s_D1F204_p3.jpg",""],["1970s","Photo_1970s_D1F204_p4.jpg",""],["1970s","Photo_1970s_D3D2B5_p2.jpg",""],["1970s","Photo_1970s_D3D2B5_p4.jpg",""],["1970s","Photo_1970s_D51996_p2.jpg",""],["1970s","Photo_1970s_D51996_p3.jpg",""],["1970s","Photo_1970s_D9E7E3_p1.jpg",""],["1970s","Photo_1970s_D9E7E3_p3.jpg",""],["1970s","Photo_1970s_D9E7E3_p4.jpg",""],["1970s","Photo_1970s_DB4FC3_p1.jpg",""],["1970s","Photo_1970s_DC37BF_p1.jpg",""],["1970s","Photo_1970s_DC37BF_p2.jpg",""],["1970s","Photo_1970s_DC37BF_p3.jpg",""],["1970s","Photo_1970s_DC37BF_p5.jpg",""],["1970s","Photo_1970s_DC495F_p1.jpg",""],["1970s","Photo_1970s_DC495F_p2.jpg",""],["1970s","Photo_1970s_DEA32B_p1.jpg",""],["1970s","Photo_1970s_DEA32B_p2.jpg",""],["1970s","Photo_1970s_DEA32B_p3.jpg",""],["1970s","Photo_1970s_DEA32B_p4.jpg",""],["1970s","Photo_1970s_DF3197_p1.jpg",""],["1970s","Photo_1970s_DF3197_p2.jpg",""],["1970s","Photo_1970s_DF3197_p3.jpg",""],["1970s","Photo_1970s_DF3197_p4.jpg",""],["1970s","Photo_1970s_DFD03B_p1.jpg",""],["1970s","Photo_1970s_DFD03B_p2.jpg",""],["1970s","Photo_1970s_DFD03B_p3.jpg",""],["1970s","Photo_1970s_DFD03B_p4.jpg",""],["1970s","Photo_1970s_E1513D_p1.jpg",""],["1970s","Photo_1970s_E1513D_p2.jpg",""],["1970s","Photo_1970s_E1513D_p3.jpg",""],["1970s","Photo_1970s_E1513D_p4.jpg",""],["1970s","Photo_1970s_E1513D_p5.jpg",""],["1970s","Photo_1970s_E1513D_p6.jpg",""],["1970s","Photo_1970s_E2D4CC_p1.jpg",""],["1970s","Photo_1970s_E2D4CC_p2.jpg",""],["1970s","Photo_1970s_E2D4CC_p3.jpg",""],["1970s","Photo_1970s_E2D4CC_p4.jpg",""],["1970s","Photo_1970s_E2D4CC_p5.jpg",""],["1970s","Photo_1970s_E2D4CC_p6.jpg",""],["1970s","Photo_1970s_E35531_p1.jpg",""],["1970s","Photo_1970s_E35531_p2.jpg",""],["1970s","Photo_1970s_E52224_p1.jpg",""],["1970s","Photo_1970s_E52224_p2.jpg",""],["1970s","Photo_1970s_E52224_p3.jpg",""],["1970s","Photo_1970s_E52224_p4.jpg",""],["1970s","Photo_1970s_E52224_p5.jpg",""],["1970s","Photo_1970s_E74D87_p1.jpg",""],["1970s","Photo_1970s_E74D87_p2.jpg",""],["1970s","Photo_1970s_E74D87_p3.jpg",""],["1970s","Photo_1970s_E74D87_p4.jpg",""],["1970s","Photo_1970s_E74D87_p5.jpg","Family visiting Norma in Selinsgrove, PA"],["1970s","Photo_1970s_E74D87_p6.jpg","Mom, Cousin Dianne, Amti Alexandra, Amti Afiffi"],["1970s","Photo_1970s_EB091E_p1.jpg",""],["1970s","Photo_1970s_EB091E_p2.jpg",""],["1970s","Photo_1970s_EB091E_p3.jpg",""],["1970s","Photo_1970s_EB091E_p4.jpg",""],["1970s","Photo_1970s_EC0FBA_p1.jpg",""],["1970s","Photo_1970s_EC0FBA_p2.jpg",""],["1970s","Photo_1970s_EC0FBA_p3.jpg",""],["1970s","Photo_1970s_EC0FBA_p4.jpg",""],["1970s","Photo_1970s_ED469C_p1.jpg",""],["1970s","Photo_1970s_ED469C_p2.jpg",""],["1970s","Photo_1970s_ED469C_p3.jpg",""],["1970s","Photo_1970s_ED469C_p4.jpg",""],["1970s","Photo_1970s_ED469C_p5.jpg",""],["1970s","Photo_1970s_ED469C_p6.jpg",""],["1970s","Photo_1970s_F68339_p1.jpg",""],["1970s","Photo_1970s_F68339_p2.jpg",""],["1970s","Photo_1970s_F7C87C_p1.jpg",""],["1970s","Photo_1970s_F7C87C_p2.jpg",""],["1970s","Photo_1970s_F7C87C_p3.jpg",""],["1970s","Photo_1970s_F910BB_p1.jpg",""],["1970s","Photo_1970s_F910BB_p2.jpg",""],["1970s","Photo_1970s_F910BB_p3.jpg",""],["1970s","Photo_1970s_FDE080_p1.jpg",""],["1970s","Photo_1970s_FDE080_p2.jpg",""],["1970s","Photo_1970s_FDE080_p3.jpg",""],["1970s","Photo_1970s_FDE080_p4.jpg",""],["1980s","Photo_1980s_02E33B_p1.jpg",""],["1980s","Photo_1980s_02E33B_p2.jpg",""],["1980s","Photo_1980s_02E33B_p3.jpg",""],["1980s","Photo_1980s_02E33B_p4.jpg",""],["1980s","Photo_1980s_0574ED_p1.jpg",""],["1980s","Photo_1980s_0574ED_p2.jpg",""],["1980s","Photo_1980s_0574ED_p3.jpg",""],["1980s","Photo_1980s_0574ED_p4.jpg",""],["1980s","Photo_1980s_0BD553_p1.jpg",""],["1980s","Photo_1980s_0BD553_p2.jpg",""],["1980s","Photo_1980s_0BD553_p3.jpg",""],["1980s","Photo_1980s_0C29C6_p1.jpg",""],["1980s","Photo_1980s_0C29C6_p2.jpg",""],["1980s","Photo_1980s_0C29C6_p3.jpg",""],["1980s","Photo_1980s_0C29C6_p4.jpg",""],["1980s","Photo_1980s_0F0B28_p1.jpg",""],["1980s","Photo_1980s_0FD499_p1.jpg",""],["1980s","Photo_1980s_0FD499_p2.jpg",""],["1980s","Photo_1980s_0FD499_p3.jpg",""],["1980s","Photo_1980s_0FD499_p4.jpg",""],["1980s","Photo_1980s_101016_p2.jpg",""],["1980s","Photo_1980s_101016_p3.jpg",""],["1980s","Photo_1980s_1FD293_p1.jpg",""],["1980s","Photo_1980s_1FD293_p2.jpg",""],["1980s","Photo_1980s_1FD293_p3.jpg",""],["1980s","Photo_1980s_1FD293_p4.jpg",""],["1980s","Photo_1980s_26660A_p1.jpg",""],["1980s","Photo_1980s_26660A_p2.jpg","Lynn, Amti Carrie,"],["1980s","Photo_1980s_2CB441_p2.jpg",""],["1980s","Photo_1980s_2CB441_p3.jpg",""],["1980s","Photo_1980s_2CB441_p4.jpg",""],["1980s","Photo_1980s_2D764F_p1.jpg",""],["1980s","Photo_1980s_2D764F_p2.jpg",""],["1980s","Photo_1980s_2D764F_p3.jpg",""],["1980s","Photo_1980s_2D764F_p4.jpg",""],["1980s","Photo_1980s_2EC6E0_p1.jpg",""],["1980s","Photo_1980s_2EC6E0_p2.jpg",""],["1980s","Photo_1980s_2EC6E0_p3.jpg",""],["1980s","Photo_1980s_2EC6E0_p4.jpg",""],["1980s","Photo_1980s_2FB49E_p1.jpg",""],["1980s","Photo_1980s_2FB49E_p2.jpg",""],["1980s","Photo_1980s_2FB49E_p3.jpg",""],["1980s","Photo_1980s_2FB49E_p4.jpg",""],["1980s","Photo_1980s_3069D9_p1.jpg",""],["1980s","Photo_1980s_3069D9_p3.jpg",""],["1980s","Photo_1980s_3069D9_p4.jpg",""],["1980s","Photo_1980s_31F1E4_p1.jpg",""],["1980s","Photo_1980s_31F1E4_p2.jpg",""],["1980s","Photo_1980s_31F1E4_p3.jpg",""],["1980s","Photo_1980s_332DF5_p1.jpg",""],["1980s","Photo_1980s_332DF5_p2.jpg",""],["1980s","Photo_1980s_332DF5_p3.jpg",""],["1980s","Photo_1980s_332DF5_p4.jpg",""],["1980s","Photo_1980s_37E6A9_p1.jpg",""],["1980s","Photo_1980s_37E6A9_p2.jpg",""],["1980s","Photo_1980s_37E6A9_p3.jpg",""],["1980s","Photo_1980s_37E6A9_p4.jpg",""],["1980s","Photo_1980s_385E71_p1.jpg",""],["1980s","Photo_1980s_385E71_p3.jpg",""],["1980s","Photo_1980s_385E71_p4.jpg",""],["1980s","Photo_1980s_3B200E_p1.jpg",""],["1980s","Photo_1980s_3B200E_p4.jpg",""],["1980s","Photo_1980s_3E07B1_p1.jpg",""],["1980s","Photo_1980s_3E07B1_p2.jpg",""],["1980s","Photo_1980s_3E07B1_p4.jpg",""],["1980s","Photo_1980s_453DAA_p1.jpg",""],["1980s","Photo_1980s_453DAA_p2.jpg",""],["1980s","Photo_1980s_453DAA_p3.jpg",""],["1980s","Photo_1980s_453DAA_p4.jpg",""],["1980s","Photo_1980s_4793F2_p1.jpg",""],["1980s","Photo_1980s_4793F2_p2.jpg",""],["1980s","Photo_1980s_4793F2_p4.jpg",""],["1980s","Photo_1980s_4A21B0_p1.jpg",""],["1980s","Photo_1980s_4A21B0_p2.jpg",""],["1980s","Photo_1980s_4A21B0_p3.jpg",""],["1980s","Photo_1980s_4A21B0_p4.jpg",""],["1980s","Photo_1980s_4E07E7_p1.jpg",""],["1980s","Photo_1980s_4E07E7_p2.jpg",""],["1980s","Photo_1980s_4E07E7_p3.jpg",""],["1980s","Photo_1980s_4E07E7_p4.jpg",""],["1980s","Photo_1980s_5344CA_p1.jpg",""],["1980s","Photo_1980s_5344CA_p3.jpg",""],["1980s","Photo_1980s_5344CA_p4.jpg",""],["1980s","Photo_1980s_5415B3_p1.jpg",""],["1980s","Photo_1980s_5415B3_p3.jpg",""],["1980s","Photo_1980s_5415B3_p4.jpg",""],["1980s","Photo_1980s_57FE55_p1.jpg",""],["1980s","Photo_1980s_57FE55_p2.jpg",""],["1980s","Photo_1980s_57FE55_p3.jpg",""],["1980s","Photo_1980s_57FE55_p4.jpg",""],["1980s","Photo_1980s_59DF47_p1.jpg",""],["1980s","Photo_1980s_59DF47_p2.jpg",""],["1980s","Photo_1980s_59DF47_p3.jpg",""],["1980s","Photo_1980s_5BEF4E_p1.jpg",""],["1980s","Photo_1980s_5F47D3_p1.jpg",""],["1980s","Photo_1980s_5F47D3_p2.jpg",""],["1980s","Photo_1980s_5F47D3_p3.jpg",""],["1980s","Photo_1980s_5F507F_p2.jpg",""],["1980s","Photo_1980s_5F507F_p3.jpg",""],["1980s","Photo_1980s_5F507F_p4.jpg",""],["1980s","Photo_1980s_61D897_p1.jpg",""],["1980s","Photo_1980s_61D897_p2.jpg",""],["1980s","Photo_1980s_61D897_p3.jpg",""],["1980s","Photo_1980s_61D897_p4.jpg",""],["1980s","Photo_1980s_61F768_p1.jpg",""],["1980s","Photo_1980s_61F768_p2.jpg",""],["1980s","Photo_1980s_61F768_p3.jpg",""],["1980s","Photo_1980s_657A0F_p1.jpg",""],["1980s","Photo_1980s_657A0F_p2.jpg",""],["1980s","Photo_1980s_657A0F_p3.jpg",""],["1980s","Photo_1980s_65C8D3_p1.jpg",""],["1980s","Photo_1980s_65C8D3_p2.jpg",""],["1980s","Photo_1980s_65C8D3_p3.jpg",""],["1980s","Photo_1980s_679217_p1.jpg",""],["1980s","Photo_1980s_679217_p2.jpg",""],["1980s","Photo_1980s_6922D8_p1.jpg",""],["1980s","Photo_1980s_6922D8_p3.jpg",""],["1980s","Photo_1980s_6922D8_p4.jpg",""],["1980s","Photo_1980s_6982FA_p1.jpg",""],["1980s","Photo_1980s_6D465B_p1.jpg",""],["1980s","Photo_1980s_6FCD0E_p1.jpg",""],["1980s","Photo_1980s_6FCD0E_p2.jpg",""],["1980s","Photo_1980s_6FCD0E_p3.jpg",""],["1980s","Photo_1980s_6FCD0E_p4.jpg",""],["1980s","Photo_1980s_70F71E_p1.jpg",""],["1980s","Photo_1980s_70F71E_p2.jpg",""],["1980s","Photo_1980s_7590B6_p1.jpg",""],["1980s","Photo_1980s_7590B6_p2.jpg",""],["1980s","Photo_1980s_7590B6_p3.jpg",""],["1980s","Photo_1980s_7590B6_p4.jpg",""],["1980s","Photo_1980s_75BC2E_p1.jpg",""],["1980s","Photo_1980s_75BC2E_p2.jpg",""],["1980s","Photo_1980s_75BC2E_p3.jpg",""],["1980s","Photo_1980s_75BC2E_p4.jpg",""],["1980s","Photo_1980s_76BD68_p1.jpg",""],["1980s","Photo_1980s_76BD68_p2.jpg",""],["1980s","Photo_1980s_76BD68_p3.jpg",""],["1980s","Photo_1980s_76BD68_p4.jpg",""],["1980s","Photo_1980s_7F63E3_p1.jpg",""],["1980s","Photo_1980s_7F63E3_p2.jpg",""],["1980s","Photo_1980s_7F63E3_p4.jpg",""],["1980s","Photo_1980s_8000E6_p1.jpg",""],["1980s","Photo_1980s_8000E6_p2.jpg",""],["1980s","Photo_1980s_8000E6_p3.jpg",""],["1980s","Photo_1980s_8000E6_p4.jpg",""],["1980s","Photo_1980s_8265CE_p4.jpg",""],["1980s","Photo_1980s_832A15_p1.jpg",""],["1980s","Photo_1980s_832A15_p3.jpg","The Naddafs"],["1980s","Photo_1980s_86F9E3_p1.jpg",""],["1980s","Photo_1980s_86F9E3_p2.jpg",""],["1980s","Photo_1980s_86F9E3_p3.jpg",""],["1980s","Photo_1980s_86F9E3_p4.jpg",""],["1980s","Photo_1980s_89037C_p1.jpg",""],["1980s","Photo_1980s_89037C_p2.jpg",""],["1980s","Photo_1980s_89037C_p3.jpg",""],["1980s","Photo_1980s_89037C_p4.jpg",""],["1980s","Photo_1980s_8AAD64_p1.jpg",""],["1980s","Photo_1980s_8AAD64_p3.jpg",""],["1980s","Photo_1980s_8AAD64_p4.jpg",""],["1980s","Photo_1980s_90DED5_p1.jpg",""],["1980s","Photo_1980s_90DED5_p4.jpg",""],["1980s","Photo_1980s_93DB4F_p1.jpg",""],["1980s","Photo_1980s_93DB4F_p2.jpg",""],["1980s","Photo_1980s_93DB4F_p3.jpg",""],["1980s","Photo_1980s_93DB4F_p4.jpg",""],["1980s","Photo_1980s_971868_p1.jpg",""],["1980s","Photo_1980s_971868_p2.jpg",""],["1980s","Photo_1980s_971868_p3.jpg",""],["1980s","Photo_1980s_971868_p4.jpg",""],["1980s","Photo_1980s_9C1D02_p4.jpg",""],["1980s","Photo_1980s_9CCB5B_p1.jpg",""],["1980s","Photo_1980s_9CCB5B_p2.jpg",""],["1980s","Photo_1980s_9CCB5B_p3.jpg",""],["1980s","Photo_1980s_9CCB5B_p4.jpg",""],["1980s","Photo_1980s_9D7BAE_p2.jpg",""],["1980s","Photo_1980s_9D7BAE_p3.jpg",""],["1980s","Photo_1980s_9F94FD_p1.jpg",""],["1980s","Photo_1980s_9F94FD_p2.jpg",""],["1980s","Photo_1980s_9F94FD_p3.jpg",""],["1980s","Photo_1980s_9F94FD_p4.jpg",""],["1980s","Photo_1980s_A5D03D_p2.jpg",""],["1980s","Photo_1980s_A691F5_p1.jpg",""],["1980s","Photo_1980s_A691F5_p2.jpg",""],["1980s","Photo_1980s_A691F5_p3.jpg",""],["1980s","Photo_1980s_A691F5_p4.jpg",""],["1980s","Photo_1980s_A89B15_p1.jpg",""],["1980s","Photo_1980s_A89B15_p2.jpg",""],["1980s","Photo_1980s_A89B15_p3.jpg",""],["1980s","Photo_1980s_A89B15_p4.jpg",""],["1980s","Photo_1980s_ACD2E2_p1.jpg",""],["1980s","Photo_1980s_AD5B54_p1.jpg",""],["1980s","Photo_1980s_AD5B54_p2.jpg",""],["1980s","Photo_1980s_AD5B54_p3.jpg",""],["1980s","Photo_1980s_AD892E_p1.jpg",""],["1980s","Photo_1980s_AD892E_p2.jpg",""],["1980s","Photo_1980s_AD892E_p3.jpg",""],["1980s","Photo_1980s_AD892E_p4.jpg",""],["1980s","Photo_1980s_B26DD8_p1.jpg",""],["1980s","Photo_1980s_B26DD8_p2.jpg",""],["1980s","Photo_1980s_B26DD8_p3.jpg",""],["1980s","Photo_1980s_B26DD8_p4.jpg",""],["1980s","Photo_1980s_B36BB0_p1.jpg",""],["1980s","Photo_1980s_B36BB0_p2.jpg",""],["1980s","Photo_1980s_B36BB0_p3.jpg",""],["1980s","Photo_1980s_B36BB0_p4.jpg",""],["1980s","Photo_1980s_B64580_p1.jpg",""],["1980s","Photo_1980s_B64580_p2.jpg",""],["1980s","Photo_1980s_B64580_p3.jpg",""],["1980s","Photo_1980s_B64580_p4.jpg",""],["1980s","Photo_1980s_B98927_p1.jpg",""],["1980s","Photo_1980s_BCAA2D_p1.jpg",""],["1980s","Photo_1980s_BCAA2D_p2.jpg",""],["1980s","Photo_1980s_BCAA2D_p3.jpg",""],["1980s","Photo_1980s_BCAA2D_p4.jpg",""],["1980s","Photo_1980s_BFFB62_p1.jpg",""],["1980s","Photo_1980s_BFFB62_p2.jpg",""],["1980s","Photo_1980s_BFFB62_p3.jpg",""],["1980s","Photo_1980s_BFFB62_p4.jpg",""],["1980s","Photo_1980s_C1E21B_p1.jpg",""],["1980s","Photo_1980s_C1E21B_p2.jpg",""],["1980s","Photo_1980s_C1E21B_p3.jpg",""],["1980s","Photo_1980s_C1E21B_p4.jpg",""],["1980s","Photo_1980s_C81A30_p3.jpg",""],["1980s","Photo_1980s_C98C08_p1.jpg",""],["1980s","Photo_1980s_C98C08_p2.jpg",""],["1980s","Photo_1980s_C98C08_p3.jpg",""],["1980s","Photo_1980s_C98C08_p4.jpg",""],["1980s","Photo_1980s_D05D97_p1.jpg",""],["1980s","Photo_1980s_D05D97_p2.jpg",""],["1980s","Photo_1980s_D05D97_p3.jpg",""],["1980s","Photo_1980s_D05D97_p4.jpg",""],["1980s","Photo_1980s_D0EA3E_p1.jpg",""],["1980s","Photo_1980s_D0EA3E_p2.jpg",""],["1980s","Photo_1980s_D22865_p1.jpg",""],["1980s","Photo_1980s_D31154_p1.jpg",""],["1980s","Photo_1980s_D31154_p2.jpg",""],["1980s","Photo_1980s_D31154_p3.jpg",""],["1980s","Photo_1980s_D31154_p4.jpg",""],["1980s","Photo_1980s_D6AC05_p1.jpg",""],["1980s","Photo_1980s_D6AC05_p2.jpg",""],["1980s","Photo_1980s_D7289F_p1.jpg",""],["1980s","Photo_1980s_D7289F_p2.jpg",""],["1980s","Photo_1980s_D7289F_p3.jpg",""],["1980s","Photo_1980s_D7289F_p4.jpg",""],["1980s","Photo_1980s_DAE6AF_p1.jpg",""],["1980s","Photo_1980s_DAE6AF_p2.jpg",""],["1980s","Photo_1980s_DAE6AF_p3.jpg",""],["1980s","Photo_1980s_DAE6AF_p4.jpg",""],["1980s","Photo_1980s_DEA464_p1.jpg",""],["1980s","Photo_1980s_DEA464_p3.jpg",""],["1980s","Photo_1980s_DEA464_p4.jpg",""],["1980s","Photo_1980s_E20DD2_p1.jpg",""],["1980s","Photo_1980s_E20DD2_p2.jpg",""],["1980s","Photo_1980s_E20DD2_p3.jpg",""],["1980s","Photo_1980s_E20DD2_p4.jpg",""],["1980s","Photo_1980s_E3EE15_p2.jpg",""],["1980s","Photo_1980s_E3EE15_p4.jpg",""],["1980s","Photo_1980s_E70357_p1.jpg",""],["1980s","Photo_1980s_E70357_p3.jpg",""],["1980s","Photo_1980s_E9AEB2_p1.jpg",""],["1980s","Photo_1980s_EADCC1_p1.jpg",""],["1980s","Photo_1980s_EADCC1_p3.jpg",""],["1980s","Photo_1980s_EAE5A9_p1.jpg",""],["1980s","Photo_1980s_EAE5A9_p2.jpg",""],["1980s","Photo_1980s_EAE5A9_p3.jpg",""],["1980s","Photo_1980s_EAE5A9_p4.jpg",""],["1980s","Photo_1980s_F44499_p2.jpg",""],["1980s","Photo_1980s_F44499_p3.jpg",""],["1980s","Photo_1980s_F951AF_p1.jpg",""],["1980s","Photo_1980s_F951AF_p3.jpg",""],["1980s","Photo_1980s_FB90BA_p1.jpg",""],["1980s","Photo_1980s_FB90BA_p2.jpg",""],["1980s","Photo_1980s_FB90BA_p3.jpg",""],["1980s","Photo_1980s_FF3BE0_p1.jpg",""],["1980s","Photo_1980s_FF3BE0_p2.jpg",""],["1980s","Photo_1980s_FF3BE0_p3.jpg",""],["1990s","Photo_1990s_04EC4D_p1.jpg",""],["1990s","Photo_1990s_04EC4D_p2.jpg",""],["1990s","Photo_1990s_04EC4D_p3.jpg",""],["1990s","Photo_1990s_04EC4D_p4.jpg",""],["1990s","Photo_1990s_0814CE_p1.jpg",""],["1990s","Photo_1990s_0814CE_p2.jpg",""],["1990s","Photo_1990s_0814CE_p3.jpg",""],["1990s","Photo_1990s_0814CE_p4.jpg",""],["1990s","Photo_1990s_0D01DF_p2.jpg",""],["1990s","Photo_1990s_0E03C0_p1.jpg",""],["1990s","Photo_1990s_0E03C0_p2.jpg",""],["1990s","Photo_1990s_0E03C0_p3.jpg",""],["1990s","Photo_1990s_0E03C0_p4.jpg",""],["1990s","Photo_1990s_0FC4E2_p1.jpg",""],["1990s","Photo_1990s_0FEF0C_p1.jpg",""],["1990s","Photo_1990s_0FEF0C_p2.jpg",""],["1990s","Photo_1990s_0FEF0C_p3.jpg",""],["1990s","Photo_1990s_0FEF0C_p4.jpg",""],["1990s","Photo_1990s_125322_p1.jpg",""],["1990s","Photo_1990s_125322_p2.jpg",""],["1990s","Photo_1990s_125322_p3.jpg",""],["1990s","Photo_1990s_125322_p4.jpg",""],["1990s","Photo_1990s_12A682_p1.jpg",""],["1990s","Photo_1990s_12A682_p2.jpg",""],["1990s","Photo_1990s_12A682_p3.jpg",""],["1990s","Photo_1990s_12A682_p4.jpg",""],["1990s","Photo_1990s_1485A7_p1.jpg",""],["1990s","Photo_1990s_1485A7_p2.jpg",""],["1990s","Photo_1990s_1485A7_p3.jpg",""],["1990s","Photo_1990s_1485A7_p4.jpg",""],["1990s","Photo_1990s_15CA29_p1 (1).jpg",""],["1990s","Photo_1990s_15CA29_p1.jpg",""],["1990s","Photo_1990s_1AE58C_p1.jpg",""],["1990s","Photo_1990s_1AE58C_p2.jpg",""],["1990s","Photo_1990s_1AE58C_p3.jpg",""],["1990s","Photo_1990s_1AE58C_p4.jpg",""],["1990s","Photo_1990s_1EF66B_p1.jpg",""],["1990s","Photo_1990s_1EF66B_p2.jpg",""],["1990s","Photo_1990s_1EF66B_p3.jpg",""],["1990s","Photo_1990s_1F9267_p1.jpg",""],["1990s","Photo_1990s_1F9267_p2.jpg",""],["1990s","Photo_1990s_1F9267_p3.jpg",""],["1990s","Photo_1990s_1F9267_p4.jpg",""],["1990s","Photo_1990s_283654_p1.jpg",""],["1990s","Photo_1990s_283654_p2.jpg",""],["1990s","Photo_1990s_283654_p3.jpg",""],["1990s","Photo_1990s_292589_p1.jpg",""],["1990s","Photo_1990s_292589_p2.jpg",""],["1990s","Photo_1990s_292589_p3.jpg",""],["1990s","Photo_1990s_292589_p4.jpg",""],["1990s","Photo_1990s_2B4FBC_p1.jpg",""],["1990s","Photo_1990s_2B4FBC_p2.jpg",""],["1990s","Photo_1990s_2B4FBC_p3.jpg",""],["1990s","Photo_1990s_2B4FBC_p4.jpg",""],["1990s","Photo_1990s_2C4438_p1.jpg",""],["1990s","Photo_1990s_2C4438_p2.jpg",""],["1990s","Photo_1990s_2C4438_p3.jpg",""],["1990s","Photo_1990s_2C4438_p4.jpg",""],["1990s","Photo_1990s_2E46D4_p1.jpg",""],["1990s","Photo_1990s_2E46D4_p2.jpg",""],["1990s","Photo_1990s_2E46D4_p3.jpg",""],["1990s","Photo_1990s_3326ED_p2.jpg",""],["1990s","Photo_1990s_3326ED_p3.jpg",""],["1990s","Photo_1990s_3326ED_p4.jpg",""],["1990s","Photo_1990s_347E80_p1.jpg",""],["1990s","Photo_1990s_347E80_p3.jpg",""],["1990s","Photo_1990s_348F88_p1.jpg",""],["1990s","Photo_1990s_348F88_p2.jpg",""],["1990s","Photo_1990s_348F88_p3.jpg",""],["1990s","Photo_1990s_348F88_p4.jpg",""],["1990s","Photo_1990s_3C2E5A_p1.jpg",""],["1990s","Photo_1990s_3C2E5A_p2.jpg",""],["1990s","Photo_1990s_3C2E5A_p3.jpg",""],["1990s","Photo_1990s_3C2E5A_p4.jpg",""],["1990s","Photo_1990s_3DC80F_p1.jpg",""],["1990s","Photo_1990s_3DC80F_p2.jpg",""],["1990s","Photo_1990s_3DC80F_p3.jpg",""],["1990s","Photo_1990s_3DC80F_p4.jpg",""],["1990s","Photo_1990s_3FEE07_p1.jpg",""],["1990s","Photo_1990s_3FEE07_p2.jpg",""],["1990s","Photo_1990s_3FEE07_p3.jpg",""],["1990s","Photo_1990s_3FEE07_p4.jpg",""],["1990s","Photo_1990s_4459C2_p1.jpg",""],["1990s","Photo_1990s_4459C2_p2.jpg",""],["1990s","Photo_1990s_4459C2_p3.jpg",""],["1990s","Photo_1990s_4459C2_p4.jpg",""],["1990s","Photo_1990s_447D66_p1.jpg",""],["1990s","Photo_1990s_447D66_p2.jpg",""],["1990s","Photo_1990s_447D66_p3.jpg",""],["1990s","Photo_1990s_447D66_p4.jpg",""],["1990s","Photo_1990s_47DDA1_p1.jpg",""],["1990s","Photo_1990s_47DDA1_p2.jpg",""],["1990s","Photo_1990s_47DDA1_p3.jpg",""],["1990s","Photo_1990s_47DDA1_p4.jpg",""],["1990s","Photo_1990s_4A3B37_p1.jpg",""],["1990s","Photo_1990s_4A3B37_p2.jpg",""],["1990s","Photo_1990s_4A3B37_p3.jpg",""],["1990s","Photo_1990s_4A3B37_p4.jpg",""],["1990s","Photo_1990s_4CBABB_p1.jpg",""],["1990s","Photo_1990s_4CBABB_p2.jpg",""],["1990s","Photo_1990s_4CBABB_p3.jpg",""],["1990s","Photo_1990s_4CBABB_p4.jpg",""],["1990s","Photo_1990s_54C880_p1.jpg",""],["1990s","Photo_1990s_54C880_p2 (1).jpg",""],["1990s","Photo_1990s_54C880_p2.jpg",""],["1990s","Photo_1990s_54C880_p3 (1).jpg",""],["1990s","Photo_1990s_54C880_p3.jpg",""],["1990s","Photo_1990s_59D180_p1.jpg",""],["1990s","Photo_1990s_59D180_p2.jpg",""],["1990s","Photo_1990s_59D180_p3.jpg",""],["1990s","Photo_1990s_59D180_p4.jpg",""],["1990s","Photo_1990s_59EBE8_p1.jpg",""],["1990s","Photo_1990s_59EBE8_p2.jpg",""],["1990s","Photo_1990s_59EBE8_p3.jpg",""],["1990s","Photo_1990s_59EBE8_p4.jpg",""],["1990s","Photo_1990s_5ABF2A_p1.jpg",""],["1990s","Photo_1990s_5ABF2A_p2.jpg",""],["1990s","Photo_1990s_5ABF2A_p3.jpg",""],["1990s","Photo_1990s_5ABF2A_p4.jpg",""],["1990s","Photo_1990s_65741E_p2.jpg",""],["1990s","Photo_1990s_65741E_p3 (1).jpg",""],["1990s","Photo_1990s_658220_p2.jpg",""],["1990s","Photo_1990s_66D0D6_p1.jpg",""],["1990s","Photo_1990s_66D0D6_p2.jpg",""],["1990s","Photo_1990s_68DEE4_p1.jpg",""],["1990s","Photo_1990s_68DEE4_p2.jpg",""],["1990s","Photo_1990s_68DEE4_p3.jpg",""],["1990s","Photo_1990s_68DEE4_p4.jpg",""],["1990s","Photo_1990s_75CFA3_p1.jpg",""],["1990s","Photo_1990s_75CFA3_p2.jpg",""],["1990s","Photo_1990s_75CFA3_p3.jpg",""],["1990s","Photo_1990s_75CFA3_p4.jpg",""],["1990s","Photo_1990s_75EF4C_p1.jpg",""],["1990s","Photo_1990s_75EF4C_p2.jpg",""],["1990s","Photo_1990s_75EF4C_p3.jpg",""],["1990s","Photo_1990s_75EF4C_p4.jpg",""],["1990s","Photo_1990s_75FD63_p1.jpg",""],["1990s","Photo_1990s_75FD63_p2.jpg",""],["1990s","Photo_1990s_75FD63_p3.jpg",""],["1990s","Photo_1990s_75FD63_p4.jpg",""],["1990s","Photo_1990s_784181_p1.jpg",""],["1990s","Photo_1990s_784181_p2.jpg",""],["1990s","Photo_1990s_784181_p3.jpg",""],["1990s","Photo_1990s_784181_p4.jpg",""],["1990s","Photo_1990s_7983A0_p1.jpg",""],["1990s","Photo_1990s_7983A0_p2.jpg",""],["1990s","Photo_1990s_7983A0_p3.jpg",""],["1990s","Photo_1990s_7983A0_p4.jpg",""],["1990s","Photo_1990s_7D53E0_p1.jpg",""],["1990s","Photo_1990s_7D53E0_p2.jpg",""],["1990s","Photo_1990s_7D53E0_p4.jpg",""],["1990s","Photo_1990s_803938_p1.jpg",""],["1990s","Photo_1990s_803938_p2.jpg",""],["1990s","Photo_1990s_803938_p3.jpg",""],["1990s","Photo_1990s_803938_p4.jpg",""],["1990s","Photo_1990s_868C08_p1.jpg",""],["1990s","Photo_1990s_868C08_p2.jpg",""],["1990s","Photo_1990s_868C08_p3.jpg",""],["1990s","Photo_1990s_868C08_p4.jpg",""],["1990s","Photo_1990s_884D74_p1.jpg",""],["1990s","Photo_1990s_884D74_p2.jpg",""],["1990s","Photo_1990s_884D74_p4.jpg",""],["1990s","Photo_1990s_903D77_p1.jpg",""],["1990s","Photo_1990s_903D77_p2.jpg",""],["1990s","Photo_1990s_903D77_p3.jpg",""],["1990s","Photo_1990s_903D77_p4.jpg",""],["1990s","Photo_1990s_919EBA_p1.jpg",""],["1990s","Photo_1990s_919EBA_p2.jpg",""],["1990s","Photo_1990s_919EBA_p3.jpg",""],["1990s","Photo_1990s_919EBA_p4.jpg",""],["1990s","Photo_1990s_9227CA_p1.jpg",""],["1990s","Photo_1990s_9227CA_p2.jpg",""],["1990s","Photo_1990s_934515_p1.jpg","Mom and her sisters - Rose, Nuha, Olga and Lamia"],["1990s","Photo_1990s_934515_p3.jpg",""],["1990s","Photo_1990s_93D5B8_p1.jpg",""],["1990s","Photo_1990s_93D5B8_p2.jpg",""],["1990s","Photo_1990s_93D5B8_p3.jpg",""],["1990s","Photo_1990s_93D5B8_p4.jpg",""],["1990s","Photo_1990s_948CB5_p1.jpg",""],["1990s","Photo_1990s_948CB5_p2.jpg",""],["1990s","Photo_1990s_948CB5_p3.jpg",""],["1990s","Photo_1990s_948CB5_p4.jpg",""],["1990s","Photo_1990s_979328_p2.jpg",""],["1990s","Photo_1990s_979328_p3.jpg",""],["1990s","Photo_1990s_979328_p4.jpg",""],["1990s","Photo_1990s_9A997A_p1.jpg",""],["1990s","Photo_1990s_9A997A_p2.jpg",""],["1990s","Photo_1990s_9A997A_p3.jpg",""],["1990s","Photo_1990s_9A997A_p4.jpg",""],["1990s","Photo_1990s_9AD3CE_p1.jpg",""],["1990s","Photo_1990s_9AD3CE_p2.jpg",""],["1990s","Photo_1990s_9AD3CE_p3.jpg",""],["1990s","Photo_1990s_9AD3CE_p4.jpg",""],["1990s","Photo_1990s_9D6BDE_p1.jpg",""],["1990s","Photo_1990s_9D6BDE_p2.jpg",""],["1990s","Photo_1990s_9D6BDE_p3.jpg",""],["1990s","Photo_1990s_9D6BDE_p4.jpg",""],["1990s","Photo_1990s_9E773C_p1.jpg",""],["1990s","Photo_1990s_9E773C_p2.jpg",""],["1990s","Photo_1990s_9E773C_p3.jpg",""],["1990s","Photo_1990s_9E773C_p4.jpg",""],["1990s","Photo_1990s_9F9DED_p2.jpg",""],["1990s","Photo_1990s_9F9DED_p3.jpg",""],["1990s","Photo_1990s_9F9DED_p4.jpg",""],["1990s","Photo_1990s_9FCF4E_p2.jpg",""],["1990s","Photo_1990s_9FCF4E_p3.jpg",""],["1990s","Photo_1990s_9FCF4E_p4.jpg",""],["1990s","Photo_1990s_A07B1F_p1.jpg",""],["1990s","Photo_1990s_A07B1F_p2.jpg",""],["1990s","Photo_1990s_A07B1F_p3.jpg",""],["1990s","Photo_1990s_A07B1F_p4.jpg",""],["1990s","Photo_1990s_A33227_p1.jpg",""],["1990s","Photo_1990s_A33227_p2.jpg",""],["1990s","Photo_1990s_A33227_p3.jpg",""],["1990s","Photo_1990s_A33227_p4.jpg",""],["1990s","Photo_1990s_A7F691_p1.jpg",""],["1990s","Photo_1990s_A7F691_p2.jpg",""],["1990s","Photo_1990s_A7F691_p3.jpg",""],["1990s","Photo_1990s_A7F691_p4.jpg",""],["1990s","Photo_1990s_AB4F83_p1.jpg",""],["1990s","Photo_1990s_AB4F83_p2.jpg",""],["1990s","Photo_1990s_AB4F83_p3.jpg",""],["1990s","Photo_1990s_AB4F83_p4.jpg",""],["1990s","Photo_1990s_B74505_p1.jpg",""],["1990s","Photo_1990s_B74505_p2.jpg",""],["1990s","Photo_1990s_B74505_p3.jpg",""],["1990s","Photo_1990s_B74505_p4.jpg",""],["1990s","Photo_1990s_B776CC_p1.jpg",""],["1990s","Photo_1990s_B776CC_p2.jpg",""],["1990s","Photo_1990s_B776CC_p3.jpg",""],["1990s","Photo_1990s_B776CC_p4.jpg",""],["1990s","Photo_1990s_B94DA7_p1.jpg",""],["1990s","Photo_1990s_B94DA7_p3.jpg",""],["1990s","Photo_1990s_BC0DBD_p1.jpg",""],["1990s","Photo_1990s_BC0DBD_p2.jpg",""],["1990s","Photo_1990s_BC0DBD_p3.jpg",""],["1990s","Photo_1990s_BC0DBD_p4.jpg",""],["1990s","Photo_1990s_BC7CA7_p2.jpg",""],["1990s","Photo_1990s_BC7CA7_p3.jpg",""],["1990s","Photo_1990s_BC7CA7_p4.jpg",""],["1990s","Photo_1990s_BEB430_p1.jpg",""],["1990s","Photo_1990s_BEB430_p2.jpg",""],["1990s","Photo_1990s_BEB430_p3.jpg",""],["1990s","Photo_1990s_BEB430_p4.jpg",""],["1990s","Photo_1990s_C04A99_p1.jpg",""],["1990s","Photo_1990s_C04A99_p2.jpg",""],["1990s","Photo_1990s_C04A99_p3.jpg",""],["1990s","Photo_1990s_C234F8_p1.jpg",""],["1990s","Photo_1990s_C234F8_p2.jpg",""],["1990s","Photo_1990s_C234F8_p3.jpg",""],["1990s","Photo_1990s_C234F8_p4.jpg",""],["1990s","Photo_1990s_C43013_p1.jpg",""],["1990s","Photo_1990s_C43013_p2.jpg",""],["1990s","Photo_1990s_C43013_p3.jpg",""],["1990s","Photo_1990s_C43013_p4.jpg",""],["1990s","Photo_1990s_CDCFE9_p1.jpg",""],["1990s","Photo_1990s_CDCFE9_p2.jpg",""],["1990s","Photo_1990s_CDCFE9_p3.jpg",""],["1990s","Photo_1990s_CDCFE9_p4.jpg",""],["1990s","Photo_1990s_D45587_p1.jpg",""],["1990s","Photo_1990s_D45587_p2.jpg",""],["1990s","Photo_1990s_D45587_p3.jpg",""],["1990s","Photo_1990s_D71BB1_p1.jpg",""],["1990s","Photo_1990s_D71BB1_p2.jpg",""],["1990s","Photo_1990s_D71BB1_p3.jpg",""],["1990s","Photo_1990s_D71BB1_p4.jpg",""],["1990s","Photo_1990s_D777EA_p1.jpg",""],["1990s","Photo_1990s_D777EA_p2.jpg",""],["1990s","Photo_1990s_D777EA_p3.jpg",""],["1990s","Photo_1990s_D777EA_p4.jpg",""],["1990s","Photo_1990s_D86020_p1.jpg",""],["1990s","Photo_1990s_D86020_p2.jpg",""],["1990s","Photo_1990s_D86020_p3.jpg",""],["1990s","Photo_1990s_D86020_p4.jpg",""],["1990s","Photo_1990s_D8CB94_p1.jpg",""],["1990s","Photo_1990s_D8CB94_p2.jpg",""],["1990s","Photo_1990s_D8CB94_p3.jpg",""],["1990s","Photo_1990s_D8CB94_p4.jpg",""],["1990s","Photo_1990s_DB58AE_p1.jpg",""],["1990s","Photo_1990s_DE6DA3_p1.jpg",""],["1990s","Photo_1990s_DE6DA3_p2.jpg",""],["1990s","Photo_1990s_DEDAF7_p1.jpg",""],["1990s","Photo_1990s_DEDAF7_p2.jpg",""],["1990s","Photo_1990s_DEDAF7_p3.jpg",""],["1990s","Photo_1990s_DEDAF7_p4.jpg",""],["1990s","Photo_1990s_E1C7E3_p1.jpg",""],["1990s","Photo_1990s_E8E58C_p1.jpg",""],["1990s","Photo_1990s_E8E58C_p2.jpg",""],["1990s","Photo_1990s_E8E58C_p3.jpg",""],["1990s","Photo_1990s_E8E58C_p4.jpg",""],["1990s","Photo_1990s_EC2EE9_p1.jpg",""],["1990s","Photo_1990s_EC2EE9_p2.jpg",""],["1990s","Photo_1990s_EC2EE9_p4.jpg",""],["1990s","Photo_1990s_ED031B_p1.jpg",""],["1990s","Photo_1990s_ED031B_p2.jpg",""],["1990s","Photo_1990s_ED031B_p4.jpg",""],["1990s","Photo_1990s_EDC7AE_p1.jpg",""],["1990s","Photo_1990s_EDC7AE_p2.jpg",""],["1990s","Photo_1990s_EDC7AE_p3.jpg",""],["1990s","Photo_1990s_EDC7AE_p4.jpg",""],["1990s","Photo_1990s_F0E304_p1.jpg",""],["1990s","Photo_1990s_F0E304_p2.jpg",""],["1990s","Photo_1990s_F0E304_p3.jpg",""],["1990s","Photo_1990s_F0F14D_p1.jpg",""],["1990s","Photo_1990s_F0F14D_p2.jpg",""],["1990s","Photo_1990s_F0F14D_p3.jpg",""],["1990s","Photo_1990s_F0F14D_p4.jpg",""],["1990s","Photo_1990s_F4F4DA_p2.jpg",""],["1990s","Photo_1990s_F713A1_p1.jpg",""],["1990s","Photo_1990s_F713A1_p2.jpg",""],["1990s","Photo_1990s_F713A1_p3.jpg",""],["1990s","Photo_1990s_F713A1_p4.jpg",""],["1990s","Photo_1990s_F83752_p1.jpg",""],["1990s","Photo_1990s_F83752_p2.jpg",""],["1990s","Photo_1990s_F83752_p3.jpg",""],["1990s","Photo_1990s_F83752_p4.jpg",""],["1990s","Photo_1990s_FA88A5_p1.jpg",""],["1990s","Photo_1990s_FA88A5_p2.jpg",""],["1990s","Photo_1990s_FA88A5_p3.jpg",""],["1990s","Photo_1990s_FA88A5_p4.jpg",""],["1990s","Photo_1990s_FCE734_p1.jpg",""],["1990s","Photo_1990s_FCE734_p2.jpg",""],["1990s","Photo_1990s_FCE734_p3.jpg",""],["1990s","Photo_1990s_FCE734_p4.jpg",""],["1990s","Photo_1990s_FD70E2_p1.jpg",""],["1990s","Photo_1990s_FD70E2_p2.jpg",""],["1990s","Photo_1990s_FD70E2_p3.jpg",""],["1990s","Photo_1990s_FD70E2_p4.jpg",""],["1990s","Photo_1990s_FED02F_p1.jpg",""],["1990s","Photo_1990s_FED02F_p3.jpg",""],["1990s","Photo_1990s_FED02F_p4.jpg",""],["2000s","Photo_2000s_06A371_p1.jpg",""],["2000s","Photo_2000s_06A371_p2.jpg",""],["2000s","Photo_2000s_09BC58_p1.jpg",""],["2000s","Photo_2000s_09BC58_p2.jpg",""],["2000s","Photo_2000s_09BC58_p3.jpg",""],["2000s","Photo_2000s_0DA6B8_p1.jpg",""],["2000s","Photo_2000s_0DA6B8_p2.jpg",""],["2000s","Photo_2000s_0DA6B8_p3.jpg",""],["2000s","Photo_2000s_0DA6B8_p4.jpg",""],["2000s","Photo_2000s_11A5F3_p1.jpg",""],["2000s","Photo_2000s_11A5F3_p2.jpg",""],["2000s","Photo_2000s_11A5F3_p3.jpg",""],["2000s","Photo_2000s_11A5F3_p4.jpg",""],["2000s","Photo_2000s_17D298_p1.jpg",""],["2000s","Photo_2000s_17D298_p2.jpg",""],["2000s","Photo_2000s_17D298_p3.jpg",""],["2000s","Photo_2000s_17D298_p4.jpg",""],["2000s","Photo_2000s_2287FC_p1.jpg",""],["2000s","Photo_2000s_2287FC_p2.jpg",""],["2000s","Photo_2000s_23FC12_p2.jpg",""],["2000s","Photo_2000s_24A5C9_p1.jpg",""],["2000s","Photo_2000s_24A5C9_p2.jpg",""],["2000s","Photo_2000s_24A5C9_p3.jpg",""],["2000s","Photo_2000s_24A5C9_p4.jpg",""],["2000s","Photo_2000s_263230_p2.jpg",""],["2000s","Photo_2000s_263230_p4.jpg",""],["2000s","Photo_2000s_270875_p1.jpg",""],["2000s","Photo_2000s_270875_p2.jpg",""],["2000s","Photo_2000s_270875_p3.jpg",""],["2000s","Photo_2000s_270875_p4.jpg",""],["2000s","Photo_2000s_2D616F_p1.jpg",""],["2000s","Photo_2000s_2D616F_p2.jpg",""],["2000s","Photo_2000s_2EAE62_p1.jpg",""],["2000s","Photo_2000s_2EAE62_p2.jpg",""],["2000s","Photo_2000s_2EAE62_p3.jpg",""],["2000s","Photo_2000s_2EAE62_p4.jpg",""],["2000s","Photo_2000s_35D37D_p1.jpg",""],["2000s","Photo_2000s_35D37D_p2.jpg",""],["2000s","Photo_2000s_35D37D_p3.jpg",""],["2000s","Photo_2000s_35D37D_p4.jpg",""],["2000s","Photo_2000s_3F7997_p1.jpg",""],["2000s","Photo_2000s_3F7997_p2.jpg",""],["2000s","Photo_2000s_3F7997_p3.jpg",""],["2000s","Photo_2000s_3F7997_p4.jpg",""],["2000s","Photo_2000s_43A4FD_p1.jpg",""],["2000s","Photo_2000s_43A4FD_p4.jpg",""],["2000s","Photo_2000s_4F5BB8_p1.jpg",""],["2000s","Photo_2000s_4F5BB8_p2.jpg",""],["2000s","Photo_2000s_4F5BB8_p3.jpg",""],["2000s","Photo_2000s_4F5BB8_p4.jpg",""],["2000s","Photo_2000s_51094E_p1.jpg",""],["2000s","Photo_2000s_51094E_p2.jpg",""],["2000s","Photo_2000s_51094E_p3.jpg",""],["2000s","Photo_2000s_51094E_p4.jpg",""],["2000s","Photo_2000s_52804F_p2.jpg",""],["2000s","Photo_2000s_52804F_p3.jpg",""],["2000s","Photo_2000s_5AFF08_p1.jpg",""],["2000s","Photo_2000s_5AFF08_p2.jpg",""],["2000s","Photo_2000s_5AFF08_p3.jpg",""],["2000s","Photo_2000s_5AFF08_p4.jpg",""],["2000s","Photo_2000s_63CFB4_p1.jpg",""],["2000s","Photo_2000s_63CFB4_p2.jpg",""],["2000s","Photo_2000s_63CFB4_p3.jpg",""],["2000s","Photo_2000s_63CFB4_p4.jpg",""],["2000s","Photo_2000s_658220_p1.jpg",""],["2000s","Photo_2000s_6F0C57_p1.jpg",""],["2000s","Photo_2000s_6F0C57_p4.jpg",""],["2000s","Photo_2000s_6FF0EA_p1.jpg",""],["2000s","Photo_2000s_6FF0EA_p2.jpg",""],["2000s","Photo_2000s_6FF0EA_p3.jpg",""],["2000s","Photo_2000s_6FF0EA_p4.jpg",""],["2000s","Photo_2000s_72E062_p3.jpg",""],["2000s","Photo_2000s_76E810_p1.jpg",""],["2000s","Photo_2000s_76E810_p2.jpg",""],["2000s","Photo_2000s_76E810_p4.jpg",""],["2000s","Photo_2000s_772963_p3.jpg",""],["2000s","Photo_2000s_78473C_p1.jpg",""],["2000s","Photo_2000s_78473C_p2.jpg",""],["2000s","Photo_2000s_78473C_p3.jpg",""],["2000s","Photo_2000s_78473C_p4.jpg",""],["2000s","Photo_2000s_7EC5A3_p1.jpg",""],["2000s","Photo_2000s_7EC5A3_p2.jpg",""],["2000s","Photo_2000s_7EC5A3_p3.jpg",""],["2000s","Photo_2000s_7EC5A3_p4.jpg",""],["2000s","Photo_2000s_8B6315_p1.jpg",""],["2000s","Photo_2000s_93F48F_p1.jpg",""],["2000s","Photo_2000s_93F48F_p2.jpg",""],["2000s","Photo_2000s_93F48F_p3.jpg",""],["2000s","Photo_2000s_93F48F_p4.jpg",""],["2000s","Photo_2000s_94E850_p1.jpg",""],["2000s","Photo_2000s_94E850_p2.jpg",""],["2000s","Photo_2000s_9858A9_p1.jpg",""],["2000s","Photo_2000s_9858A9_p2.jpg",""],["2000s","Photo_2000s_9858A9_p3.jpg",""],["2000s","Photo_2000s_9858A9_p4.jpg",""],["2000s","Photo_2000s_9869E9_p1.jpg",""],["2000s","Photo_2000s_9869E9_p2.jpg",""],["2000s","Photo_2000s_9869E9_p3.jpg",""],["2000s","Photo_2000s_9869E9_p4.jpg",""],["2000s","Photo_2000s_98BA0B_p1.jpg",""],["2000s","Photo_2000s_98BA0B_p2.jpg",""],["2000s","Photo_2000s_98BA0B_p3.jpg",""],["2000s","Photo_2000s_98BA0B_p4.jpg",""],["2000s","Photo_2000s_99FFBF_p1.jpg",""],["2000s","Photo_2000s_99FFBF_p2.jpg",""],["2000s","Photo_2000s_99FFBF_p3.jpg",""],["2000s","Photo_2000s_99FFBF_p4.jpg",""],["2000s","Photo_2000s_9E3104_p1.jpg",""],["2000s","Photo_2000s_9E3104_p2.jpg",""],["2000s","Photo_2000s_A5416A_p1.jpg",""],["2000s","Photo_2000s_A5416A_p2.jpg",""],["2000s","Photo_2000s_A5416A_p3.jpg",""],["2000s","Photo_2000s_AAE8F3_p1.jpg",""],["2000s","Photo_2000s_AAE8F3_p2.jpg",""],["2000s","Photo_2000s_AAE8F3_p3.jpg",""],["2000s","Photo_2000s_AAE8F3_p4.jpg",""],["2000s","Photo_2000s_ACD2E2_p3.jpg",""],["2000s","Photo_2000s_ACD2E2_p4.jpg",""],["2000s","Photo_2000s_AE0E9D_p1.jpg",""],["2000s","Photo_2000s_AE0E9D_p3.jpg",""],["2000s","Photo_2000s_AE0E9D_p4.jpg",""],["2000s","Photo_2000s_AFFA8F_p1.jpg",""],["2000s","Photo_2000s_AFFA8F_p2.jpg",""],["2000s","Photo_2000s_AFFA8F_p3.jpg",""],["2000s","Photo_2000s_AFFA8F_p4.jpg",""],["2000s","Photo_2000s_BBD164_p2.jpg",""],["2000s","Photo_2000s_BD307E_p1.jpg",""],["2000s","Photo_2000s_BD307E_p2.jpg",""],["2000s","Photo_2000s_BD307E_p3.jpg",""],["2000s","Photo_2000s_BD307E_p4.jpg",""],["2000s","Photo_2000s_BED8BF_p4.jpg",""],["2000s","Photo_2000s_C0BCA5_p1.jpg",""],["2000s","Photo_2000s_C0BCA5_p2.jpg",""],["2000s","Photo_2000s_C0BCA5_p3.jpg",""],["2000s","Photo_2000s_C0BCA5_p4.jpg",""],["2000s","Photo_2000s_C403BF_p1.jpg",""],["2000s","Photo_2000s_C403BF_p2.jpg",""],["2000s","Photo_2000s_C403BF_p3.jpg",""],["2000s","Photo_2000s_C403BF_p4.jpg",""],["2000s","Photo_2000s_C86EE5_p1.jpg",""],["2000s","Photo_2000s_C86EE5_p4.jpg",""],["2000s","Photo_2000s_CB4D9F_p2.jpg",""],["2000s","Photo_2000s_CB4D9F_p4.jpg",""],["2000s","Photo_2000s_D31793_p1.jpg",""],["2000s","Photo_2000s_D31793_p2.jpg",""],["2000s","Photo_2000s_D31793_p3.jpg",""],["2000s","Photo_2000s_D31793_p4.jpg",""],["2000s","Photo_2000s_D400BA_p1.jpg",""],["2000s","Photo_2000s_D400BA_p2.jpg",""],["2000s","Photo_2000s_D400BA_p3.jpg",""],["2000s","Photo_2000s_D400BA_p4.jpg",""],["2000s","Photo_2000s_D8126E_p1.jpg",""],["2000s","Photo_2000s_D8126E_p2.jpg",""],["2000s","Photo_2000s_D8126E_p3.jpg",""],["2000s","Photo_2000s_D8126E_p4.jpg",""],["2000s","Photo_2000s_DB58AE_p2.jpg",""],["2000s","Photo_2000s_DB58AE_p3.jpg",""],["2000s","Photo_2000s_DCB444_p1.jpg",""],["2000s","Photo_2000s_DCB444_p3.jpg",""],["2000s","Photo_2000s_DCB444_p4.jpg",""],["2000s","Photo_2000s_DE0DF5_p1.jpg",""],["2000s","Photo_2000s_DE0DF5_p2.jpg",""],["2000s","Photo_2000s_DE0DF5_p3.jpg",""],["2000s","Photo_2000s_DE0DF5_p4.jpg",""],["2000s","Photo_2000s_DEC4BA_p1.jpg",""],["2000s","Photo_2000s_E0739D_p1.jpg",""],["2000s","Photo_2000s_E0739D_p2.jpg",""],["2000s","Photo_2000s_E0739D_p3.jpg",""],["2000s","Photo_2000s_E0739D_p4.jpg",""],["2000s","Photo_2000s_E44370_p1.jpg",""],["2000s","Photo_2000s_E44370_p2.jpg",""],["2000s","Photo_2000s_E44370_p3.jpg",""],["2000s","Photo_2000s_E44370_p4.jpg",""],["2000s","Photo_2000s_EB4DD9_p1.jpg",""],["2000s","Photo_2000s_EB4DD9_p2.jpg",""],["2000s","Photo_2000s_EB4DD9_p3.jpg",""],["2000s","Photo_2000s_EB4DD9_p4.jpg",""],["2000s","Photo_2000s_F1EB29_p3.jpg",""],["2000s","Photo_2000s_F1EB29_p4.jpg",""],["2000s","Photo_2000s_F62792_p1.jpg",""],["2000s","Photo_2000s_F62792_p2.jpg",""],["2000s","Photo_2000s_F8170D_p1.jpg",""],["2000s","Photo_2000s_F8170D_p2.jpg",""],["2000s","Photo_2000s_F8170D_p3.jpg",""],["2000s","Photo_2000s_F8170D_p4.jpg",""],["2000s","Photo_2000s_F830AD_p1.jpg",""],["2000s","Photo_2000s_F830AD_p2.jpg",""],["2000s","Photo_2000s_F830AD_p3.jpg",""],["2000s","Photo_2000s_F830AD_p4.jpg",""],["2000s","Photo_2000s_FE3859_p1.jpg",""],["2000s","Photo_2000s_FE3859_p2.jpg",""],["2010s","Photo_2010s_0EC78A_p2.jpg",""],["2010s","Photo_2010s_0EC78A_p4.jpg",""],["2010s","Photo_2010s_134E62_p4.jpg",""],["2010s","Photo_2010s_1BD312_p1.jpg",""],["2010s","Photo_2010s_263230_p1.jpg",""],["2010s","Photo_2010s_263230_p3.jpg",""],["2010s","Photo_2010s_280FBF_p1.jpg",""],["2010s","Photo_2010s_280FBF_p2.jpg",""],["2010s","Photo_2010s_280FBF_p3.jpg",""],["2010s","Photo_2010s_280FBF_p4.jpg",""],["2010s","Photo_2010s_2B617D_p1.jpg",""],["2010s","Photo_2010s_2B617D_p2.jpg",""],["2010s","Photo_2010s_2B617D_p3.jpg",""],["2010s","Photo_2010s_2B617D_p4.jpg",""],["2010s","Photo_2010s_368E50_p1.jpg",""],["2010s","Photo_2010s_368E50_p2.jpg",""],["2010s","Photo_2010s_368E50_p3.jpg",""],["2010s","Photo_2010s_368E50_p4.jpg",""],["2010s","Photo_2010s_3B063F_p1.jpg",""],["2010s","Photo_2010s_3B063F_p2.jpg",""],["2010s","Photo_2010s_3B063F_p3.jpg",""],["2010s","Photo_2010s_56BF53_p1.jpg",""],["2010s","Photo_2010s_56BF53_p2.jpg",""],["2010s","Photo_2010s_56BF53_p3.jpg",""],["2010s","Photo_2010s_56BF53_p4.jpg",""],["2010s","Photo_2010s_6F61C4_p1.jpg",""],["2010s","Photo_2010s_6F61C4_p2.jpg",""],["2010s","Photo_2010s_6F61C4_p3.jpg",""],["2010s","Photo_2010s_6F61C4_p4.jpg",""],["2010s","Photo_2010s_71106F_p1.jpg",""],["2010s","Photo_2010s_71106F_p2.jpg",""],["2010s","Photo_2010s_71106F_p3.jpg",""],["2010s","Photo_2010s_71106F_p4.jpg",""],["2010s","Photo_2010s_72E062_p1.jpg",""],["2010s","Photo_2010s_72E062_p2.jpg",""],["2010s","Photo_2010s_72E062_p4.jpg",""],["2010s","Photo_2010s_73F1A9_p1.jpg",""],["2010s","Photo_2010s_73F1A9_p2.jpg",""],["2010s","Photo_2010s_73F1A9_p4.jpg",""],["2010s","Photo_2010s_772963_p1.jpg",""],["2010s","Photo_2010s_772963_p2.jpg",""],["2010s","Photo_2010s_772963_p4.jpg",""],["2010s","Photo_2010s_78BA58_p2.jpg",""],["2010s","Photo_2010s_78BA58_p3.jpg",""],["2010s","Photo_2010s_78BA58_p4.jpg",""],["2010s","Photo_2010s_78CD18_p2.jpg",""],["2010s","Photo_2010s_78CD18_p3.jpg",""],["2010s","Photo_2010s_78CD18_p4.jpg",""],["2010s","Photo_2010s_862C3D_p1.jpg",""],["2010s","Photo_2010s_862C3D_p2.jpg",""],["2010s","Photo_2010s_862C3D_p3.jpg",""],["2010s","Photo_2010s_862C3D_p4.jpg",""],["2010s","Photo_2010s_8C2932_p1.jpg",""],["2010s","Photo_2010s_8C2932_p2.jpg",""],["2010s","Photo_2010s_8C2932_p3.jpg",""],["2010s","Photo_2010s_8C2932_p4.jpg",""],["2010s","Photo_2010s_904075_p1.jpg",""],["2010s","Photo_2010s_904075_p2.jpg",""],["2010s","Photo_2010s_904075_p3.jpg",""],["2010s","Photo_2010s_930589_p1.jpg",""],["2010s","Photo_2010s_930589_p2.jpg",""],["2010s","Photo_2010s_930589_p3.jpg",""],["2010s","Photo_2010s_9C8E05_p1.jpg",""],["2010s","Photo_2010s_9C8E05_p2.jpg",""],["2010s","Photo_2010s_9C8E05_p3.jpg",""],["2010s","Photo_2010s_9C8E05_p4.jpg",""],["2010s","Photo_2010s_AAAE5E_p1.jpg",""],["2010s","Photo_2010s_AAAE5E_p2.jpg",""],["2010s","Photo_2010s_AAAE5E_p3.jpg",""],["2010s","Photo_2010s_AAAE5E_p4.jpg",""],["2010s","Photo_2010s_AE4E60_p2.jpg",""],["2010s","Photo_2010s_AE4E60_p3.jpg",""],["2010s","Photo_2010s_BED8BF_p1.jpg",""],["2010s","Photo_2010s_BED8BF_p2.jpg",""],["2010s","Photo_2010s_BED8BF_p3.jpg",""],["2010s","Photo_2010s_D858BC_p1.jpg",""],["2010s","Photo_2010s_D858BC_p2.jpg",""],["2010s","Photo_2010s_D858BC_p3.jpg",""],["2010s","Photo_2010s_D858BC_p4.jpg",""],["2010s","Photo_2010s_F99099_p1.jpg",""],["2010s","Photo_2010s_F99099_p2.jpg",""],["2010s","Photo_2010s_F99099_p3.jpg",""],["2010s","Photo_2010s_F99099_p4.jpg",""],["Highlights","2026-08-24.jpg",""],["Highlights","Haddad Family Group Photo.jpg",""],["Highlights","IMG_0106.jpg",""],["Highlights","IMG_0225.jpg",""],["Highlights","IMG_0230.jpg",""],["Highlights","IMG_0234.jpg",""],["Highlights","IMG_0235.jpg",""],["Highlights","IMG_0237.jpg",""],["Highlights","IMG_0243.jpg",""],["Highlights","IMG_0245.jpg",""],["Highlights","IMG_0367.jpg",""],["Highlights","IMG_0567.jpg",""],["Highlights","IMG_1505.jpg",""],["Highlights","IMG_1602.jpg",""],["Highlights","IMG_1633.jpg",""],["Highlights","IMG_1775.jpg",""],["Highlights","IMG_1776.jpg",""],["Highlights","IMG_1789.jpg",""],["Highlights","IMG_1842.jpg",""],["Highlights","IMG_1850.jpg",""],["Highlights","IMG_2169.jpg",""],["Highlights","IMG_2203.jpg",""],["Highlights","IMG_2210.jpg",""],["Highlights","IMG_2256.jpg",""],["Highlights","IMG_2258.jpg",""],["Highlights","IMG_2267.jpg",""],["Highlights","IMG_2475.jpg",""],["Highlights","IMG_2810.jpg",""],["Highlights","IMG_2816.jpg",""],["Highlights","IMG_2836.jpg",""],["Highlights","IMG_2948.jpg",""],["Highlights","IMG_3121.jpg",""],["Highlights","IMG_3122.jpg",""],["Highlights","IMG_3188.jpg",""]];
 
-  let allPhotos = []; // Each item: { decade, name, url }
+  let allPhotos = []; // Each item: { decade, name, url, caption }
   let decadeCounts = {};
   let randomAllMode = true;
   let highlightedDecades = new Set();
+  let autoStartEnabled = false;
 
   // Slideshow state
   let playlist = [];
@@ -546,23 +654,230 @@
   let activeImgSlot = "a";
   let hudTimeout = null;
 
-  function init() {
-    // If opened online or inside the website folder where window.HADDAD_ARCHIVE_MANIFEST is available, pre-load it!
-    if (window.HADDAD_ARCHIVE_MANIFEST && Array.isArray(window.HADDAD_ARCHIVE_MANIFEST.photos)) {
-      allPhotos = window.HADDAD_ARCHIVE_MANIFEST.photos.map(p => ({
-        decade: p.decade,
-        name: p.name,
-        caption: p.caption || "",
-        url: p.full + "?v=cap1"
-      }));
-      recalcDecadeCounts();
-      document.getElementById("source-status-pill").textContent =
-        `✓ Ready: ${allPhotos.length.toLocaleString()} Archive Photos Detected`;
+  function loadSavedPreferences() {
+    try {
+      const raw = localStorage.getItem(PREFS_STORAGE_KEY);
+      if (!raw) return;
+      const prefs = JSON.parse(raw);
+      if (typeof prefs.autoStart === "boolean") {
+        autoStartEnabled = prefs.autoStart;
+      }
+      if (typeof prefs.randomAllMode === "boolean") {
+        randomAllMode = prefs.randomAllMode;
+      }
+      if (Array.isArray(prefs.highlightedDecades)) {
+        highlightedDecades = new Set(prefs.highlightedDecades);
+      }
+      if (prefs.slideInterval) {
+        const sel = document.getElementById("slide-interval");
+        if (sel) sel.value = String(prefs.slideInterval);
+      }
+      if (typeof prefs.shuffleSelected === "boolean") {
+        const chk = document.getElementById("chk-shuffle-selected");
+        if (chk) chk.checked = prefs.shuffleSelected;
+      }
+    } catch (e) {}
+    updateAutoStartUI();
+  }
+
+  function savePreferences() {
+    try {
+      const prefs = {
+        autoStart: autoStartEnabled,
+        randomAllMode: randomAllMode,
+        highlightedDecades: Array.from(highlightedDecades),
+        slideInterval: document.getElementById("slide-interval").value,
+        shuffleSelected: document.getElementById("chk-shuffle-selected").checked
+      };
+      localStorage.setItem(PREFS_STORAGE_KEY, JSON.stringify(prefs));
+    } catch (e) {}
+  }
+
+  function updateAutoStartUI() {
+    const sw = document.getElementById("autostart-switch");
+    const lbl = document.getElementById("autostart-state-label");
+    const hudBtn = document.getElementById("btn-hud-autostart");
+    if (sw) {
+      if (autoStartEnabled) {
+        sw.classList.add("on");
+        sw.setAttribute("aria-checked", "true");
+      } else {
+        sw.classList.remove("on");
+        sw.setAttribute("aria-checked", "false");
+      }
+    }
+    if (lbl) {
+      lbl.textContent = autoStartEnabled ? "ON" : "OFF";
+      lbl.style.color = autoStartEnabled ? "#34d399" : "#94a3b8";
+    }
+    if (hudBtn) {
+      hudBtn.textContent = "⚡ Auto-Start: " + (autoStartEnabled ? "ON" : "OFF");
+      hudBtn.style.borderColor = autoStartEnabled ? "#34d399" : "rgba(148, 163, 184, 0.3)";
+    }
+  }
+
+  window.toggleAutoStart = function() {
+    autoStartEnabled = !autoStartEnabled;
+    updateAutoStartUI();
+    savePreferences();
+  };
+
+  window.onSettingsChanged = function() {
+    savePreferences();
+    if (document.getElementById("slideshow-stage").classList.contains("active")) {
+      scheduleNextSlide();
+    }
+  };
+
+  function reconcilePreferencesWithLoadedDecades() {
+    const availableDecades = Object.keys(decadeCounts).filter(d => (decadeCounts[d] || 0) > 0);
+    if (!randomAllMode) {
+      // Keep only highlighted decades that actually exist in the loaded photo set
+      const validHighlighted = Array.from(highlightedDecades).filter(d => (decadeCounts[d] || 0) > 0);
+      if (validHighlighted.length > 0) {
+        highlightedDecades = new Set(validHighlighted);
+      } else {
+        // If user hasn't picked specific decades for this folder yet, highlight all available decades
+        highlightedDecades = new Set(availableDecades);
+        randomAllMode = true;
+      }
+    }
+  }
+
+  function probeImageExists(relUrl, timeoutMs) {
+    return new Promise(resolve => {
+      const img = new Image();
+      let done = false;
+      const timer = setTimeout(() => {
+        if (!done) {
+          done = true;
+          resolve(false);
+        }
+      }, timeoutMs || 1200);
+      img.onload = () => {
+        if (!done) {
+          done = true;
+          clearTimeout(timer);
+          resolve(true);
+        }
+      };
+      img.onerror = () => {
+        if (!done) {
+          done = true;
+          clearTimeout(timer);
+          resolve(false);
+        }
+      };
+      img.src = relUrl;
+    });
+  }
+
+  async function autoProbeLocalExtractedFolders() {
+    // Group compact catalog by decade: [decade, name, caption]
+    const byDecade = {};
+    for (let i = 0; i < COMPACT_ARCHIVE_CATALOG.length; i++) {
+      const row = COMPACT_ARCHIVE_CATALOG[i];
+      const dec = row[0];
+      if (!byDecade[dec]) byDecade[dec] = [];
+      byDecade[dec].push({ decade: dec, name: row[1], caption: row[2] || "" });
+    }
+
+    // Step 1: Quickly test first 3 photos of each decade in parallel to see which decade folders exist next to this HTML file
+    const decadesList = Object.keys(byDecade);
+    const activeLocalDecades = [];
+    await Promise.all(decadesList.map(async dec => {
+      const candidates = byDecade[dec].slice(0, 5);
+      for (const c of candidates) {
+        if (await probeImageExists(`${dec}/${c.name}`, 900)) {
+          activeLocalDecades.push({ dec, prefix: `${dec}/` });
+          return;
+        }
+        if (await probeImageExists(c.name, 600)) {
+          activeLocalDecades.push({ dec, prefix: "" });
+          return;
+        }
+      }
+    }));
+
+    if (activeLocalDecades.length === 0) return [];
+
+    // Step 2: For every detected decade folder, probe all photos in fast parallel batches of 48
+    const discovered = [];
+    for (const info of activeLocalDecades) {
+      const list = byDecade[info.dec] || [];
+      const batchSize = 48;
+      for (let i = 0; i < list.length; i += batchSize) {
+        const chunk = list.slice(i, i + batchSize);
+        const results = await Promise.all(chunk.map(async item => {
+          const url = `${info.prefix}${item.name}`;
+          const ok = await probeImageExists(url, 1200);
+          return ok ? { decade: item.decade, name: item.name, url: url, caption: item.caption } : null;
+        }));
+        for (const r of results) {
+          if (r) discovered.push(r);
+        }
+      }
+    }
+    return discovered;
+  }
+
+  function finalizeLoadedPhotos(sourceDescription) {
+    recalcDecadeCounts();
+    reconcilePreferencesWithLoadedDecades();
+    const activeDecList = KNOWN_DECADES.filter(d => (decadeCounts[d] || 0) > 0);
+    const pill = document.getElementById("source-status-pill");
+    if (allPhotos.length > 0) {
+      pill.textContent = `✓ Ready: ${allPhotos.length.toLocaleString()} Photos Across ${activeDecList.length} Decade${activeDecList.length === 1 ? '' : 's'} (${activeDecList.join(', ')})`;
     } else {
-      recalcDecadeCounts();
+      pill.textContent = sourceDescription || "Click 'Change Folder' to select your unzipped photo folder";
     }
     renderDecadeButtons();
     updateSelectionSummary();
+
+    // If Auto-Start Toggle is ON and photos are loaded, automatically launch the last selected slideshow configuration!
+    if (autoStartEnabled && allPhotos.length > 0) {
+      setTimeout(() => {
+        window.startSlideshow();
+      }, 250);
+    }
+  }
+
+  async function init() {
+    loadSavedPreferences();
+
+    // Priority 1: Injected ZIP manifest (embedded automatically by haddad_family.html when building the .ZIP!)
+    if (Array.isArray(window.NORGEM_EXTRACTED_ZIP_MANIFEST) && window.NORGEM_EXTRACTED_ZIP_MANIFEST.length > 0) {
+      allPhotos = window.NORGEM_EXTRACTED_ZIP_MANIFEST.map(p => ({
+        decade: p.decade,
+        name: p.name,
+        url: p.url || `${p.decade}/${p.name}`,
+        caption: p.caption || ""
+      }));
+      finalizeLoadedPhotos();
+      return;
+    }
+
+    // Priority 2: Online website manifest (when previewed on norgem.ca / jab-nh.github.io)
+    if (window.HADDAD_ARCHIVE_MANIFEST && Array.isArray(window.HADDAD_ARCHIVE_MANIFEST.photos) && window.HADDAD_ARCHIVE_MANIFEST.photos.length > 0) {
+      allPhotos = window.HADDAD_ARCHIVE_MANIFEST.photos.map(p => ({
+        decade: p.decade,
+        name: p.name,
+        url: p.full + "?v=mat1",
+        caption: p.caption || ""
+      }));
+      finalizeLoadedPhotos();
+      return;
+    }
+
+    // Priority 3: Local extracted folder auto-probe over file:/// (zero clicks even in older extracted folders!)
+    const probed = await autoProbeLocalExtractedFolders();
+    if (probed.length > 0) {
+      allPhotos = probed;
+      finalizeLoadedPhotos();
+      return;
+    }
+
+    finalizeLoadedPhotos("No local decade folders detected alongside this HTML file");
   }
 
   function recalcDecadeCounts() {
@@ -581,10 +896,15 @@
       return;
     }
 
-    // Revoke previous object URLs if any
     allPhotos.forEach(p => {
       if (p.isBlob && p.url) URL.revokeObjectURL(p.url);
     });
+
+    const captionLookup = {};
+    for (let i = 0; i < COMPACT_ARCHIVE_CATALOG.length; i++) {
+      const row = COMPACT_ARCHIVE_CATALOG[i];
+      if (row[2]) captionLookup[row[1]] = row[2];
+    }
 
     allPhotos = imageFiles.map(f => {
       const rel = f.webkitRelativePath || f.name;
@@ -598,7 +918,6 @@
         }
       }
       if (detectedDecade === "Other") {
-        // Check filename pattern Photo_1950s_...
         const m = f.name.match(/(Pre-1940s|1940s|1950s|1960s|1970s|1980s|1990s|2000s|2010s|2020s)/i);
         if (m) detectedDecade = m[1];
       }
@@ -606,25 +925,19 @@
         decade: detectedDecade,
         name: f.name,
         url: URL.createObjectURL(f),
+        caption: captionLookup[f.name] || "",
         isBlob: true
       };
     });
 
-    recalcDecadeCounts();
-    document.getElementById("source-status-pill").textContent =
-      `✓ Loaded ${allPhotos.length.toLocaleString()} Photos from Folder`;
-
-    // Default to Random All mode when a new folder is loaded
-    randomAllMode = true;
-    highlightedDecades.clear();
-    renderDecadeButtons();
-    updateSelectionSummary();
+    finalizeLoadedPhotos();
   };
 
   window.activateRandomAllMode = function() {
     randomAllMode = true;
     highlightedDecades.clear();
     document.getElementById("chk-shuffle-selected").checked = true;
+    savePreferences();
     renderDecadeButtons();
     updateSelectionSummary();
   };
@@ -635,6 +948,7 @@
     Object.keys(decadeCounts).forEach(d => {
       if (decadeCounts[d] > 0) highlightedDecades.add(d);
     });
+    savePreferences();
     renderDecadeButtons();
     updateSelectionSummary();
   };
@@ -649,6 +963,7 @@
     } else {
       highlightedDecades.add(dec);
     }
+    savePreferences();
     renderDecadeButtons();
     updateSelectionSummary();
   };
@@ -684,13 +999,13 @@
     const el = document.getElementById("selection-summary");
     const goBtn = document.getElementById("btn-go");
     if (allPhotos.length === 0) {
-      el.textContent = "Load your downloaded photo folder in Step 1 to begin";
+      el.textContent = "Waiting for photo folder...";
       goBtn.disabled = true;
       return;
     }
     goBtn.disabled = false;
     if (randomAllMode) {
-      el.textContent = `Mode: Random Shuffle Across All ${allPhotos.length.toLocaleString()} Photos`;
+      el.textContent = `Mode: Random Shuffle Across All ${allPhotos.length.toLocaleString()} Loaded Photos`;
     } else {
       const list = Array.from(highlightedDecades);
       const count = allPhotos.filter(p => highlightedDecades.has(p.decade)).length;
@@ -711,7 +1026,7 @@
 
   window.startSlideshow = function() {
     if (allPhotos.length === 0) {
-      alert("Please load your downloaded photo folder in Step 1 first.");
+      alert("No photos are loaded yet.");
       return;
     }
 
@@ -724,10 +1039,10 @@
     }
 
     if (playlist.length === 0) {
-      alert("No photos found in the highlighted decades.");
-      return;
+      playlist = shuffleArray(allPhotos);
     }
 
+    savePreferences();
     currentIndex = 0;
     isPaused = false;
     document.getElementById("btn-pause-resume").textContent = "⏸ Pause";
@@ -735,7 +1050,6 @@
     const stage = document.getElementById("slideshow-stage");
     stage.classList.add("active");
 
-    // Request browser full-screen so it fills the TV/Monitor cleanly
     if (document.documentElement.requestFullscreen) {
       document.documentElement.requestFullscreen().catch(() => {});
     }
@@ -772,9 +1086,16 @@
     document.getElementById("tv-decade-label").textContent = item.decade;
     document.getElementById("tv-photo-name").textContent = item.name.replace(/\.[^.]+$/, "");
     document.getElementById("tv-counter").textContent = `(${currentIndex + 1} / ${playlist.length.toLocaleString()})`;
-    const tvCapEl = document.getElementById("tv-caption");
-    if (tvCapEl) {
-      tvCapEl.textContent = item.caption ? `• ${item.caption}` : "";
+
+    const capEl = document.getElementById("tv-caption");
+    if (capEl) {
+      if (item.caption && item.caption.trim()) {
+        capEl.textContent = "🏷️ " + item.caption.trim();
+        capEl.style.display = "block";
+      } else {
+        capEl.textContent = "";
+        capEl.style.display = "none";
+      }
     }
   }
 
