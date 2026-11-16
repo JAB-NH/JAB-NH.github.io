@@ -21,7 +21,7 @@ def get_heron_data_uri():
 
 def load_compact_catalog():
     """
-    Extracts a compact [decade, filename, caption] catalog of all 1,774 archive photos from manifest.js.
+    Extracts a compact [decade, filename, caption] catalog of all 1,794 archive photos from manifest.js.
     This enables Norgem_Family_Slideshow_Player.html to auto-discover and merge ALL local decade subfolders
     (in the current folder, flat folder, or parent folder) across multiple downloads without any user action.
     """
@@ -544,7 +544,7 @@ def build_slideshow_player():
 </style>
 <!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->
 <script src="norgem_extracted_manifest.js" onerror=""></script>
-<script src="assets/img/HaddadArchive/manifest.js?v=mat1" onerror=""></script>
+<script src="assets/img/HaddadArchive/manifest.js?v=20261115" onerror=""></script>
 </head>
 <body>
 
