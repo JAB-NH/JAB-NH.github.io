@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haddad Family Photographs — Detailed Download Instructions</title>
+<style>
+  @page {
+    size: letter portrait;
+    margin: 0.42in 0.5in;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    color: #111827;
+    background: #f1f5f9;
+    margin: 0;
+    padding: 20px 12px;
+    font-size: 10.5pt;
+    line-height: 1.38;
+  }
+  .page-sheet {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 28px 34px;
+    border-radius: 10px;
+    box-shadow: 0 6px 24px rgba(15, 23, 42, 0.08);
+    border: 1px solid #cbd5e1;
+  }
+  .screen-toolbar {
+    max-width: 800px;
+    margin: 0 auto 14px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 10pt;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+  }
+  .btn-back {
+    background: #319795;
+    color: #ffffff;
+  }
+  .btn-back:hover {
+    background: #2c7a7b;
+  }
+  .btn-print {
+    background: #1e3a8a;
+    color: #ffffff;
+  }
+  .btn-print:hover {
+    background: #1e40af;
+  }
+  @media print {
+    body {
+      background: #ffffff;
+      padding: 0;
+    }
+    .page-sheet {
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      border: none;
+      box-shadow: none;
+      border-radius: 0;
+    }
+    .screen-toolbar {
+      display: none !important;
+    }
+  }
+  .header {
+    border-bottom: 3px solid #1e3a8a;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .title {
+    font-size: 17pt;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: 0.3px;
+    margin: 0 0 3px 0;
+    text-transform: uppercase;
+  }
+  .subtitle {
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #1e3a8a;
+    margin: 0;
+  }
+  .nav-banner {
+    background: #eff6ff;
+    border: 1.5px solid #1e3a8a;
+    border-radius: 6px;
+    padding: 9px 14px;
+    margin-bottom: 12px;
+  }
+  .nav-row {
+    display: flex;
+    align-items: center;
+    margin: 3px 0;
+    font-size: 11pt;
+  }
+  .nav-label {
+    font-weight: 800;
+    color: #1e3a8a;
+    width: 95px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+  }
+  .nav-path {
+    font-weight: 700;
+    color: #0f172a;
+  }
+  .arrow {
+    color: #2563eb;
+    font-weight: 800;
+    padding: 0 6px;
+  }
+  .section-heading {
+    font-size: 11.5pt;
+    font-weight: 800;
+    color: #0f172a;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin: 10px 0 8px 0;
+    border-bottom: 1.5px solid #cbd5e1;
+    padding-bottom: 3px;
+  }
+  .stage-card {
+    border: 1px solid #cbd5e1;
+    border-left: 5px solid #1e3a8a;
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin-bottom: 9px;
+    background: #f8fafc;
+  }
+  .stage-title {
+    font-size: 11pt;
+    font-weight: 800;
+    color: #1e3a8a;
+    margin: 0 0 4px 0;
+    text-transform: uppercase;
+  }
+  ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+  li {
+    margin-bottom: 3px;
+  }
+  li:last-child {
+    margin-bottom: 0;
+  }
+  .hi {
+    font-weight: 700;
+    color: #0f172a;
+  }
+  .code-pill {
+    font-family: Consolas, 'Courier New', monospace;
+    font-weight: 700;
+    background: #e2e8f0;
+    padding: 0px 5px;
+    border-radius: 3px;
+    font-size: 10pt;
+  }
+  .warning-box {
+    margin-top: 12px;
+    border: 2.5px solid #b91c1c;
+    background: #fef2f2;
+    border-radius: 6px;
+    padding: 10px 14px;
+    text-align: center;
+  }
+  .warning-header {
+    font-size: 12.5pt;
+    font-weight: 900;
+    color: #991b1b;
+    letter-spacing: 0.6px;
+    margin: 0 0 3px 0;
+    text-transform: uppercase;
+  }
+  .warning-text {
+    font-size: 11pt;
+    font-weight: 800;
+    color: #7f1d1d;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .footer {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 8.8pt;
+    color: #64748b;
+  }
+</style>
+</head>
+<body>
+
+  <div class="screen-toolbar">
+    <a href="haddad_family.html" class="btn-action btn-back">&larr; Back to Haddad Family Photos</a>
+    <div style="display:flex; gap:8px;">
+      <a href="Haddad_Family_Photo_Download_Instructions.pdf" download class="btn-action btn-print" style="background:#0f172a;">⬇ Download 1-Page PDF</a>
+      <button onclick="window.print()" class="btn-action btn-print">🖨️ Print Instructions (1 Page)</button>
+    </div>
+  </div>
+
+  <div class="page-sheet">
+    <div class="header">
+      <div class="title">Haddad Family Photographs</div>
+      <div class="subtitle">Step-by-Step Guide to Downloading Photos &amp; Running the Family Slideshow</div>
+    </div>
+
+    <div class="nav-banner">
+      <div class="nav-row">
+        <div class="nav-label">1. GO TO:</div>
+        <div class="nav-path">Website: <span class="code-pill">norgem.ca</span> <span class="arrow">&rarr;</span> Personal (James-Jimmy-Jido)</div>
+      </div>
+      <div class="nav-row">
+        <div class="nav-label">2. PICK:</div>
+        <div class="nav-path">Who Am I <span class="arrow">&rarr;</span> Family Pictures <span class="arrow">&rarr;</span> Haddad Family</div>
+      </div>
+    </div>
+
+    <div class="section-heading">Stages to Photo Downloading</div>
+
+    <div class="stage-card">
+      <div class="stage-title">Stage 1 &mdash; SELECT Decade and/or Photos (or Select All Photos)</div>
+      <ul>
+        <li>The system will automatically let you know the <span class="hi">size of your selection</span>.</li>
+        <li><span class="hi">Switches are toggles</span> &mdash; at least one switch <span class="hi">MUST</span> be selected.</li>
+        <li><span class="hi">1940s is selected as the default</span> &mdash; click a switch twice to turn it off.</li>
+        <li>Selecting a decade toggle queues <span class="hi">ALL photos</span> from that decade into your basket.</li>
+      </ul>
+    </div>
+
+    <div class="stage-card">
+      <div class="stage-title">Stage 2 &mdash; FILL Your Basket with Selected Photos and/or Decades</div>
+      <ul>
+        <li>You can select <span class="hi">multiple decades and/or individual photos</span>.</li>
+        <li>The bracketed number <span class="code-pill">(?)</span> shows the <span class="hi">quantity of photos</span> chosen.</li>
+        <li>The bottom of the page shows <span class="code-pill">(? MB)</span> for the <span class="hi">total download file size</span>.</li>
+        <li>Select <span class="hi">&lsquo;Fill Basket&rsquo;</span> to choose <span class="hi">ALL photos</span> in the entire collection.</li>
+      </ul>
+    </div>
+
+    <div class="stage-card">
+      <div class="stage-title">Stage 3 &mdash; DOWNLOAD Your Filled Basket at Page Bottom</div>
+      <ul>
+        <li>Be sure to include the <span class="hi">&lsquo;Slideshow (HTML + JS)&rsquo;</span> option.</li>
+        <li>Choose <span class="hi">&lsquo;Empty Basket&rsquo;</span> at any time if you wish to start over.</li>
+        <li>Choose <span class="hi">&lsquo;Immediate Download (.ZIP)&rsquo;</span> to retrieve your photos.</li>
+      </ul>
+    </div>
+
+    <div class="stage-card">
+      <div class="stage-title">Stage 4 &mdash; COMPLETED Download &amp; Viewing Your Slideshow</div>
+      <ul>
+        <li><span class="hi">File Manager</span> will open when your download is ready.</li>
+        <li>It is recommended to save/extract this file to a known location (for example, your <span class="hi">Desktop</span>).</li>
+        <li>The system will automatically create a new <span class="hi">&lsquo;Haddad Family&rsquo;</span> folder there, along with the <span class="hi">entire photo decade folder structure</span>.</li>
+        <li>Open the <span class="hi">&lsquo;Haddad Family&rsquo;</span> folder and double-click <span class="code-pill">Norgem_Family_Slideshow_Player.html</span>.</li>
+        <li>The system will automatically locate and load all of your downloaded images.</li>
+        <li>Customize and run the Slideshow at your convenience (you may wish to create a <span class="hi">Desktop shortcut</span> to the Slideshow player).</li>
+      </ul>
+    </div>
+
+    <div class="warning-box">
+      <div class="warning-header">&#9888; IMPORTANT &mdash; DO NOT:</div>
+      <div class="warning-text">Delete, Move, or Rename ANY Folder or File Under and Including &lsquo;Haddad Family&rsquo;</div>
+    </div>
+
+    <div class="footer">
+      Norgem Family Photo Archive &bull; norgem.ca &bull; Single-Page Reference Guide
+    </div>
+  </div>
+
+</body>
+</html>
