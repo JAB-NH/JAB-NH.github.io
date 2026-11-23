@@ -27,6 +27,7 @@ DECADES = [
     "2000s",
     "2010s",
     "2020s",
+    "Highlights",
 ]
 
 FULL_MAX_DIM = 2200
@@ -288,10 +289,10 @@ def main():
             cap_txt = captions_map.get(f"{dec}/{f}", "")
             tasks.append((os.path.join(dec_src, f), dec, f, True, force, cap_txt))
 
-    # Also include existing curated photos in assets/img/HaddadFamily as a "Highlights" collection
+    # Fallback: only read legacy assets/img/HaddadFamily if Unsorted_Photos/Highlights does not exist
     legacy_dir = os.path.join(SITE_ROOT, "assets", "img", "HaddadFamily")
     legacy_out_dec = "Highlights"
-    if os.path.isdir(legacy_dir):
+    if not os.path.isdir(os.path.join(SOURCE_ROOT, legacy_out_dec)) and os.path.isdir(legacy_dir):
         os.makedirs(os.path.join(OUT_ROOT, "full", legacy_out_dec), exist_ok=True)
         os.makedirs(os.path.join(OUT_ROOT, "thumbs", legacy_out_dec), exist_ok=True)
         for f in sorted(os.listdir(legacy_dir)):
@@ -309,7 +310,7 @@ def main():
             if idx % 250 == 0 or idx == len(tasks):
                 print(f"  Processed {idx}/{len(tasks)} photos...")
 
-    all_decades = DECADES + ([legacy_out_dec] if any(r["decade"] == legacy_out_dec for r in results) else [])
+    all_decades = list(DECADES)
     dec_rank = {d: i for i, d in enumerate(all_decades)}
     results.sort(key=lambda r: (dec_rank.get(r["decade"], 99), r["name"]))
 
