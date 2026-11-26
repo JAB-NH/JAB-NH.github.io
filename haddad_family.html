@@ -61,7 +61,7 @@
     <!-- Main Content -->
     <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-        <script src="assets/img/HaddadArchive/manifest.js?v=20261115"></script>
+        <script src="assets/img/HaddadArchive/manifest.js?v=20261125"></script>
 
         <div class="max-w-7xl mx-auto pb-28">
             <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4 gap-2">
@@ -578,6 +578,7 @@
                     const safeId = p.id.replace(/'/g, "\\'");
                     const capText = (p.caption || "").trim();
                     const escapedCap = capText.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+                    const verQ = p.v ? ("?v=" + encodeURIComponent(p.v)) : "";
 
                     html += `
                         <div id="card-${p.id}" class="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition border-2 ${
@@ -599,15 +600,13 @@
 
                             <!-- Thumbnail Image (Click to enlarge in Lightbox) -->
                             <div onclick="openLightbox(${globalFilteredIdx})" class="w-full aspect-square bg-slate-800 flex items-center justify-center overflow-hidden cursor-pointer p-2">
-                                <img src="${p.thumb}?v=cap1" alt="${escapedCap || p.name}" loading="lazy" class="max-w-full max-h-full object-contain shadow-md group-hover:scale-105 transition duration-300">
+                                <img src="${p.thumb}${verQ}" alt="${escapedCap || p.name}" loading="lazy" class="max-w-full max-h-full object-contain shadow-md group-hover:scale-105 transition duration-300">
                             </div>
-
-                            ${capText ? `<div onclick="openLightbox(${globalFilteredIdx})" class="px-2.5 py-1.5 bg-amber-50/95 border-t border-amber-200/80 text-[11px] font-semibold text-amber-950 line-clamp-2 cursor-pointer" title="${escapedCap}">${escapedCap}</div>` : ''}
 
                             <!-- Card Footer -->
                             <div class="px-2.5 py-2 bg-white border-t border-gray-100 flex items-center justify-between text-xs text-gray-600 mt-auto">
                                 <span class="truncate font-medium" title="${p.name}">${p.name.replace('.jpg', '')}</span>
-                                <a href="${p.full}?v=cap1" download="${p.name}" onclick="event.stopPropagation()" class="text-brand-teal hover:text-teal-800 font-bold shrink-0 ml-1" title="Download this single photo (${kb} KB)">
+                                <a href="${p.full}${verQ}" download="${p.name}" onclick="event.stopPropagation()" class="text-brand-teal hover:text-teal-800 font-bold shrink-0 ml-1" title="Download this single photo (${kb} KB)">
                                     ⬇
                                 </a>
                             </div>
@@ -754,22 +753,18 @@
 
                 currentLightboxIndex = filteredIdx;
                 const p = filteredPhotos[currentLightboxIndex];
-                document.getElementById("lb-image").src = p.full + "?v=cap1";
+                const verQ = p.v ? ("?v=" + encodeURIComponent(p.v)) : "";
+                document.getElementById("lb-image").src = p.full + verQ;
                 document.getElementById("lb-decade-badge").textContent = p.decade;
                 document.getElementById("lb-filename").textContent = p.name;
                 document.getElementById("lb-counter").textContent = `(${currentLightboxIndex + 1} of ${filteredPhotos.length.toLocaleString()})`;
                 const lbCapEl = document.getElementById("lb-caption-text");
                 if (lbCapEl) {
-                    if (p.caption && p.caption.trim()) {
-                        lbCapEl.textContent = "🏷️ " + p.caption.trim();
-                        lbCapEl.classList.remove("hidden");
-                    } else {
-                        lbCapEl.textContent = "";
-                        lbCapEl.classList.add("hidden");
-                    }
+                    lbCapEl.textContent = "";
+                    lbCapEl.classList.add("hidden");
                 }
                 const dlBtn = document.getElementById("lb-download-single");
-                dlBtn.href = p.full + "?v=cap1";
+                dlBtn.href = p.full + verQ;
                 dlBtn.setAttribute("download", p.name);
                 updateLightboxSelectBtn(p.id);
                 modal.classList.remove("hidden");
@@ -856,17 +851,14 @@
 
             // Helper: Fault-tolerant photo fetcher with 4-attempt automatic retry & thumbnail fallback
             async function fetchPhotoBlobWithRetry(item, maxAttempts = 4) {
-                const candidateUrls = [
-                    item.full + "?v=cap1",
-                    item.full,
-                    item.Full || item.thumb + "?v=cap1"
-                ].filter(Boolean);
+                const verQ = item.v ? ("?v=" + encodeURIComponent(item.v)) : "";
+                const retryPrefix = verQ ? (verQ + "&retry=") : "?retry=";
 
                 for (let attempt = 1; attempt <= maxAttempts; attempt++) {
                     try {
                         const url = attempt === 1
-                            ? (item.full + "?v=cap1")
-                            : (item.full + `?v=cap1&retry=${attempt}`);
+                            ? (item.full + verQ)
+                            : (item.full + `${retryPrefix}${attempt}`);
                         const resp = await fetch(url, { cache: attempt > 1 ? "reload" : "default" });
                         if (resp && resp.ok) {
                             return await resp.blob();
@@ -880,7 +872,7 @@
                 // Fallback to thumbnail if full-res still failed after 4 retries so the .ZIP build never crashes
                 if (item.thumb) {
                     try {
-                        const tResp = await fetch(item.thumb + "?v=cap1");
+                        const tResp = await fetch(item.thumb + verQ);
                         if (tResp && tResp.ok) return await tResp.blob();
                     } catch (e) {}
                 }
@@ -1171,7 +1163,8 @@
 
                 if (items.length === 1) {
                     const a = document.createElement("a");
-                    a.href = items[0].full + "?v=cap1";
+                    const verQ = items[0].v ? ("?v=" + encodeURIComponent(items[0].v)) : "";
+                    a.href = items[0].full + verQ;
                     a.download = items[0].name;
                     document.body.appendChild(a);
                     a.click();

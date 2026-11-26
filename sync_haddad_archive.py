@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import hashlib
 import time
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -156,7 +157,7 @@ def has_museum_caption_plaque(path: str) -> bool:
 
 
 def process_one_photo(task):
-    src_path, decade, filename, sync_vault, force, caption_text = task
+    src_path, decade, filename, sync_vault, force, caption_text, ver_token, prev_caption, prev_ver = task
     stem, _ = os.path.splitext(filename)
     out_filename = f"{stem}.jpg"
 
@@ -177,6 +178,8 @@ def process_one_photo(task):
         if not (os.path.exists(full_path) and os.path.exists(thumb_path)):
             need_build = True
         elif os.path.getmtime(full_path) < src_mtime or os.path.getmtime(thumb_path) < src_mtime:
+            need_build = True
+        elif caption_text != prev_caption or ver_token != prev_ver:
             need_build = True
         elif not has_pure_white_mat(full_path):
             need_build = True
@@ -232,6 +235,7 @@ def process_one_photo(task):
         "decade": decade,
         "name": out_filename,
         "caption": caption_text,
+        "v": ver_token,
         "thumb": f"assets/img/HaddadArchive/thumbs/{decade}/{url_filename}",
         "full": f"assets/img/HaddadArchive/full/{decade}/{url_filename}",
         "w": full_w,
@@ -246,6 +250,21 @@ def main():
     t0 = time.time()
     os.makedirs(OUT_ROOT, exist_ok=True)
 
+    prev_photos_map = {}
+    if os.path.isfile(MANIFEST_JSON):
+        try:
+            with open(MANIFEST_JSON, "r", encoding="utf-8") as mf:
+                prev_manifest = json.load(mf)
+            for item in prev_manifest.get("photos", []):
+                pid = item.get("id")
+                if pid:
+                    prev_photos_map[pid] = (
+                        (item.get("caption") or "").strip(),
+                        (item.get("v") or "").strip(),
+                    )
+        except Exception as e:
+            print(f"[WARN] Could not load previous manifest JSON: {e}")
+
     captions_map = {}
     if os.path.isfile(CAPTIONS_JSON):
         try:
@@ -255,10 +274,12 @@ def main():
                 for k, v in raw_caps.items():
                     if isinstance(v, dict):
                         txt = (v.get("caption_text") or "").strip()
+                        upd = (v.get("updated_at") or "").strip()
                     else:
                         txt = str(v).strip()
+                        upd = ""
                     if txt:
-                        captions_map[k] = txt
+                        captions_map[k] = (txt, upd)
         except Exception as e:
             print(f"[WARN] Could not load captions JSON: {e}")
 
@@ -286,8 +307,11 @@ def main():
                         pass
 
         for f in files:
-            cap_txt = captions_map.get(f"{dec}/{f}", "")
-            tasks.append((os.path.join(dec_src, f), dec, f, True, force, cap_txt))
+            cap_txt, cap_ts = captions_map.get(f"{dec}/{f}", ("", ""))
+            ver_token = hashlib.md5(f"{cap_txt}|{cap_ts}".encode("utf-8")).hexdigest()[:8] if cap_txt else ""
+            photo_id = f"{dec}/{os.path.splitext(f)[0]}.jpg"
+            prev_cap, prev_ver = prev_photos_map.get(photo_id, ("", ""))
+            tasks.append((os.path.join(dec_src, f), dec, f, True, force, cap_txt, ver_token, prev_cap, prev_ver))
 
     # Fallback: only read legacy assets/img/HaddadFamily if Unsorted_Photos/Highlights does not exist
     legacy_dir = os.path.join(SITE_ROOT, "assets", "img", "HaddadFamily")
@@ -298,8 +322,11 @@ def main():
         for f in sorted(os.listdir(legacy_dir)):
             src_p = os.path.join(legacy_dir, f)
             if os.path.isfile(src_p) and f.lower().endswith((".jpg", ".jpeg", ".png")):
-                cap_txt = captions_map.get(f"{legacy_out_dec}/{f}", "")
-                tasks.append((src_p, legacy_out_dec, f, False, force, cap_txt))
+                cap_txt, cap_ts = captions_map.get(f"{legacy_out_dec}/{f}", ("", ""))
+                ver_token = hashlib.md5(f"{cap_txt}|{cap_ts}".encode("utf-8")).hexdigest()[:8] if cap_txt else ""
+                photo_id = f"{legacy_out_dec}/{os.path.splitext(f)[0]}.jpg"
+                prev_cap, prev_ver = prev_photos_map.get(photo_id, ("", ""))
+                tasks.append((src_p, legacy_out_dec, f, False, force, cap_txt, ver_token, prev_cap, prev_ver))
 
     print(f"Syncing & Gallery-Matting {len(tasks)} photos across decades (force={force}, captions={len(captions_map)}) using ThreadPoolExecutor...")
     results = []
@@ -340,6 +367,7 @@ def main():
                 "decade": r["decade"],
                 "name": r["name"],
                 "caption": r.get("caption", ""),
+                "v": r.get("v", ""),
                 "thumb": r["thumb"],
                 "full": r["full"],
                 "w": r["w"],
