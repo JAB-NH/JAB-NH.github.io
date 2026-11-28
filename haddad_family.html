@@ -103,7 +103,7 @@
                         <button onclick="selectEntireArchive()" class="px-4 py-2.5 rounded-xl bg-brand-dark hover:bg-gray-800 text-white font-bold text-sm shadow-md transition flex items-center gap-2" title="Add all 1,794 archive photos across every decade into your download basket">
                             <span>🛒 Fill Basket: All Decades (1,794 Photos)</span>
                         </button>
-                        <a href="Norgem_Family_Slideshow_Player.html" target="_blank" class="px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-sky-300 border border-sky-400/50 font-bold text-sm shadow-md transition flex items-center gap-2" title="Preview the Norgem Enterprises Slideshow Player online">
+                        <a href="Norgem_Family_Slideshow_Player.html?v=cap7" target="_blank" class="px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-sky-300 border border-sky-400/50 font-bold text-sm shadow-md transition flex items-center gap-2" title="Preview the Norgem Enterprises Slideshow Player online">
                             <span>📺 Preview Slideshow</span>
                         </a>
                         <a href="Haddad_Family_Photo_Download_Instructions.html" target="_blank" class="px-4 py-2.5 rounded-xl bg-blue-800 hover:bg-blue-900 text-white border border-blue-400/40 font-bold text-sm shadow-md transition flex items-center gap-2" title="Open printable 1-page Detailed Download Instructions">
@@ -1124,7 +1124,7 @@
                         const jsFileContent = `window.NORGEM_EXTRACTED_ZIP_MANIFEST = ${manifestJson};\nwindow.NORGEM_KNOWN_SIBLING_FOLDERS = ${siblingFoldersJson};\n`;
                         await writeTextFileToDir(haddadDir, "norgem_extracted_manifest.js", jsFileContent);
 
-                        const playerResp = await fetch("Norgem_Family_Slideshow_Player.html?v=cap6");
+                        const playerResp = await fetch("Norgem_Family_Slideshow_Player.html?v=cap7");
                         if (playerResp.ok) {
                             let playerHtml = await playerResp.text();
                             const injectTag = `<script>window.NORGEM_EXTRACTED_ZIP_MANIFEST = ${manifestJson}; window.NORGEM_KNOWN_SIBLING_FOLDERS = ${siblingFoldersJson};<\/script>`;
@@ -1243,7 +1243,7 @@
                             const jsFileContent = `window.NORGEM_EXTRACTED_ZIP_MANIFEST = ${manifestJson};\nwindow.NORGEM_KNOWN_SIBLING_FOLDERS = ${siblingFoldersJson};\n`;
                             zip.file("norgem_extracted_manifest.js", jsFileContent);
 
-                            const playerResp = await fetch("Norgem_Family_Slideshow_Player.html?v=cap6");
+                            const playerResp = await fetch("Norgem_Family_Slideshow_Player.html?v=cap7");
                             if (playerResp.ok) {
                                 let playerHtml = await playerResp.text();
                                 const injectTag = `<script>window.NORGEM_EXTRACTED_ZIP_MANIFEST = ${manifestJson}; window.NORGEM_KNOWN_SIBLING_FOLDERS = ${siblingFoldersJson};<\/script>`;

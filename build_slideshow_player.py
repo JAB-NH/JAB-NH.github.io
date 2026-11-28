@@ -544,7 +544,7 @@ def build_slideshow_player():
 </style>
 <!-- INJECTED_ZIP_MANIFEST_PLACEHOLDER -->
 <script src="norgem_extracted_manifest.js" onerror=""></script>
-<script src="assets/img/HaddadArchive/manifest.js?v=20261115" onerror=""></script>
+<script src="assets/img/HaddadArchive/manifest.js?v=20261127" onerror=""></script>
 </head>
 <body>
 
@@ -1085,7 +1085,7 @@ def build_slideshow_player():
       allPhotos = window.HADDAD_ARCHIVE_MANIFEST.photos.map(p => ({{
         decade: p.decade,
         name: p.name,
-        url: p.full + "?v=mat1",
+        url: p.full + (p.v ? ("?v=" + encodeURIComponent(p.v)) : "?v=mat1"),
         caption: p.caption || ""
       }}));
       finalizeLoadedPhotos(null, true);
@@ -1354,13 +1354,8 @@ def build_slideshow_player():
 
     const capEl = document.getElementById("tv-caption");
     if (capEl) {{
-      if (item.caption && item.caption.trim()) {{
-        capEl.textContent = "🏷️ " + item.caption.trim();
-        capEl.style.display = "block";
-      }} else {{
-        capEl.textContent = "";
-        capEl.style.display = "none";
-      }}
+      capEl.textContent = "";
+      capEl.style.display = "none";
     }}
   }}
 
